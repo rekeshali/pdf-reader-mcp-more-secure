@@ -23,8 +23,9 @@ describe('parser', () => {
       expect(result.length).toBe(10001); // 1 to 10001 inclusive
       expect(result[0]).toBe(1);
       expect(result[result.length - 1]).toBe(10001);
+      // Logger outputs message first, then structured JSON
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Open-ended range starting at 1 was truncated')
+        expect.stringContaining('Open-ended range truncated')
       );
 
       consoleWarnSpy.mockRestore();

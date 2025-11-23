@@ -107,10 +107,8 @@ describe('loader', () => {
         'Failed to load PDF document from bad.pdf. Reason: Invalid PDF'
       );
 
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        expect.stringContaining('PDF.js loading error for bad.pdf'),
-        expect.any(Error)
-      );
+      // Logger outputs message first, then structured JSON
+      expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringContaining('PDF.js loading error'));
 
       consoleErrorSpy.mockRestore();
     });

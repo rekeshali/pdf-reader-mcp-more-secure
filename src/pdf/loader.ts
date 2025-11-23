@@ -4,7 +4,10 @@ import fs from 'node:fs/promises';
 import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
 import type * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import { createLogger } from '../utils/logger.js';
 import { resolvePath } from '../utils/pathUtils.js';
+
+const logger = createLogger('Loader');
 
 // Maximum PDF file size: 100MB
 // Prevents memory exhaustion from loading extremely large files
@@ -76,8 +79,8 @@ export const loadPdfDocument = async (
   try {
     return await loadingTask.promise;
   } catch (err: unknown) {
-    console.error(`[PDF Reader MCP] PDF.js loading error for ${sourceDescription}:`, err);
     const message = err instanceof Error ? err.message : String(err);
+    logger.error('PDF.js loading error', { sourceDescription, error: message });
     throw new McpError(
       ErrorCode.InvalidRequest,
       `Failed to load PDF document from ${sourceDescription}. Reason: ${message || 'Unknown loading error'}`,

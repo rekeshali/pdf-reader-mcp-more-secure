@@ -13,7 +13,10 @@ import { determinePagesToProcess, getTargetPages } from '../pdf/parser.js';
 import type { ReadPdfArgs } from '../schemas/readPdf.js';
 import { readPdfArgsSchema } from '../schemas/readPdf.js';
 import type { ExtractedImage, PdfResultData, PdfSource, PdfSourceResult } from '../types/pdf.js';
+import { createLogger } from '../utils/logger.js';
 import type { ToolDefinition } from './index.js';
+
+const logger = createLogger('ReadPdf');
 
 /**
  * Process a single PDF source
@@ -135,9 +138,7 @@ const processSingleSource = async (
       } catch (destroyError: unknown) {
         // Log cleanup errors but don't fail the operation
         const message = destroyError instanceof Error ? destroyError.message : String(destroyError);
-        console.warn(
-          `[PDF Reader MCP] Error destroying PDF document for ${sourceDescription}: ${message}`
-        );
+        logger.warn('Error destroying PDF document', { sourceDescription, error: message });
       }
     }
   }

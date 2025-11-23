@@ -1,7 +1,9 @@
 // Page range parsing utilities
 
 import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
+import { createLogger } from '../utils/logger.js';
 
+const logger = createLogger('Parser');
 const MAX_RANGE_SIZE = 10000; // Prevent infinite loops for open ranges
 
 /**
@@ -28,9 +30,7 @@ const parseRangePart = (part: string, pages: Set<number>): void => {
     }
 
     if (end === Infinity && practicalEnd === start + MAX_RANGE_SIZE) {
-      console.warn(
-        `[PDF Reader MCP] Open-ended range starting at ${String(start)} was truncated at page ${String(practicalEnd)}.`
-      );
+      logger.warn('Open-ended range truncated', { start, practicalEnd });
     }
   } else {
     const page = parseInt(trimmedPart, 10);

@@ -70,8 +70,9 @@ describe('extractor', () => {
       expect(result.num_pages).toBe(2);
       expect(result.metadata).toBeUndefined();
       expect(result.info).toBeUndefined();
+      // Logger outputs message first, then structured JSON
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Error extracting metadata: Metadata error')
+        expect.stringContaining('Error extracting metadata')
       );
 
       consoleWarnSpy.mockRestore();
@@ -88,8 +89,9 @@ describe('extractor', () => {
       const result = await extractMetadataAndPageCount(mockDocument, true, true);
 
       expect(result.num_pages).toBe(1);
+      // Logger outputs message first, then structured JSON
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Error extracting metadata: String error')
+        expect.stringContaining('Error extracting metadata')
       );
 
       consoleWarnSpy.mockRestore();
@@ -165,8 +167,9 @@ describe('extractor', () => {
       const result = await extractPageTexts(mockDocument, [1], 'test.pdf');
 
       expect(result).toEqual([{ page: 1, text: 'Error processing page: Failed to get page' }]);
+      // Logger outputs message first, then structured JSON
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Error getting text content for page 1 in test.pdf')
+        expect.stringContaining('Error getting text content for page')
       );
     });
 
@@ -282,8 +285,9 @@ describe('extractor', () => {
       const result = await extractImages(mockDocument, [1]);
 
       expect(result).toEqual([]);
+      // Logger outputs message first, then structured JSON
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Error getting page 1 for image extraction')
+        expect.stringContaining('Error getting page for image extraction')
       );
 
       consoleWarnSpy.mockRestore();
@@ -433,8 +437,9 @@ it('should handle getOperatorList errors', async () => {
   const result = await extractImages(mockDocument, [1]);
 
   expect(result).toEqual([]);
+  // Logger outputs message first, then structured JSON
   expect(consoleWarnSpy).toHaveBeenCalledWith(
-    expect.stringContaining('Error extracting images from page 1')
+    expect.stringContaining('Error extracting images from page')
   );
 
   consoleWarnSpy.mockRestore();

@@ -11,6 +11,9 @@ import type {
   PdfMetadata,
   PdfResultData,
 } from '../types/pdf.js';
+import { createLogger } from '../utils/logger.js';
+
+const logger = createLogger('Extractor');
 
 /**
  * Encode raw pixel data to PNG format
@@ -113,7 +116,7 @@ const retrieveImageData = async (
       }
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
-      console.warn(`[PDF Reader MCP] Error getting image from commonObjs ${imageName}: ${message}`);
+      logger.warn('Error getting image from commonObjs', { imageName, error: message });
     }
   }
 
@@ -125,9 +128,7 @@ const retrieveImageData = async (
     }
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
-    console.warn(
-      `[PDF Reader MCP] Sync image get failed for ${imageName}, trying async: ${message}`
-    );
+    logger.warn('Sync image get failed, trying async', { imageName, error: message });
   }
 
   // Fallback to async callback-based get with timeout
@@ -147,9 +148,7 @@ const retrieveImageData = async (
       if (!resolved) {
         resolved = true;
         cleanup();
-        console.warn(
-          `[PDF Reader MCP] Image extraction timeout for ${imageName} on page ${String(pageNum)}`
-        );
+        logger.warn('Image extraction timeout', { imageName, pageNum });
         resolve(null);
       }
     }, 10000); // 10 second timeout as a safety net
@@ -168,7 +167,7 @@ const retrieveImageData = async (
         resolved = true;
         cleanup();
         const message = error instanceof Error ? error.message : String(error);
-        console.warn(`[PDF Reader MCP] Error in async image get for ${imageName}: ${message}`);
+        logger.warn('Error in async image get', { imageName, error: message });
         resolve(null);
       }
     }
@@ -214,9 +213,8 @@ export const extractMetadataAndPageCount = async (
         output.metadata = metadataRecord;
       }
     } catch (metaError: unknown) {
-      console.warn(
-        `[PDF Reader MCP] Error extracting metadata: ${metaError instanceof Error ? metaError.message : String(metaError)}`
-      );
+      const message = metaError instanceof Error ? metaError.message : String(metaError);
+      logger.warn('Error extracting metadata', { error: message });
     }
   }
 
@@ -241,9 +239,11 @@ const extractSinglePageText = async (
     return { page: pageNum, text: pageText };
   } catch (pageError: unknown) {
     const message = pageError instanceof Error ? pageError.message : String(pageError);
-    console.warn(
-      `[PDF Reader MCP] Error getting text content for page ${String(pageNum)} in ${sourceDescription}: ${message}`
-    );
+    logger.warn('Error getting text content for page', {
+      pageNum,
+      sourceDescription,
+      error: message,
+    });
 
     return { page: pageNum, text: `Error processing page: ${message}` };
   }
@@ -303,9 +303,7 @@ const extractImagesFromPage = async (
     images.push(...resolvedImages.filter((img): img is ExtractedImage => img !== null));
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
-    console.warn(
-      `[PDF Reader MCP] Error extracting images from page ${String(pageNum)}: ${message}`
-    );
+    logger.warn('Error extracting images from page', { pageNum, error: message });
   }
 
   return images;
@@ -328,9 +326,7 @@ export const extractImages = async (
       allImages.push(...pageImages);
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : String(error);
-      console.warn(
-        `[PDF Reader MCP] Error getting page ${String(pageNum)} for image extraction: ${message}`
-      );
+      logger.warn('Error getting page for image extraction', { pageNum, error: message });
     }
   }
 
@@ -447,9 +443,11 @@ export const extractPageContent = async (
     }
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
-    console.warn(
-      `[PDF Reader MCP] Error extracting page content for page ${String(pageNum)} in ${sourceDescription}: ${message}`
-    );
+    logger.warn('Error extracting page content', {
+      pageNum,
+      sourceDescription,
+      error: message,
+    });
     // Return error message as text content
     return [
       {
