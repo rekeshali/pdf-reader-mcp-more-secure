@@ -55,6 +55,127 @@ const encodePixelsToPNG = (
 };
 
 /**
+ * Process raw image data from PDF.js and convert to ExtractedImage
+ */
+const processImageData = (
+  imageData: unknown,
+  pageNum: number,
+  arrayIndex: number
+): ExtractedImage | null => {
+  if (!imageData || typeof imageData !== 'object') {
+    return null;
+  }
+
+  const img = imageData as {
+    width?: number;
+    height?: number;
+    data?: Uint8Array;
+    kind?: number;
+  };
+
+  if (!img.data || !img.width || !img.height) {
+    return null;
+  }
+
+  // Determine number of channels based on kind
+  // kind === 1 = grayscale (1 channel), 2 = RGB (3 channels), 3 = RGBA (4 channels)
+  const channels = img.kind === 1 ? 1 : img.kind === 3 ? 4 : 3;
+  const format = img.kind === 1 ? 'grayscale' : img.kind === 3 ? 'rgba' : 'rgb';
+
+  // Encode raw pixel data to PNG format
+  const pngBase64 = encodePixelsToPNG(img.data, img.width, img.height, channels);
+
+  return {
+    page: pageNum,
+    index: arrayIndex,
+    width: img.width,
+    height: img.height,
+    format,
+    data: pngBase64,
+  };
+};
+
+/**
+ * Retrieve image data from PDF.js page objects
+ * Tries multiple strategies: commonObjs -> sync objs.get -> async objs.get with timeout
+ */
+const retrieveImageData = async (
+  page: pdfjsLib.PDFPageProxy,
+  imageName: string,
+  pageNum: number
+): Promise<unknown> => {
+  // Try to get from commonObjs first if it starts with 'g_'
+  if (imageName.startsWith('g_')) {
+    try {
+      const imageData = page.commonObjs.get(imageName);
+      if (imageData) {
+        return imageData;
+      }
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      console.warn(`[PDF Reader MCP] Error getting image from commonObjs ${imageName}: ${message}`);
+    }
+  }
+
+  // Try synchronous get first - if image is already loaded
+  try {
+    const imageData = page.objs.get(imageName);
+    if (imageData !== undefined) {
+      return imageData;
+    }
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(
+      `[PDF Reader MCP] Sync image get failed for ${imageName}, trying async: ${message}`
+    );
+  }
+
+  // Fallback to async callback-based get with timeout
+  return new Promise<unknown>((resolve) => {
+    let resolved = false;
+    let timeoutId: NodeJS.Timeout | null = null;
+
+    // Create a cleanup function to ensure resources are released
+    const cleanup = () => {
+      if (timeoutId !== null) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+      }
+    };
+
+    timeoutId = setTimeout(() => {
+      if (!resolved) {
+        resolved = true;
+        cleanup();
+        console.warn(
+          `[PDF Reader MCP] Image extraction timeout for ${imageName} on page ${String(pageNum)}`
+        );
+        resolve(null);
+      }
+    }, 10000); // 10 second timeout as a safety net
+
+    try {
+      page.objs.get(imageName, (imageData: unknown) => {
+        if (!resolved) {
+          resolved = true;
+          cleanup();
+          resolve(imageData);
+        }
+      });
+    } catch (error: unknown) {
+      // If get() throws synchronously, clean up and reject
+      if (!resolved) {
+        resolved = true;
+        cleanup();
+        const message = error instanceof Error ? error.message : String(error);
+        console.warn(`[PDF Reader MCP] Error in async image get for ${imageName}: ${message}`);
+        resolve(null);
+      }
+    }
+  });
+};
+
+/**
  * Extract metadata and page count from a PDF document
  */
 export const extractMetadataAndPageCount = async (
@@ -166,132 +287,17 @@ const extractImagesFromPage = async (
       }
     }
 
-    // Extract each image - try sync first, then async if needed
-    const imagePromises = imageIndices.map(
-      (imgIndex, arrayIndex) =>
-        new Promise<ExtractedImage | null>((resolve) => {
-          const argsArray = operatorList.argsArray[imgIndex];
-          if (!argsArray || argsArray.length === 0) {
-            resolve(null);
-            return;
-          }
+    // Extract each image using shared helper functions
+    const imagePromises = imageIndices.map(async (imgIndex, arrayIndex) => {
+      const argsArray = operatorList.argsArray[imgIndex];
+      if (!argsArray || argsArray.length === 0) {
+        return null;
+      }
 
-          const imageName = argsArray[0] as string;
-
-          // Helper to process image data
-          const processImageData = (imageData: unknown): ExtractedImage | null => {
-            if (!imageData || typeof imageData !== 'object') {
-              return null;
-            }
-
-            const img = imageData as {
-              width?: number;
-              height?: number;
-              data?: Uint8Array;
-              kind?: number;
-            };
-
-            if (!img.data || !img.width || !img.height) {
-              return null;
-            }
-
-            // Determine number of channels based on kind
-            // kind === 1 = grayscale (1 channel), 2 = RGB (3 channels), 3 = RGBA (4 channels)
-            const channels = img.kind === 1 ? 1 : img.kind === 3 ? 4 : 3;
-            const format = img.kind === 1 ? 'grayscale' : img.kind === 3 ? 'rgba' : 'rgb';
-
-            // Encode raw pixel data to PNG format
-            const pngBase64 = encodePixelsToPNG(img.data, img.width, img.height, channels);
-
-            return {
-              page: pageNum,
-              index: arrayIndex,
-              width: img.width,
-              height: img.height,
-              format,
-              data: pngBase64,
-            };
-          };
-
-          // Try to get from commonObjs first if it starts with 'g_'
-          if (imageName.startsWith('g_')) {
-            try {
-              const imageData = page.commonObjs.get(imageName);
-              if (imageData) {
-                const result = processImageData(imageData);
-                resolve(result);
-                return;
-              }
-            } catch (error: unknown) {
-              const message = error instanceof Error ? error.message : String(error);
-              console.warn(
-                `[PDF Reader MCP] Error getting image from commonObjs ${imageName}: ${message}`
-              );
-            }
-          }
-
-          // Try synchronous get first - if image is already loaded
-          try {
-            const imageData = page.objs.get(imageName);
-            if (imageData !== undefined) {
-              const result = processImageData(imageData);
-              resolve(result);
-              return;
-            }
-          } catch (error: unknown) {
-            // Synchronous get failed or not supported, fall through to async
-            const message = error instanceof Error ? error.message : String(error);
-            console.warn(
-              `[PDF Reader MCP] Sync image get failed for ${imageName}, trying async: ${message}`
-            );
-          }
-
-          // Fallback to async callback-based get with timeout
-          let resolved = false;
-          let timeoutId: NodeJS.Timeout | null = null;
-
-          // Create a cleanup function to ensure resources are released
-          const cleanup = () => {
-            if (timeoutId !== null) {
-              clearTimeout(timeoutId);
-              timeoutId = null;
-            }
-          };
-
-          timeoutId = setTimeout(() => {
-            if (!resolved) {
-              resolved = true;
-              cleanup();
-              console.warn(
-                `[PDF Reader MCP] Image extraction timeout for ${imageName} on page ${String(pageNum)}`
-              );
-              resolve(null);
-            }
-          }, 10000); // 10 second timeout as a safety net
-
-          try {
-            page.objs.get(imageName, (imageData: unknown) => {
-              if (!resolved) {
-                resolved = true;
-                cleanup();
-                const result = processImageData(imageData);
-                resolve(result);
-              }
-            });
-          } catch (error: unknown) {
-            // If get() throws synchronously, clean up and reject
-            if (!resolved) {
-              resolved = true;
-              cleanup();
-              const message = error instanceof Error ? error.message : String(error);
-              console.warn(
-                `[PDF Reader MCP] Error in async image get for ${imageName}: ${message}`
-              );
-              resolve(null);
-            }
-          }
-        })
-    );
+      const imageName = argsArray[0] as string;
+      const imageData = await retrieveImageData(page, imageName, pageNum);
+      return processImageData(imageData, pageNum, arrayIndex);
+    });
 
     const resolvedImages = await Promise.all(imagePromises);
     images.push(...resolvedImages.filter((img): img is ExtractedImage => img !== null));
@@ -402,147 +408,39 @@ export const extractPageContent = async (
         }
       }
 
-      // Extract each image with its Y-coordinate - try sync first, then async if needed
-      const imagePromises = imageIndices.map(
-        (imgIndex, arrayIndex) =>
-          new Promise<PageContentItem | null>((resolve) => {
-            const argsArray = operatorList.argsArray[imgIndex];
-            if (!argsArray || argsArray.length === 0) {
-              resolve(null);
-              return;
-            }
+      // Extract each image using shared helper functions
+      const imagePromises = imageIndices.map(async (imgIndex, arrayIndex) => {
+        const argsArray = operatorList.argsArray[imgIndex];
+        if (!argsArray || argsArray.length === 0) {
+          return null;
+        }
 
-            const imageName = argsArray[0] as string;
+        const imageName = argsArray[0] as string;
 
-            // Get transform matrix from the args (if available)
-            let yPosition = 0;
-            if (argsArray.length > 1 && Array.isArray(argsArray[1])) {
-              const transform = argsArray[1] as number[];
-              const yCoord = transform[5];
-              if (yCoord !== undefined) {
-                yPosition = Math.round(yCoord);
-              }
-            }
+        // Get transform matrix from the args (if available)
+        let yPosition = 0;
+        if (argsArray.length > 1 && Array.isArray(argsArray[1])) {
+          const transform = argsArray[1] as number[];
+          const yCoord = transform[5];
+          if (yCoord !== undefined) {
+            yPosition = Math.round(yCoord);
+          }
+        }
 
-            // Helper to process image data
-            const processImageData = (imageData: unknown): PageContentItem | null => {
-              if (!imageData || typeof imageData !== 'object') {
-                return null;
-              }
+        // Use shared helper to retrieve and process image data
+        const imageData = await retrieveImageData(page, imageName, pageNum);
+        const extractedImage = processImageData(imageData, pageNum, arrayIndex);
 
-              const img = imageData as {
-                width?: number;
-                height?: number;
-                data?: Uint8Array;
-                kind?: number;
-              };
-
-              if (!img.data || !img.width || !img.height) {
-                return null;
-              }
-
-              // Determine number of channels based on kind
-              const channels = img.kind === 1 ? 1 : img.kind === 3 ? 4 : 3;
-              const format = img.kind === 1 ? 'grayscale' : img.kind === 3 ? 'rgba' : 'rgb';
-
-              // Encode raw pixel data to PNG format
-              const pngBase64 = encodePixelsToPNG(img.data, img.width, img.height, channels);
-
-              return {
-                type: 'image',
-                yPosition,
-                imageData: {
-                  page: pageNum,
-                  index: arrayIndex,
-                  width: img.width,
-                  height: img.height,
-                  format,
-                  data: pngBase64,
-                },
-              };
-            };
-
-            // Try to get from commonObjs first if it starts with 'g_'
-            if (imageName.startsWith('g_')) {
-              try {
-                const imageData = page.commonObjs.get(imageName);
-                if (imageData) {
-                  const result = processImageData(imageData);
-                  resolve(result);
-                  return;
-                }
-                /* c8 ignore next */
-              } catch (error: unknown) {
-                /* c8 ignore next */ const message =
-                  error instanceof Error ? error.message : String(error);
-                /* c8 ignore next */ console.warn(
-                  /* c8 ignore next */ `[PDF Reader MCP] Error getting image from commonObjs ${imageName}: ${message}`
-                  /* c8 ignore next */
-                );
-              }
-            }
-
-            // Try synchronous get first - if image is already loaded
-            try {
-              const imageData = page.objs.get(imageName);
-              if (imageData !== undefined) {
-                const result = processImageData(imageData);
-                resolve(result);
-                return;
-              }
-            } catch (error: unknown) {
-              const message = error instanceof Error ? error.message : String(error);
-              console.warn(
-                `[PDF Reader MCP] Sync image get failed for ${imageName}, trying async: ${message}`
-              );
-            }
-
-            // Fallback to async callback-based get with timeout
-            let resolved = false;
-            let timeoutId: NodeJS.Timeout | null = null;
-
-            // Create a cleanup function to ensure resources are released
-            const cleanup = () => {
-              if (timeoutId !== null) {
-                clearTimeout(timeoutId);
-                timeoutId = null;
-              }
-            };
-
-            timeoutId = setTimeout(() => {
-              if (!resolved) {
-                resolved = true;
-                cleanup();
-                console.warn(
-                  `[PDF Reader MCP] Image extraction timeout for ${imageName} on page ${String(pageNum)}`
-                );
-                resolve(null);
-              }
-            }, 10000); // 10 second timeout as a safety net
-
-            try {
-              page.objs.get(imageName, (imageData: unknown) => {
-                if (!resolved) {
-                  resolved = true;
-                  cleanup();
-                  const result = processImageData(imageData);
-                  resolve(result);
-                }
-              });
-            } catch (error: unknown) {
-              // If get() throws synchronously, clean up and reject
-              if (!resolved) {
-                resolved = true;
-                cleanup();
-                const message = error instanceof Error ? error.message : String(error);
-                console.warn(
-                  `[PDF Reader MCP] Error in async image get for ${imageName}: ${message}`
-                );
-                resolve(null);
-              }
-            }
-          })
-      );
+        // Wrap in PageContentItem with yPosition
+        if (extractedImage) {
+          return {
+            type: 'image' as const,
+            yPosition,
+            imageData: extractedImage,
+          };
+        }
+        return null;
+      });
 
       const resolvedImages = await Promise.all(imagePromises);
       contentItems.push(...resolvedImages.filter((item): item is PageContentItem => item !== null));
