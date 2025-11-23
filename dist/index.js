@@ -18,6 +18,86 @@ import { z as z2 } from "zod";
 // src/pdf/extractor.ts
 import { OPS } from "pdfjs-dist/legacy/build/pdf.mjs";
 import { PNG } from "pngjs";
+
+// src/utils/logger.ts
+class Logger {
+  prefix;
+  minLevel;
+  constructor(component, minLevel = 1 /* INFO */) {
+    this.prefix = `[PDF Reader MCP${component ? ` - ${component}` : ""}]`;
+    this.minLevel = minLevel;
+  }
+  setLevel(level) {
+    this.minLevel = level;
+  }
+  debug(message, context) {
+    if (this.minLevel <= 0 /* DEBUG */) {
+      this.log("debug", message, context);
+    }
+  }
+  info(message, context) {
+    if (this.minLevel <= 1 /* INFO */) {
+      this.log("info", message, context);
+    }
+  }
+  warn(message, context) {
+    if (this.minLevel <= 2 /* WARN */) {
+      this.log("warn", message, context);
+    }
+  }
+  error(message, context) {
+    if (this.minLevel <= 3 /* ERROR */) {
+      this.log("error", message, context);
+    }
+  }
+  logWithContext(level, logMessage, structuredLog) {
+    if (level === "error") {
+      console.error(logMessage);
+      console.error(JSON.stringify(structuredLog));
+    } else if (level === "warn") {
+      console.warn(logMessage);
+      console.warn(JSON.stringify(structuredLog));
+    } else if (level === "info") {
+      console.info(logMessage);
+    } else {
+      console.log(logMessage);
+    }
+  }
+  logSimple(level, logMessage) {
+    if (level === "error") {
+      console.error(logMessage);
+    } else if (level === "warn") {
+      console.warn(logMessage);
+    } else if (level === "info") {
+      console.info(logMessage);
+    } else {
+      console.log(logMessage);
+    }
+  }
+  log(level, message, context) {
+    const logMessage = `${this.prefix} ${message}`;
+    if (context && Object.keys(context).length > 0) {
+      const timestamp = new Date().toISOString();
+      const structuredLog = {
+        timestamp,
+        level,
+        component: this.prefix,
+        message,
+        ...context
+      };
+      this.logWithContext(level, logMessage, structuredLog);
+    } else {
+      this.logSimple(level, logMessage);
+    }
+  }
+}
+var createLogger = (component, minLevel) => {
+  return new Logger(component, minLevel);
+};
+var logger = new Logger("", 2 /* WARN */);
+
+// src/pdf/extractor.ts
+var logger2 = createLogger("Extractor");
 var encodePixelsToPNG = (pixelData, width, height, channels) => {
   const png = new PNG({ width, height });
   if (channels === 4) {
@@ -44,6 +124,83 @@ var encodePixelsToPNG = (pixelData, width, height, channels) => {
   const pngBuffer = PNG.sync.write(png);
   return pngBuffer.toString("base64");
 };
+var processImageData = (imageData, pageNum, arrayIndex) => {
+  if (!imageData || typeof imageData !== "object") {
+    return null;
+  }
+  const img = imageData;
+  if (!img.data || !img.width || !img.height) {
+    return null;
+  }
+  const channels = img.kind === 1 ? 1 : img.kind === 3 ? 4 : 3;
+  const format = img.kind === 1 ? "grayscale" : img.kind === 3 ? "rgba" : "rgb";
+  const pngBase64 = encodePixelsToPNG(img.data, img.width, img.height, channels);
+  return {
+    page: pageNum,
+    index: arrayIndex,
+    width: img.width,
+    height: img.height,
+    format,
+    data: pngBase64
+  };
+};
+var retrieveImageData = async (page, imageName, pageNum) => {
+  if (imageName.startsWith("g_")) {
+    try {
+      const imageData = page.commonObjs.get(imageName);
+      if (imageData) {
+        return imageData;
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      logger2.warn("Error getting image from commonObjs", { imageName, error: message });
+    }
+  }
+  try {
+    const imageData = page.objs.get(imageName);
+    if (imageData !== undefined) {
+      return imageData;
+    }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    logger2.warn("Sync image get failed, trying async", { imageName, error: message });
+  }
+  return new Promise((resolve) => {
+    let resolved = false;
+    let timeoutId = null;
+    const cleanup = () => {
+      if (timeoutId !== null) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+      }
+    };
+    timeoutId = setTimeout(() => {
+      if (!resolved) {
+        resolved = true;
+        cleanup();
+        logger2.warn("Image extraction timeout", { imageName, pageNum });
+        resolve(null);
+      }
+    }, 1e4);
+    try {
+      page.objs.get(imageName, (imageData) => {
+        if (!resolved) {
+          resolved = true;
+          cleanup();
+          resolve(imageData);
+        }
+      });
+    } catch (error) {
+      if (!resolved) {
+        resolved = true;
+        cleanup();
+        const message = error instanceof Error ? error.message : String(error);
+        logger2.warn("Error in async image get", { imageName, error: message });
+        resolve(null);
+      }
+    }
+  });
+};
 var extractMetadataAndPageCount = async (pdfDocument, includeMetadata, includePageCount) => {
   const output = {};
   if (includePageCount) {
@@ -69,7 +226,8 @@ var extractMetadataAndPageCount = async (pdfDocument, includeMetadata, includePa
         output.metadata = metadataRecord;
       }
     } catch (metaError) {
-      console.warn(`[PDF Reader MCP] Error extracting metadata: ${metaError instanceof Error ? metaError.message : String(metaError)}`);
+      const message = metaError instanceof Error ? metaError.message : String(metaError);
+      logger2.warn("Error extracting metadata", { error: message });
     }
   }
   return output;
@@ -118,11 +276,10 @@ var extractPageContent = async (pdfDocument, pageNum, includeImages, sourceDescr
           imageIndices.push(i);
         }
       }
-      const imagePromises = imageIndices.map((imgIndex, arrayIndex) => new Promise((resolve) => {
+      const imagePromises = imageIndices.map(async (imgIndex, arrayIndex) => {
         const argsArray = operatorList.argsArray[imgIndex];
         if (!argsArray || argsArray.length === 0) {
-          resolve(null);
-          return;
+          return null;
         }
         const imageName = argsArray[0];
         let yPosition = 0;
@@ -133,77 +290,27 @@ var extractPageContent = async (pdfDocument, pageNum, includeImages, sourceDescr
             yPosition = Math.round(yCoord);
           }
         }
-        const processImageData = (imageData) => {
-          if (!imageData || typeof imageData !== "object") {
-            return null;
-          }
-          const img = imageData;
-          if (!img.data || !img.width || !img.height) {
-            return null;
-          }
-          const channels = img.kind === 1 ? 1 : img.kind === 3 ? 4 : 3;
-          const format = img.kind === 1 ? "grayscale" : img.kind === 3 ? "rgba" : "rgb";
-          const pngBase64 = encodePixelsToPNG(img.data, img.width, img.height, channels);
+        const imageData = await retrieveImageData(page, imageName, pageNum);
+        const extractedImage = processImageData(imageData, pageNum, arrayIndex);
+        if (extractedImage) {
           return {
             type: "image",
             yPosition,
-            imageData: {
-              page: pageNum,
-              index: arrayIndex,
-              width: img.width,
-              height: img.height,
-              format,
-              data: pngBase64
-            }
+            imageData: extractedImage
           };
-        };
-        if (imageName.startsWith("g_")) {
-          try {
-            const imageData = page.commonObjs.get(imageName);
-            if (imageData) {
-              const result = processImageData(imageData);
-              resolve(result);
-              return;
-            }
-          } catch (error) {
-            const message = error instanceof Error ? error.message : String(error);
-            console.warn(`[PDF Reader MCP] Error getting image from commonObjs ${imageName}: ${message}`);
-          }
         }
-        try {
-          const imageData = page.objs.get(imageName);
-          if (imageData !== undefined) {
-            const result = processImageData(imageData);
-            resolve(result);
-            return;
-          }
-        } catch (error) {
-          const message = error instanceof Error ? error.message : String(error);
-          console.warn(`[PDF Reader MCP] Sync image get failed for ${imageName}, trying async: ${message}`);
-        }
-        let resolved = false;
-        const timeout = setTimeout(() => {
-          if (!resolved) {
-            resolved = true;
-            console.warn(`[PDF Reader MCP] Image extraction timeout for ${imageName} on page ${String(pageNum)}`);
-            resolve(null);
-          }
-        }, 1e4);
-        page.objs.get(imageName, (imageData) => {
-          if (!resolved) {
-            resolved = true;
-            clearTimeout(timeout);
-            const result = processImageData(imageData);
-            resolve(result);
-          }
-        });
-      }));
+        return null;
+      });
       const resolvedImages = await Promise.all(imagePromises);
       contentItems.push(...resolvedImages.filter((item) => item !== null));
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.warn(`[PDF Reader MCP] Error extracting page content for page ${String(pageNum)} in ${sourceDescription}: ${message}`);
+    logger2.warn("Error extracting page content", {
+      pageNum,
+      sourceDescription,
+      error: message
+    });
     return [
       {
         type: "text",
@@ -221,27 +328,39 @@ import { ErrorCode as ErrorCode2, McpError as McpError2 } from "@modelcontextpro
 import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 
 // src/utils/pathUtils.ts
+import os from "node:os";
 import path from "node:path";
 import { ErrorCode, McpError } from "@modelcontextprotocol/sdk/types.js";
 var PROJECT_ROOT = process.cwd();
+var ALLOWED_ROOTS = [PROJECT_ROOT, os.homedir()];
 var resolvePath = (userPath) => {
   if (typeof userPath !== "string") {
     throw new McpError(ErrorCode.InvalidParams, "Path must be a string.");
   }
   const normalizedUserPath = path.normalize(userPath);
-  if (path.isAbsolute(normalizedUserPath)) {
-    return normalizedUserPath;
+  const resolvedPath = path.isAbsolute(normalizedUserPath) ? normalizedUserPath : path.resolve(PROJECT_ROOT, normalizedUserPath);
+  const isWithinAllowedRoot = ALLOWED_ROOTS.some((allowedRoot) => {
+    const relativePath = path.relative(allowedRoot, resolvedPath);
+    return relativePath !== "" && !relativePath.startsWith("..") && !path.isAbsolute(relativePath);
+  });
+  if (!isWithinAllowedRoot) {
+    throw new McpError(ErrorCode.InvalidParams, "Access denied: Path resolves outside allowed directories.");
   }
-  return path.resolve(PROJECT_ROOT, normalizedUserPath);
+  return resolvedPath;
 };
 
 // src/pdf/loader.ts
+var logger3 = createLogger("Loader");
+var MAX_PDF_SIZE = 100 * 1024 * 1024;
 var loadPdfDocument = async (source, sourceDescription) => {
   let pdfDataSource;
   try {
     if (source.path) {
       const safePath = resolvePath(source.path);
       const buffer = await fs.readFile(safePath);
+      if (buffer.length > MAX_PDF_SIZE) {
+        throw new McpError2(ErrorCode2.InvalidRequest, `PDF file exceeds maximum size of ${MAX_PDF_SIZE} bytes (${(MAX_PDF_SIZE / 1024 / 1024).toFixed(0)}MB). File size: ${buffer.length} bytes.`);
+      }
       pdfDataSource = new Uint8Array(buffer);
     } else if (source.url) {
       pdfDataSource = { url: source.url };
@@ -265,14 +384,15 @@ var loadPdfDocument = async (source, sourceDescription) => {
   try {
     return await loadingTask.promise;
   } catch (err) {
-    console.error(`[PDF Reader MCP] PDF.js loading error for ${sourceDescription}:`, err);
     const message = err instanceof Error ? err.message : String(err);
+    logger3.error("PDF.js loading error", { sourceDescription, error: message });
     throw new McpError2(ErrorCode2.InvalidRequest, `Failed to load PDF document from ${sourceDescription}. Reason: ${message || "Unknown loading error"}`, { cause: err instanceof Error ? err : undefined });
   }
 };
 
 // src/pdf/parser.ts
 import { ErrorCode as ErrorCode3, McpError as McpError3 } from "@modelcontextprotocol/sdk/types.js";
+var logger4 = createLogger("Parser");
 var MAX_RANGE_SIZE = 1e4;
 var parseRangePart = (part, pages) => {
   const trimmedPart = part.trim();
@@ -290,7 +410,7 @@ var parseRangePart = (part, pages) => {
       pages.add(i);
     }
     if (end === Infinity && practicalEnd === start + MAX_RANGE_SIZE) {
-      console.warn(`[PDF Reader MCP] Open-ended range starting at ${String(start)} was truncated at page ${String(practicalEnd)}.`);
+      logger4.warn("Open-ended range truncated", { start, practicalEnd });
     }
   } else {
     const page = parseInt(trimmedPart, 10);
@@ -369,13 +489,15 @@ var readPdfArgsSchema = z.object({
 }).strict();
 
 // src/handlers/readPdf.ts
+var logger5 = createLogger("ReadPdf");
 var processSingleSource = async (source, options) => {
   const sourceDescription = source.path ?? source.url ?? "unknown source";
   let individualResult = { source: sourceDescription, success: false };
+  let pdfDocument = null;
   try {
     const targetPages = getTargetPages(source.pages, sourceDescription);
     const { pages: _pages, ...loadArgs } = source;
-    const pdfDocument = await loadPdfDocument(loadArgs, sourceDescription);
+    pdfDocument = await loadPdfDocument(loadArgs, sourceDescription);
     const totalPages = pdfDocument.numPages;
     const metadataOutput = await extractMetadataAndPageCount(pdfDocument, options.includeMetadata, options.includePageCount);
     const output = { ...metadataOutput };
@@ -421,6 +543,15 @@ var processSingleSource = async (source, options) => {
     individualResult.error = errorMessage;
     individualResult.success = false;
     individualResult.data = undefined;
+  } finally {
+    if (pdfDocument && typeof pdfDocument.destroy === "function") {
+      try {
+        await pdfDocument.destroy();
+      } catch (destroyError) {
+        const message = destroyError instanceof Error ? destroyError.message : String(destroyError);
+        logger5.warn("Error destroying PDF document", { sourceDescription, error: message });
+      }
+    }
   }
   return individualResult;
 };
@@ -436,12 +567,19 @@ var handleReadPdfFunc = async (args) => {
     throw new McpError4(ErrorCode4.InvalidParams, `Argument validation failed: ${message}`);
   }
   const { sources, include_full_text, include_metadata, include_page_count, include_images } = parsedArgs;
-  const results = await Promise.all(sources.map((source) => processSingleSource(source, {
+  const MAX_CONCURRENT_SOURCES = 3;
+  const results = [];
+  const options = {
     includeFullText: include_full_text,
     includeMetadata: include_metadata,
     includePageCount: include_page_count,
     includeImages: include_images
-  })));
+  };
+  for (let i = 0;i < sources.length; i += MAX_CONCURRENT_SOURCES) {
+    const batch = sources.slice(i, i + MAX_CONCURRENT_SOURCES);
+    const batchResults = await Promise.all(batch.map((source) => processSingleSource(source, options)));
+    results.push(...batchResults);
+  }
   const content = [];
   const resultsForJson = results.map((result) => {
     if (result.data) {
