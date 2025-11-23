@@ -1,6 +1,7 @@
 // PDF reading handler - orchestrates PDF processing workflow
 
 import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
+import type * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { z } from 'zod';
 import {
   buildWarnings,
@@ -28,6 +29,7 @@ const processSingleSource = async (
 ): Promise<PdfSourceResult> => {
   const sourceDescription = source.path ?? source.url ?? 'unknown source';
   let individualResult: PdfSourceResult = { source: sourceDescription, success: false };
+  let pdfDocument: pdfjsLib.PDFDocumentProxy | null = null;
 
   try {
     // Parse target pages
@@ -35,7 +37,7 @@ const processSingleSource = async (
 
     // Load PDF document
     const { pages: _pages, ...loadArgs } = source;
-    const pdfDocument = await loadPdfDocument(loadArgs, sourceDescription);
+    pdfDocument = await loadPdfDocument(loadArgs, sourceDescription);
     const totalPages = pdfDocument.numPages;
 
     // Extract metadata and page count
@@ -65,7 +67,12 @@ const processSingleSource = async (
       // Use new extractPageContent to preserve Y-coordinate ordering
       const pageContents = await Promise.all(
         pagesToProcess.map((pageNum) =>
-          extractPageContent(pdfDocument, pageNum, options.includeImages, sourceDescription)
+          extractPageContent(
+            pdfDocument as pdfjsLib.PDFDocumentProxy,
+            pageNum,
+            options.includeImages,
+            sourceDescription
+          )
         )
       );
 
@@ -120,6 +127,19 @@ const processSingleSource = async (
     individualResult.error = errorMessage;
     individualResult.success = false;
     individualResult.data = undefined;
+  } finally {
+    // Clean up PDF document resources
+    if (pdfDocument && typeof pdfDocument.destroy === 'function') {
+      try {
+        await pdfDocument.destroy();
+      } catch (destroyError: unknown) {
+        // Log cleanup errors but don't fail the operation
+        const message = destroyError instanceof Error ? destroyError.message : String(destroyError);
+        console.warn(
+          `[PDF Reader MCP] Error destroying PDF document for ${sourceDescription}: ${message}`
+        );
+      }
+    }
   }
 
   return individualResult;

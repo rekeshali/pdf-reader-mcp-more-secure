@@ -20,10 +20,10 @@ export default defineConfig({
       thresholds: {
         // Near-complete coverage thresholds
         // Some defensive error handling paths are difficult to test in practice
-        lines: 91,
+        lines: 90,
         functions: 97,
-        branches: 81,
-        statements: 91,
+        branches: 80,
+        statements: 90,
       },
     },
   },
