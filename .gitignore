@@ -5,9 +5,10 @@ build/
 coverage/
 .env*
 
-# VitePress
-docs/.vitepress/dist
-docs/.vitepress/cache
+# Leaf
+docs/dist
+docs/.leaf
+public/search-index.json
 
 # Test Reports
 test-report.junit.xml
