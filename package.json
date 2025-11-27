@@ -69,7 +69,7 @@
     "docs:api": "typedoc --entryPoints src/index.ts --tsconfig tsconfig.json --plugin typedoc-plugin-markdown --out docs/api --readme none",
     "prepublishOnly": "bunx @sylphx/doctor prepublish && bun run clean && bun run build",
     "release": "standard-version",
-    "prepare": "lefthook install"
+    "prepare": "node_modules/.bin/lefthook install || true"
   },
   "dependencies": {
     "@sylphx/mcp-server-sdk": "1.0.0",
