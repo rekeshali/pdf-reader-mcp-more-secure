@@ -47,9 +47,7 @@ describe('resolvePath Utility', () => {
     const levelsUp = PROJECT_ROOT.split(path.sep).filter(Boolean).length + 2; // Go up more levels than the root has
     const userPath = path.join(...(Array(levelsUp).fill('..') as string[]), 'secret.txt'); // Cast array to string[]
     expect(() => resolvePath(userPath)).toThrow(PdfError);
-    expect(() => resolvePath(userPath)).toThrow(
-      'Access denied: Path resolves outside allowed directories.'
-    );
+    expect(() => resolvePath(userPath)).toThrow('Access denied: Path resolves outside allowed directories.');
   });
 
   it('should accept absolute paths within allowed roots and return them normalized', () => {
@@ -62,9 +60,7 @@ describe('resolvePath Utility', () => {
     // Test with path outside allowed roots (e.g., /etc/passwd on Unix, C:\Windows\System32 on Windows)
     const forbiddenPath = path.sep === '/' ? '/etc/passwd' : 'C:\\Windows\\System32\\config.txt';
     expect(() => resolvePath(forbiddenPath)).toThrow(PdfError);
-    expect(() => resolvePath(forbiddenPath)).toThrow(
-      'Access denied: Path resolves outside allowed directories.'
-    );
+    expect(() => resolvePath(forbiddenPath)).toThrow('Access denied: Path resolves outside allowed directories.');
   });
 
   it('should throw PdfError for non-string input', () => {

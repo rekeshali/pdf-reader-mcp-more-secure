@@ -65,10 +65,7 @@ beforeAll(async () => {
     const result = await readPdf.handler({ input: parsedArgs, ctx: {} as unknown });
     // Handle toolError case - it returns { content: [...], isError: true }
     if (result && typeof result === 'object' && 'isError' in result && result.isError) {
-      throw new PdfError(
-        ErrorCode.InvalidRequest,
-        (result as { content: { text: string }[] }).content[0].text
-      );
+      throw new PdfError(ErrorCode.InvalidRequest, (result as { content: { text: string }[] }).content[0].text);
     }
     // Convert array result to expected format
     if (Array.isArray(result)) {
@@ -735,9 +732,7 @@ describe('handleReadPdfFunc Integration Tests', () => {
     };
 
     const mockPage = {
-      getTextContent: vi
-        .fn()
-        .mockResolvedValue({ items: [{ str: 'test', transform: [1, 0, 0, 1, 0, 100] }] }),
+      getTextContent: vi.fn().mockResolvedValue({ items: [{ str: 'test', transform: [1, 0, 0, 1, 0, 100] }] }),
       getOperatorList: vi.fn().mockResolvedValue({
         fnArray: [89], // OPS.paintImageXObject value
         argsArray: [['img1', [1, 0, 0, 1, 0, 50]]],
@@ -794,9 +789,7 @@ describe('handleReadPdfFunc Integration Tests', () => {
     };
 
     const mockPage = {
-      getTextContent: vi
-        .fn()
-        .mockResolvedValue({ items: [{ str: 'Page text', transform: [1, 0, 0, 1, 0, 100] }] }),
+      getTextContent: vi.fn().mockResolvedValue({ items: [{ str: 'Page text', transform: [1, 0, 0, 1, 0, 100] }] }),
       getOperatorList: vi.fn().mockResolvedValue({
         fnArray: [89],
         argsArray: [['img1', [1, 0, 0, 1, 0, 50]]],
@@ -837,9 +830,7 @@ describe('handleReadPdfFunc Integration Tests', () => {
     vi.spyOn(pathUtils, 'resolvePath').mockImplementation((p) => p);
 
     const mockPage = {
-      getTextContent: vi
-        .fn()
-        .mockResolvedValue({ items: [{ str: 'test', transform: [1, 0, 0, 1, 0, 100] }] }),
+      getTextContent: vi.fn().mockResolvedValue({ items: [{ str: 'test', transform: [1, 0, 0, 1, 0, 100] }] }),
       getOperatorList: vi.fn().mockResolvedValue({
         fnArray: [89], // OPS.paintImageXObject
         argsArray: [['hanging_img']],
@@ -901,9 +892,7 @@ describe('handleReadPdfFunc Integration Tests', () => {
     };
 
     const mockPage = {
-      getTextContent: vi
-        .fn()
-        .mockResolvedValue({ items: [{ str: 'test', transform: [1, 0, 0, 1, 0, 100] }] }),
+      getTextContent: vi.fn().mockResolvedValue({ items: [{ str: 'test', transform: [1, 0, 0, 1, 0, 100] }] }),
       getOperatorList: vi.fn().mockResolvedValue({
         fnArray: [89, 89, 89], // Three images
         argsArray: [['img1'], ['img2'], ['img3']],
@@ -959,9 +948,7 @@ describe('handleReadPdfFunc Integration Tests', () => {
     };
 
     const mockPage = {
-      getTextContent: vi
-        .fn()
-        .mockResolvedValue({ items: [{ str: 'test', transform: [1, 0, 0, 1, 0, 100] }] }),
+      getTextContent: vi.fn().mockResolvedValue({ items: [{ str: 'test', transform: [1, 0, 0, 1, 0, 100] }] }),
       getOperatorList: vi.fn().mockResolvedValue({
         fnArray: [89, 89, 89, 89], // Four images
         argsArray: [['valid_img'], ['no_data'], ['no_width'], ['invalid']],
@@ -1069,9 +1056,7 @@ describe('handleReadPdfFunc Integration Tests', () => {
     };
 
     const mockPage = {
-      getTextContent: vi
-        .fn()
-        .mockResolvedValue({ items: [{ str: 'test', transform: [1, 0, 0, 1, 0, 100] }] }),
+      getTextContent: vi.fn().mockResolvedValue({ items: [{ str: 'test', transform: [1, 0, 0, 1, 0, 100] }] }),
       getOperatorList: vi.fn().mockResolvedValue({
         fnArray: [89],
         argsArray: [['g_image1']], // Image with g_ prefix
@@ -1116,9 +1101,7 @@ describe('handleReadPdfFunc Integration Tests', () => {
     };
 
     const mockPage = {
-      getTextContent: vi
-        .fn()
-        .mockResolvedValue({ items: [{ str: 'test', transform: [1, 0, 0, 1, 0, 100] }] }),
+      getTextContent: vi.fn().mockResolvedValue({ items: [{ str: 'test', transform: [1, 0, 0, 1, 0, 100] }] }),
       getOperatorList: vi.fn().mockResolvedValue({
         fnArray: [89],
         argsArray: [['img1']],
@@ -1168,9 +1151,7 @@ describe('handleReadPdfFunc Integration Tests', () => {
     };
 
     const mockPage = {
-      getTextContent: vi
-        .fn()
-        .mockResolvedValue({ items: [{ str: 'test', transform: [1, 0, 0, 1, 0, 100] }] }),
+      getTextContent: vi.fn().mockResolvedValue({ items: [{ str: 'test', transform: [1, 0, 0, 1, 0, 100] }] }),
       getOperatorList: vi.fn().mockResolvedValue({
         fnArray: [89],
         argsArray: [['img1']],

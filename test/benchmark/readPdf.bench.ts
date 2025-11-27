@@ -58,9 +58,7 @@ describe('read_pdf Handler Benchmarks', () => {
         });
       } catch (error: unknown) {
         // Explicitly type error as unknown
-        console.warn(
-          `Benchmark 'Get Full Text' failed: ${error instanceof Error ? error.message : String(error)}`
-        );
+        console.warn(`Benchmark 'Get Full Text' failed: ${error instanceof Error ? error.message : String(error)}`);
       }
     },
     { time: 1000 }

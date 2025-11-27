@@ -45,10 +45,7 @@ describe('loader', () => {
         promise: Promise.resolve(mockDocument as unknown as pdfjsLib.PDFDocumentProxy),
       } as pdfjsLib.PDFDocumentLoadingTask);
 
-      const result = await loadPdfDocument(
-        { url: 'https://example.com/test.pdf' },
-        'https://example.com/test.pdf'
-      );
+      const result = await loadPdfDocument({ url: 'https://example.com/test.pdf' }, 'https://example.com/test.pdf');
 
       expect(result).toBe(mockDocument);
       expect(pdfjsLib.getDocument).toHaveBeenCalledWith({
@@ -58,9 +55,7 @@ describe('loader', () => {
 
     it('should throw PdfError when neither path nor url provided', async () => {
       await expect(loadPdfDocument({}, 'unknown')).rejects.toThrow(PdfError);
-      await expect(loadPdfDocument({}, 'unknown')).rejects.toThrow(
-        "Source unknown missing 'path' or 'url'."
-      );
+      await expect(loadPdfDocument({}, 'unknown')).rejects.toThrow("Source unknown missing 'path' or 'url'.");
     });
 
     it('should handle file not found error (ENOENT)', async () => {
@@ -69,9 +64,7 @@ describe('loader', () => {
       pathUtils.resolvePath.mockReturnValue('/safe/path/missing.pdf');
       fs.readFile.mockRejectedValue(enoentError);
 
-      await expect(loadPdfDocument({ path: 'missing.pdf' }, 'missing.pdf')).rejects.toThrow(
-        PdfError
-      );
+      await expect(loadPdfDocument({ path: 'missing.pdf' }, 'missing.pdf')).rejects.toThrow(PdfError);
       await expect(loadPdfDocument({ path: 'missing.pdf' }, 'missing.pdf')).rejects.toThrow(
         "File not found at 'missing.pdf'."
       );

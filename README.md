@@ -701,10 +701,21 @@ MIT © [Sylphx](https://sylphx.com)
 
 Built with:
 - [PDF.js](https://mozilla.github.io/pdf.js/) - Mozilla PDF engine
-- [MCP SDK](https://modelcontextprotocol.io) - Model Context Protocol
-- [Vitest](https://vitest.dev) - Fast testing framework
+- [Bun](https://bun.sh) - Fast JavaScript runtime
 
 Special thanks to the open source community ❤️
+
+## Powered by Sylphx
+
+This project uses the following [@sylphx](https://github.com/SylphxAI) packages:
+
+- [@sylphx/mcp-server-sdk](https://github.com/SylphxAI/mcp-server-sdk) - MCP server framework
+- [@sylphx/biome-config](https://github.com/SylphxAI/biome-config) - Biome configuration
+- [@sylphx/tsconfig](https://github.com/SylphxAI/tsconfig) - TypeScript configuration
+- [@sylphx/bump](https://github.com/SylphxAI/bump) - Version management
+- [@sylphx/doctor](https://github.com/SylphxAI/doctor) - Project health checker
+- [@sylphx/leaf](https://github.com/SylphxAI/leaf) - Documentation framework
+- [@sylphx/leaf-theme-default](https://github.com/SylphxAI/leaf-theme-default) - Documentation theme
 
 ---
 
