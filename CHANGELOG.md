@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.0.1 (2025-11-27)
+
+### 🐛 Bug Fixes
+
+- ensure mcp-server-sdk 1.1.2 with correct tools/list response ([db65572](https://github.com/SylphxAI/pdf-reader-mcp/commit/db6557209adb85497223a043814963e59f68b06c))
+- upgrade mcp-server-sdk to 2.0.0 to fix tools/list response ([ebd211f](https://github.com/SylphxAI/pdf-reader-mcp/commit/ebd211fe44fd364ddd92d8820103404e57992513))
+- upgrade mcp-server-sdk to 1.1.2 ([80cc8c5](https://github.com/SylphxAI/pdf-reader-mcp/commit/80cc8c57d48da40f06e6e02a12718bd23bd1a736))
+
 ## 2.0.0 (2025-11-27)
 
 ### 🐛 Bug Fixes
