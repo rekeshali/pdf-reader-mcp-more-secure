@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.0.0 (2025-11-27)
+
+### 🐛 Bug Fixes
+
+- upgrade SDK to 1.1.1 with Node.js support ([26bb70d](https://github.com/SylphxAI/pdf-reader-mcp/commit/26bb70d310df4f82bf69a46fc396f585a4ead621))
+- 💥 use bun shebang for proper runtime support ([00a07fd](https://github.com/SylphxAI/pdf-reader-mcp/commit/00a07fdeec4836443b9242ed9f663616ae448b24))
+
+### 💥 Breaking Changes
+
+- use bun shebang for proper runtime support ([00a07fd](https://github.com/SylphxAI/pdf-reader-mcp/commit/00a07fdeec4836443b9242ed9f663616ae448b24))
+  Requires Bun runtime instead of Node.js
+
 ## 1.4.0 (2025-11-27)
 
 ### ✨ Features
