@@ -423,9 +423,8 @@ describe('handleReadPdfFunc Integration Tests', () => {
   it('should throw PdfError for invalid input arguments (Zod error)', async () => {
     const args = { sources: [{ path: 'test.pdf' }], include_full_text: 'yes' };
     await expect(handler(args)).rejects.toThrow(PdfError);
-    await expect(handler(args)).rejects.toThrow(
-      /Invalid arguments: include_full_text \(Expected boolean, received string\)/
-    );
+    // Zod 4 format: "Invalid input: expected boolean, received string"
+    await expect(handler(args)).rejects.toThrow(/include_full_text.*boolean.*string/i);
     await expect(handler(args)).rejects.toHaveProperty('code', ErrorCode.InvalidParams);
   });
 
@@ -433,7 +432,8 @@ describe('handleReadPdfFunc Integration Tests', () => {
   it('should throw PdfError if top-level argument parsing fails', async () => {
     const invalidArgs = { invalid_prop: true }; // Completely wrong structure
     await expect(handler(invalidArgs)).rejects.toThrow(PdfError);
-    await expect(handler(invalidArgs)).rejects.toThrow(/Invalid arguments: sources \(Required\)/); // Example Zod error
+    // Zod 4 format: "Invalid input: expected array, received undefined"
+    await expect(handler(invalidArgs)).rejects.toThrow(/sources.*array/i);
     await expect(handler(invalidArgs)).rejects.toHaveProperty('code', ErrorCode.InvalidParams);
   });
 
@@ -451,9 +451,8 @@ describe('handleReadPdfFunc Integration Tests', () => {
   it('should throw PdfError for invalid page specification array (non-positive - Zod)', async () => {
     const args = { sources: [{ path: 'test.pdf', pages: [1, 0, 3] }] };
     await expect(handler(args)).rejects.toThrow(PdfError);
-    await expect(handler(args)).rejects.toThrow(
-      /Invalid arguments: sources.0.pages.1 \(Number must be greater than or equal to 1\)/
-    );
+    // Zod 4 format: "Too small: expected number to be >=1"
+    await expect(handler(args)).rejects.toThrow(/sources\.0\.pages\.1.*>=1/i);
     await expect(handler(args)).rejects.toHaveProperty('code', ErrorCode.InvalidParams);
   });
 
@@ -1125,7 +1124,7 @@ describe('handleReadPdfFunc Integration Tests', () => {
         argsArray: [['img1']],
       }),
       objs: {
-        get: vi.fn().mockImplementation((name: string, callback?: (data: unknown) => void) => {
+        get: vi.fn().mockImplementation((_name: string, callback?: (data: unknown) => void) => {
           // Sync call - return immediately
           if (!callback) {
             return mockImageData;

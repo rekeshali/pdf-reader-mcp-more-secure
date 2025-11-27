@@ -316,6 +316,7 @@ var extractPageContent = async (pdfDocument, pageNum, includeImages, sourceDescr
 
 // src/pdf/loader.ts
 import fs from "node:fs/promises";
+import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 
 // src/utils/errors.ts
 class PdfError extends Error {
@@ -326,9 +327,6 @@ class PdfError extends Error {
     this.name = "PdfError";
   }
 }
-
-// src/pdf/loader.ts
-import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 
 // src/utils/pathUtils.ts
 import os from "node:os";
