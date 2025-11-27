@@ -84,7 +84,7 @@
     "@solidjs/router": "^0.15.4",
     "@sylphx/biome-config": "^0.4.0",
     "@sylphx/bump": "^0.10.1",
-    "@sylphx/doctor": "^1.22.0",
+    "@sylphx/doctor": "^1.23.2",
     "@sylphx/leaf": "^1.0.0",
     "@sylphx/leaf-theme-default": "^1.0.0",
     "@sylphx/tsconfig": "^0.3.0",
