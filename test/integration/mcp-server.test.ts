@@ -102,14 +102,14 @@ describe('MCP Server Integration', () => {
 
     const response = (await readResponse(serverProc)) as {
       id: number;
-      result?: { items?: Array<{ name: string }> };
+      result?: { tools?: Array<{ name: string }> };
     };
 
     expect(response.id).toBe(2);
-    expect(response.result?.items).toBeDefined();
-    expect(response.result?.items?.length).toBeGreaterThan(0);
+    expect(response.result?.tools).toBeDefined();
+    expect(response.result?.tools?.length).toBeGreaterThan(0);
 
-    const toolNames = response.result?.items?.map((t) => t.name);
+    const toolNames = response.result?.tools?.map((t) => t.name);
     expect(toolNames).toContain('read_pdf');
   });
 

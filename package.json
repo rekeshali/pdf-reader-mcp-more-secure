@@ -72,7 +72,7 @@
     "prepare": "node_modules/.bin/lefthook install || true"
   },
   "dependencies": {
-    "@sylphx/mcp-server-sdk": "1.1.1",
+    "@sylphx/mcp-server-sdk": "1.1.2",
     "glob": "^11.1.0",
     "pdfjs-dist": "^5.4.394",
     "pngjs": "^7.0.0",
