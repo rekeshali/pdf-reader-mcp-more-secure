@@ -93,23 +93,14 @@ Real-world performance from production testing:
 
 ## 📦 Installation
 
-### VS Code
-
-Install with one click using the VS Code extension buttons:
-
-[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-007ACC?style=for-the-badge&logo=visual-studio-code)](https://insiders.vscode.dev/redirect?url=vscode://ms-vscode.vscode-mcp/install?mcpId=sylphx-pdf-reader-mcp)
-[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=for-the-badge&logo=visual-studio-code)](https://insiders.vscode.dev/redirect?url=vscode-insiders://ms-vscode.vscode-mcp/install?mcpId=sylphx-pdf-reader-mcp)
-
-Or via CLI:
-
-```bash
-code --add-mcp '{"name":"pdf-reader","command":"npx","args":["@sylphx/pdf-reader-mcp"]}'
-```
+> **⚠️ Requires [Bun](https://bun.sh)** - This MCP server uses Bun runtime for optimal performance.
+>
+> Install Bun: `curl -fsSL https://bun.sh/install | bash`
 
 ### Claude Code
 
 ```bash
-claude mcp add pdf-reader -- npx @sylphx/pdf-reader-mcp
+claude mcp add pdf-reader -- bun x @sylphx/pdf-reader-mcp
 ```
 
 ### Claude Desktop
@@ -120,8 +111,8 @@ Add to `claude_desktop_config.json`:
 {
   "mcpServers": {
     "pdf-reader": {
-      "command": "npx",
-      "args": ["@sylphx/pdf-reader-mcp"]
+      "command": "bun",
+      "args": ["x", "@sylphx/pdf-reader-mcp"]
     }
   }
 }
@@ -136,11 +127,18 @@ Add to `claude_desktop_config.json`:
 
 </details>
 
+### VS Code
+
+```bash
+code --add-mcp '{"name":"pdf-reader","command":"bun","args":["x","@sylphx/pdf-reader-mcp"]}'
+```
+
 ### Cursor
 
 1. Open **Settings** → **MCP** → **Add new MCP Server**
 2. Select **Command** type
-3. Enter: `npx @sylphx/pdf-reader-mcp`
+3. Command: `bun`
+4. Args: `x @sylphx/pdf-reader-mcp`
 
 ### Windsurf
 
@@ -150,8 +148,8 @@ Add to your Windsurf MCP config:
 {
   "mcpServers": {
     "pdf-reader": {
-      "command": "npx",
-      "args": ["@sylphx/pdf-reader-mcp"]
+      "command": "bun",
+      "args": ["x", "@sylphx/pdf-reader-mcp"]
     }
   }
 }
@@ -165,8 +163,8 @@ Add to Cline's MCP settings:
 {
   "mcpServers": {
     "pdf-reader": {
-      "command": "npx",
-      "args": ["@sylphx/pdf-reader-mcp"]
+      "command": "bun",
+      "args": ["x", "@sylphx/pdf-reader-mcp"]
     }
   }
 }
@@ -175,25 +173,16 @@ Add to Cline's MCP settings:
 ### Warp
 
 1. Go to **Settings** → **AI** → **Manage MCP Servers** → **Add**
-2. Or use the `/add-mcp` slash command with the standard config
-
-### Smithery (One-click)
-
-```bash
-npx -y @smithery/cli install @sylphx/pdf-reader-mcp --client claude
-```
+2. Command: `bun`, Args: `x @sylphx/pdf-reader-mcp`
 
 ### Manual Installation
 
 ```bash
-# Quick start - zero installation
-npx @sylphx/pdf-reader-mcp
+# Quick start
+bun x @sylphx/pdf-reader-mcp
 
-# Using bun (recommended)
-bun add @sylphx/pdf-reader-mcp
-
-# Using npm
-npm install @sylphx/pdf-reader-mcp
+# Or install globally
+bun add -g @sylphx/pdf-reader-mcp
 ```
 
 ---

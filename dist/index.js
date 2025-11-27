@@ -1,4 +1,5 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
+// @bun
 
 // src/index.ts
 import { createServer, stdio } from "@sylphx/mcp-server-sdk";
@@ -617,7 +618,7 @@ var server = createServer({
 });
 async function main() {
   await server.start();
-  if (process.env["DEBUG_MCP"]) {
+  if (process.env.DEBUG_MCP) {
     console.error("[PDF Reader MCP] Server running on stdio");
     console.error("[PDF Reader MCP] Project root:", process.cwd());
   }

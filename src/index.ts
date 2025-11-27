@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 
 import { createServer, stdio } from '@sylphx/mcp-server-sdk';
 import { readPdf } from './handlers/readPdf.js';
