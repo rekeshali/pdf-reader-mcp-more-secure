@@ -93,14 +93,10 @@ Real-world performance from production testing:
 
 ## 📦 Installation
 
-> **⚠️ Requires [Bun](https://bun.sh)** - This MCP server uses Bun runtime for optimal performance.
->
-> Install Bun: `curl -fsSL https://bun.sh/install | bash`
-
 ### Claude Code
 
 ```bash
-claude mcp add pdf-reader -- bun x @sylphx/pdf-reader-mcp
+claude mcp add pdf-reader -- npx @sylphx/pdf-reader-mcp
 ```
 
 ### Claude Desktop
@@ -111,8 +107,8 @@ Add to `claude_desktop_config.json`:
 {
   "mcpServers": {
     "pdf-reader": {
-      "command": "bun",
-      "args": ["x", "@sylphx/pdf-reader-mcp"]
+      "command": "npx",
+      "args": ["@sylphx/pdf-reader-mcp"]
     }
   }
 }
@@ -130,15 +126,14 @@ Add to `claude_desktop_config.json`:
 ### VS Code
 
 ```bash
-code --add-mcp '{"name":"pdf-reader","command":"bun","args":["x","@sylphx/pdf-reader-mcp"]}'
+code --add-mcp '{"name":"pdf-reader","command":"npx","args":["@sylphx/pdf-reader-mcp"]}'
 ```
 
 ### Cursor
 
 1. Open **Settings** → **MCP** → **Add new MCP Server**
 2. Select **Command** type
-3. Command: `bun`
-4. Args: `x @sylphx/pdf-reader-mcp`
+3. Enter: `npx @sylphx/pdf-reader-mcp`
 
 ### Windsurf
 
@@ -148,8 +143,8 @@ Add to your Windsurf MCP config:
 {
   "mcpServers": {
     "pdf-reader": {
-      "command": "bun",
-      "args": ["x", "@sylphx/pdf-reader-mcp"]
+      "command": "npx",
+      "args": ["@sylphx/pdf-reader-mcp"]
     }
   }
 }
@@ -163,8 +158,8 @@ Add to Cline's MCP settings:
 {
   "mcpServers": {
     "pdf-reader": {
-      "command": "bun",
-      "args": ["x", "@sylphx/pdf-reader-mcp"]
+      "command": "npx",
+      "args": ["@sylphx/pdf-reader-mcp"]
     }
   }
 }
@@ -173,16 +168,22 @@ Add to Cline's MCP settings:
 ### Warp
 
 1. Go to **Settings** → **AI** → **Manage MCP Servers** → **Add**
-2. Command: `bun`, Args: `x @sylphx/pdf-reader-mcp`
+2. Command: `npx`, Args: `@sylphx/pdf-reader-mcp`
+
+### Smithery (One-click)
+
+```bash
+npx -y @smithery/cli install @sylphx/pdf-reader-mcp --client claude
+```
 
 ### Manual Installation
 
 ```bash
-# Quick start
-bun x @sylphx/pdf-reader-mcp
+# Quick start - zero installation
+npx @sylphx/pdf-reader-mcp
 
 # Or install globally
-bun add -g @sylphx/pdf-reader-mcp
+npm install -g @sylphx/pdf-reader-mcp
 ```
 
 ---

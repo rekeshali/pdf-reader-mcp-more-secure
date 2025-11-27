@@ -1,5 +1,4 @@
-#!/usr/bin/env bun
-// @bun
+#!/usr/bin/env node
 
 // src/index.ts
 import { createServer, stdio } from "@sylphx/mcp-server-sdk";
