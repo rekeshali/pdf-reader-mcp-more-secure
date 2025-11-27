@@ -439,7 +439,8 @@ export const extractPageContent = async (
       });
 
       const resolvedImages = await Promise.all(imagePromises);
-      contentItems.push(...resolvedImages.filter((item): item is PageContentItem => item !== null));
+      const validImages = resolvedImages.filter((item) => item !== null);
+      contentItems.push(...validImages);
     }
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);

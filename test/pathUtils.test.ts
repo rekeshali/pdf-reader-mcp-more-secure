@@ -1,6 +1,6 @@
 import path from 'node:path';
-import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
 import { describe, expect, it } from 'vitest'; // Removed beforeEach, vi
+import { ErrorCode, PdfError } from '../src/utils/errors.js';
 import { PROJECT_ROOT, resolvePath } from '../src/utils/pathUtils.js'; // Add .js extension
 
 // Mock PROJECT_ROOT for consistent testing if needed, or use the actual one
@@ -46,7 +46,7 @@ describe('resolvePath Utility', () => {
     // Construct a path that uses '..' many times to escape PROJECT_ROOT
     const levelsUp = PROJECT_ROOT.split(path.sep).filter(Boolean).length + 2; // Go up more levels than the root has
     const userPath = path.join(...(Array(levelsUp).fill('..') as string[]), 'secret.txt'); // Cast array to string[]
-    expect(() => resolvePath(userPath)).toThrow(McpError);
+    expect(() => resolvePath(userPath)).toThrow(PdfError);
     expect(() => resolvePath(userPath)).toThrow(
       'Access denied: Path resolves outside allowed directories.'
     );
@@ -61,22 +61,22 @@ describe('resolvePath Utility', () => {
   it('should block absolute paths outside allowed roots', () => {
     // Test with path outside allowed roots (e.g., /etc/passwd on Unix, C:\Windows\System32 on Windows)
     const forbiddenPath = path.sep === '/' ? '/etc/passwd' : 'C:\\Windows\\System32\\config.txt';
-    expect(() => resolvePath(forbiddenPath)).toThrow(McpError);
+    expect(() => resolvePath(forbiddenPath)).toThrow(PdfError);
     expect(() => resolvePath(forbiddenPath)).toThrow(
       'Access denied: Path resolves outside allowed directories.'
     );
   });
 
-  it('should throw McpError for non-string input', () => {
+  it('should throw PdfError for non-string input', () => {
     // Corrected line number for context
     const userPath = 123 as unknown as string; // Use unknown then cast to string for test
-    expect(() => resolvePath(userPath)).toThrow(McpError);
+    expect(() => resolvePath(userPath)).toThrow(PdfError);
     expect(() => resolvePath(userPath)).toThrow('Path must be a string.');
     try {
       resolvePath(userPath);
     } catch (e) {
-      expect(e).toBeInstanceOf(McpError);
-      expect((e as McpError).code).toBe(ErrorCode.InvalidParams);
+      expect(e).toBeInstanceOf(PdfError);
+      expect((e as PdfError).code).toBe(ErrorCode.InvalidParams);
     }
   });
 

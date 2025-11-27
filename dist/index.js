@@ -1,19 +1,10 @@
 #!/usr/bin/env node
 
 // src/index.ts
-import { Server } from "@modelcontextprotocol/sdk/server/index.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import {
-  CallToolRequestSchema,
-  ErrorCode as ErrorCode5,
-  ListToolsRequestSchema,
-  McpError as McpError5
-} from "@modelcontextprotocol/sdk/types.js";
-import { zodToJsonSchema } from "zod-to-json-schema";
+import { createServer, stdio } from "@sylphx/mcp-server-sdk";
 
 // src/handlers/readPdf.ts
-import { ErrorCode as ErrorCode4, McpError as McpError4 } from "@modelcontextprotocol/sdk/types.js";
-import { z as z2 } from "zod";
+import { image, text, tool, toolError } from "@sylphx/mcp-server-sdk";
 
 // src/pdf/extractor.ts
 import { OPS } from "pdfjs-dist/legacy/build/pdf.mjs";
@@ -302,7 +293,8 @@ var extractPageContent = async (pdfDocument, pageNum, includeImages, sourceDescr
         return null;
       });
       const resolvedImages = await Promise.all(imagePromises);
-      contentItems.push(...resolvedImages.filter((item) => item !== null));
+      const validImages = resolvedImages.filter((item) => item !== null);
+      contentItems.push(...validImages);
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
@@ -324,18 +316,28 @@ var extractPageContent = async (pdfDocument, pageNum, includeImages, sourceDescr
 
 // src/pdf/loader.ts
 import fs from "node:fs/promises";
-import { ErrorCode as ErrorCode2, McpError as McpError2 } from "@modelcontextprotocol/sdk/types.js";
+
+// src/utils/errors.ts
+class PdfError extends Error {
+  code;
+  constructor(code, message, options) {
+    super(message, options?.cause ? { cause: options.cause } : undefined);
+    this.code = code;
+    this.name = "PdfError";
+  }
+}
+
+// src/pdf/loader.ts
 import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 
 // src/utils/pathUtils.ts
 import os from "node:os";
 import path from "node:path";
-import { ErrorCode, McpError } from "@modelcontextprotocol/sdk/types.js";
 var PROJECT_ROOT = process.cwd();
 var ALLOWED_ROOTS = [PROJECT_ROOT, os.homedir()];
 var resolvePath = (userPath) => {
   if (typeof userPath !== "string") {
-    throw new McpError(ErrorCode.InvalidParams, "Path must be a string.");
+    throw new PdfError(-32602 /* InvalidParams */, "Path must be a string.");
   }
   const normalizedUserPath = path.normalize(userPath);
   const resolvedPath = path.isAbsolute(normalizedUserPath) ? normalizedUserPath : path.resolve(PROJECT_ROOT, normalizedUserPath);
@@ -344,7 +346,7 @@ var resolvePath = (userPath) => {
     return relativePath !== "" && !relativePath.startsWith("..") && !path.isAbsolute(relativePath);
   });
   if (!isWithinAllowedRoot) {
-    throw new McpError(ErrorCode.InvalidParams, "Access denied: Path resolves outside allowed directories.");
+    throw new PdfError(-32602 /* InvalidParams */, "Access denied: Path resolves outside allowed directories.");
   }
   return resolvedPath;
 };
@@ -359,26 +361,26 @@ var loadPdfDocument = async (source, sourceDescription) => {
       const safePath = resolvePath(source.path);
       const buffer = await fs.readFile(safePath);
       if (buffer.length > MAX_PDF_SIZE) {
-        throw new McpError2(ErrorCode2.InvalidRequest, `PDF file exceeds maximum size of ${MAX_PDF_SIZE} bytes (${(MAX_PDF_SIZE / 1024 / 1024).toFixed(0)}MB). File size: ${buffer.length} bytes.`);
+        throw new PdfError(-32600 /* InvalidRequest */, `PDF file exceeds maximum size of ${MAX_PDF_SIZE} bytes (${(MAX_PDF_SIZE / 1024 / 1024).toFixed(0)}MB). File size: ${buffer.length} bytes.`);
       }
       pdfDataSource = new Uint8Array(buffer);
     } else if (source.url) {
       pdfDataSource = { url: source.url };
     } else {
-      throw new McpError2(ErrorCode2.InvalidParams, `Source ${sourceDescription} missing 'path' or 'url'.`);
+      throw new PdfError(-32602 /* InvalidParams */, `Source ${sourceDescription} missing 'path' or 'url'.`);
     }
   } catch (err) {
-    if (err instanceof McpError2) {
+    if (err instanceof PdfError) {
       throw err;
     }
     const message = err instanceof Error ? err.message : String(err);
-    const errorCode = ErrorCode2.InvalidRequest;
+    const errorCode = -32600 /* InvalidRequest */;
     if (typeof err === "object" && err !== null && "code" in err && err.code === "ENOENT" && source.path) {
-      throw new McpError2(errorCode, `File not found at '${source.path}'.`, {
+      throw new PdfError(errorCode, `File not found at '${source.path}'.`, {
         cause: err instanceof Error ? err : undefined
       });
     }
-    throw new McpError2(errorCode, `Failed to prepare PDF source ${sourceDescription}. Reason: ${message}`, { cause: err instanceof Error ? err : undefined });
+    throw new PdfError(errorCode, `Failed to prepare PDF source ${sourceDescription}. Reason: ${message}`, { cause: err instanceof Error ? err : undefined });
   }
   const loadingTask = getDocument(pdfDataSource);
   try {
@@ -386,12 +388,11 @@ var loadPdfDocument = async (source, sourceDescription) => {
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     logger3.error("PDF.js loading error", { sourceDescription, error: message });
-    throw new McpError2(ErrorCode2.InvalidRequest, `Failed to load PDF document from ${sourceDescription}. Reason: ${message || "Unknown loading error"}`, { cause: err instanceof Error ? err : undefined });
+    throw new PdfError(-32600 /* InvalidRequest */, `Failed to load PDF document from ${sourceDescription}. Reason: ${message || "Unknown loading error"}`, { cause: err instanceof Error ? err : undefined });
   }
 };
 
 // src/pdf/parser.ts
-import { ErrorCode as ErrorCode3, McpError as McpError3 } from "@modelcontextprotocol/sdk/types.js";
 var logger4 = createLogger("Parser");
 var MAX_RANGE_SIZE = 1e4;
 var parseRangePart = (part, pages) => {
@@ -449,7 +450,7 @@ var getTargetPages = (sourcePages, sourceDescription) => {
     return uniquePages;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    throw new McpError3(ErrorCode3.InvalidParams, `Invalid page specification for source ${sourceDescription}: ${message}`);
+    throw new PdfError(-32602 /* InvalidParams */, `Invalid page specification for source ${sourceDescription}: ${message}`);
   }
 };
 var determinePagesToProcess = (targetPages, totalPages, includeFullText) => {
@@ -533,9 +534,7 @@ var processSingleSource = async (source, options) => {
     individualResult = { ...individualResult, data: output, success: true };
   } catch (error) {
     let errorMessage = `Failed to process PDF from ${sourceDescription}.`;
-    if (error instanceof McpError4) {
-      errorMessage = error.message;
-    } else if (error instanceof Error) {
+    if (error instanceof Error) {
       errorMessage += ` Reason: ${error.message}`;
     } else {
       errorMessage += ` Unknown error: ${JSON.stringify(error)}`;
@@ -555,30 +554,25 @@ var processSingleSource = async (source, options) => {
   }
   return individualResult;
 };
-var handleReadPdfFunc = async (args) => {
-  let parsedArgs;
-  try {
-    parsedArgs = readPdfArgsSchema.parse(args);
-  } catch (error) {
-    if (error instanceof z2.ZodError) {
-      throw new McpError4(ErrorCode4.InvalidParams, `Invalid arguments: ${error.issues.map((e) => `${e.path.join(".")} (${e.message})`).join(", ")}`);
-    }
-    const message = error instanceof Error ? error.message : String(error);
-    throw new McpError4(ErrorCode4.InvalidParams, `Argument validation failed: ${message}`);
-  }
-  const { sources, include_full_text, include_metadata, include_page_count, include_images } = parsedArgs;
+var readPdf = tool().description("Reads content/metadata/images from one or more PDFs (local/URL). Each source can specify pages to extract.").input(readPdfArgsSchema).handler(async ({ input }) => {
+  const { sources, include_full_text, include_metadata, include_page_count, include_images } = input;
   const MAX_CONCURRENT_SOURCES = 3;
   const results = [];
   const options = {
-    includeFullText: include_full_text,
-    includeMetadata: include_metadata,
-    includePageCount: include_page_count,
-    includeImages: include_images
+    includeFullText: include_full_text ?? false,
+    includeMetadata: include_metadata ?? true,
+    includePageCount: include_page_count ?? true,
+    includeImages: include_images ?? false
   };
   for (let i = 0;i < sources.length; i += MAX_CONCURRENT_SOURCES) {
     const batch = sources.slice(i, i + MAX_CONCURRENT_SOURCES);
     const batchResults = await Promise.all(batch.map((source) => processSingleSource(source, options)));
     results.push(...batchResults);
+  }
+  const allFailed = results.every((r) => !r.success);
+  if (allFailed) {
+    const errorMessages = results.map((r) => r.error).join("; ");
+    return toolError(`All PDF sources failed to process: ${errorMessages}`);
   }
   const content = [];
   const resultsForJson = results.map((result) => {
@@ -598,72 +592,34 @@ var handleReadPdfFunc = async (args) => {
     }
     return result;
   });
-  content.push({
-    type: "text",
-    text: JSON.stringify({ results: resultsForJson }, null, 2)
-  });
+  content.push(text(JSON.stringify({ results: resultsForJson }, null, 2)));
   for (const result of results) {
     if (!result.success || !result.data?.page_contents)
       continue;
     for (const pageContent of result.data.page_contents) {
       for (const item of pageContent.items) {
         if (item.type === "text" && item.textContent) {
-          content.push({
-            type: "text",
-            text: item.textContent
-          });
+          content.push(text(item.textContent));
         } else if (item.type === "image" && item.imageData) {
-          content.push({
-            type: "image",
-            data: item.imageData.data,
-            mimeType: "image/png"
-          });
+          content.push(image(item.imageData.data, "image/png"));
         }
       }
     }
   }
-  return { content };
-};
-var readPdfToolDefinition = {
-  name: "read_pdf",
-  description: "Reads content/metadata/images from one or more PDFs (local/URL). Each source can specify pages to extract.",
-  schema: readPdfArgsSchema,
-  handler: handleReadPdfFunc
-};
-
-// src/handlers/index.ts
-var allToolDefinitions = [readPdfToolDefinition];
+  return content;
+});
 
 // src/index.ts
-var server = new Server({
+var server = createServer({
   name: "pdf-reader-mcp",
   version: "1.3.0",
-  description: "MCP Server for reading PDF files and extracting text, metadata, images, and page information."
-}, {
-  capabilities: { tools: {} }
-});
-var generateInputSchema = (schema) => {
-  return zodToJsonSchema(schema, { target: "openApi3" });
-};
-server.setRequestHandler(ListToolsRequestSchema, () => {
-  const availableTools = allToolDefinitions.map((def) => ({
-    name: def.name,
-    description: def.description,
-    inputSchema: generateInputSchema(def.schema)
-  }));
-  return { tools: availableTools };
-});
-server.setRequestHandler(CallToolRequestSchema, async (request) => {
-  const toolDefinition = allToolDefinitions.find((def) => def.name === request.params.name);
-  if (!toolDefinition) {
-    throw new McpError5(ErrorCode5.MethodNotFound, `Unknown tool: ${request.params.name}`);
-  }
-  return toolDefinition.handler(request.params.arguments);
+  instructions: "MCP Server for reading PDF files and extracting text, metadata, images, and page information.",
+  tools: { read_pdf: readPdf },
+  transport: stdio()
 });
 async function main() {
-  const transport = new StdioServerTransport;
-  await server.connect(transport);
-  if (process.env.DEBUG_MCP) {
+  await server.start();
+  if (process.env["DEBUG_MCP"]) {
     console.error("[PDF Reader MCP] Server running on stdio");
     console.error("[PDF Reader MCP] Project root:", process.cwd());
   }

@@ -1,6 +1,6 @@
-import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
 import { describe, expect, it, vi } from 'vitest';
 import { determinePagesToProcess, getTargetPages, parsePageRanges } from '../../src/pdf/parser.js';
+import { ErrorCode, PdfError } from '../../src/utils/errors.js';
 
 describe('parser', () => {
   describe('parsePageRanges', () => {
@@ -76,44 +76,44 @@ describe('parser', () => {
       expect(getTargetPages([3, 1, 2, 1, 3], 'test.pdf')).toEqual([1, 2, 3]);
     });
 
-    it('should throw McpError on invalid page numbers in array', () => {
-      expect(() => getTargetPages([1, 0, 3], 'test.pdf')).toThrow(McpError);
+    it('should throw PdfError on invalid page numbers in array', () => {
+      expect(() => getTargetPages([1, 0, 3], 'test.pdf')).toThrow(PdfError);
       expect(() => getTargetPages([1, 0, 3], 'test.pdf')).toThrow(
         'Invalid page specification for source test.pdf'
       );
     });
 
-    it('should throw McpError on non-integer page numbers', () => {
-      expect(() => getTargetPages([1, 2.5, 3], 'test.pdf')).toThrow(McpError);
+    it('should throw PdfError on non-integer page numbers', () => {
+      expect(() => getTargetPages([1, 2.5, 3], 'test.pdf')).toThrow(PdfError);
       expect(() => getTargetPages([1, 2.5, 3], 'test.pdf')).toThrow(
         'Page numbers in array must be positive integers'
       );
     });
 
-    it('should throw McpError on negative page numbers', () => {
-      expect(() => getTargetPages([1, -1, 3], 'test.pdf')).toThrow(McpError);
+    it('should throw PdfError on negative page numbers', () => {
+      expect(() => getTargetPages([1, -1, 3], 'test.pdf')).toThrow(PdfError);
     });
 
-    it('should throw McpError when result is empty after deduplication', () => {
-      expect(() => getTargetPages([], 'test.pdf')).toThrow(McpError);
+    it('should throw PdfError when result is empty after deduplication', () => {
+      expect(() => getTargetPages([], 'test.pdf')).toThrow(PdfError);
       expect(() => getTargetPages([], 'test.pdf')).toThrow(
         'Page specification resulted in an empty set of pages'
       );
     });
 
-    it('should throw McpError with proper error code', () => {
+    it('should throw PdfError with proper error code', () => {
       try {
         getTargetPages([0], 'test.pdf');
         expect.fail('Should have thrown');
       } catch (error) {
-        expect(error).toBeInstanceOf(McpError);
-        expect((error as McpError).code).toBe(ErrorCode.InvalidParams);
+        expect(error).toBeInstanceOf(PdfError);
+        expect((error as PdfError).code).toBe(ErrorCode.InvalidParams);
       }
     });
 
     it('should handle non-Error exceptions from parsePageRanges', () => {
       // This tests the String(error) path
-      expect(() => getTargetPages('invalid-range', 'test.pdf')).toThrow(McpError);
+      expect(() => getTargetPages('invalid-range', 'test.pdf')).toThrow(PdfError);
     });
   });
 

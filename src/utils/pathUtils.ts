@@ -2,7 +2,7 @@
 
 import os from 'node:os';
 import path from 'node:path';
-import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
+import { ErrorCode, PdfError } from './errors.js';
 
 // Use the server's current working directory as the project root.
 // This relies on the process launching the server to set the CWD correctly.
@@ -26,7 +26,7 @@ const ALLOWED_ROOTS = [PROJECT_ROOT, os.homedir()];
  */
 export const resolvePath = (userPath: string): string => {
   if (typeof userPath !== 'string') {
-    throw new McpError(ErrorCode.InvalidParams, 'Path must be a string.');
+    throw new PdfError(ErrorCode.InvalidParams, 'Path must be a string.');
   }
 
   const normalizedUserPath = path.normalize(userPath);
@@ -47,7 +47,7 @@ export const resolvePath = (userPath: string): string => {
   });
 
   if (!isWithinAllowedRoot) {
-    throw new McpError(
+    throw new PdfError(
       ErrorCode.InvalidParams,
       'Access denied: Path resolves outside allowed directories.'
     );

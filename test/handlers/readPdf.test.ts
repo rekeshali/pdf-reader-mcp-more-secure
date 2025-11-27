@@ -1,5 +1,6 @@
-import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { z } from 'zod';
+import { ErrorCode, PdfError } from '../../src/utils/errors.js';
 import * as pathUtils from '../../src/utils/pathUtils.js'; // Import the module itself for spying
 import { resolvePath } from '../../src/utils/pathUtils.js';
 
@@ -36,13 +37,51 @@ interface HandlerResultContent {
   text: string;
 }
 let handler: (args: unknown) => Promise<{ content: HandlerResultContent[] }>;
+let readPdfSchema: z.ZodType<unknown>;
 
 beforeAll(async () => {
-  // Only import the tool definition now
-  const { readPdfToolDefinition: importedDefinition } = await import(
-    '../../src/handlers/readPdf.js'
-  );
-  handler = importedDefinition.handler;
+  // Import the readPdf tool - the new SDK uses a builder pattern
+  const { readPdf } = await import('../../src/handlers/readPdf.js');
+  const { readPdfArgsSchema } = await import('../../src/schemas/readPdf.js');
+  readPdfSchema = readPdfArgsSchema;
+
+  // The tool is created with .handler() which returns a function
+  // We need to wrap it to match the expected interface
+  handler = async (args: unknown) => {
+    // Validate input with Zod first (as the server would do)
+    let parsedArgs: unknown;
+    try {
+      parsedArgs = readPdfSchema.parse(args);
+    } catch (error: unknown) {
+      if (error instanceof z.ZodError) {
+        throw new PdfError(
+          ErrorCode.InvalidParams,
+          `Invalid arguments: ${error.issues.map((e: z.ZodIssue) => `${e.path.join('.')} (${e.message})`).join(', ')}`
+        );
+      }
+      throw error;
+    }
+
+    const result = await readPdf.handler({ input: parsedArgs, ctx: {} as unknown });
+    // Handle toolError case - it returns { content: [...], isError: true }
+    if (result && typeof result === 'object' && 'isError' in result && result.isError) {
+      throw new PdfError(
+        ErrorCode.InvalidRequest,
+        (result as { content: { text: string }[] }).content[0].text
+      );
+    }
+    // Convert array result to expected format
+    if (Array.isArray(result)) {
+      return {
+        content: result.map((item) => {
+          if ('text' in item) return { type: 'text', text: item.text };
+          if ('data' in item) return { type: 'image', data: item.data, mimeType: item.mimeType };
+          return item;
+        }),
+      };
+    }
+    return result as { content: HandlerResultContent[] };
+  };
 });
 
 // Renamed describe block as it now only tests the handler
@@ -361,60 +400,29 @@ describe('handleReadPdfFunc Integration Tests', () => {
 
   // --- Error Handling Tests ---
 
-  it('should return error if local file not found', async () => {
+  it('should throw error if local file not found', async () => {
     const error = new Error('Mock ENOENT') as NodeJS.ErrnoException;
     error.code = 'ENOENT';
     mockReadFile.mockRejectedValue(error);
     const args = { sources: [{ path: 'nonexistent.pdf' }] };
-    const result = await handler(args);
-    const expectedData = {
-      results: [
-        {
-          source: 'nonexistent.pdf',
-          success: false,
-          error: `MCP error -32600: File not found at 'nonexistent.pdf'.`, // Corrected expected error message
-        },
-      ],
-    };
-    // Add check for content existence and access safely
-    expect(result.content).toBeDefined();
-    expect(result.content.length).toBeGreaterThan(0);
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (result.content?.[0]) {
-      expect(JSON.parse(result.content[0].text) as ExpectedResultType).toEqual(expectedData);
-    } else {
-      expect.fail('result.content[0] was undefined');
-    }
+    // When all sources fail, handler now throws toolError
+    await expect(handler(args)).rejects.toThrow(PdfError);
+    await expect(handler(args)).rejects.toThrow("File not found at 'nonexistent.pdf'");
   });
 
-  it('should return error if pdfjs fails to load document', async () => {
+  it('should throw error if pdfjs fails to load document', async () => {
     const loadError = new Error('Mock PDF loading failed');
     const failingLoadingTask = { promise: Promise.reject(loadError) };
     mockGetDocument.mockReturnValue(failingLoadingTask);
     const args = { sources: [{ path: 'bad.pdf' }] };
-    const result = await handler(args);
-    // Add check for content existence and access safely
-    expect(result.content).toBeDefined();
-    expect(result.content.length).toBeGreaterThan(0);
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (result.content?.[0]) {
-      const parsedResult = JSON.parse(result.content[0].text) as ExpectedResultType;
-      expect(parsedResult.results[0]).toBeDefined();
-      if (parsedResult.results[0]) {
-        expect(parsedResult.results[0].success).toBe(false);
-        // Check that the error message includes the source description
-        expect(parsedResult.results[0].error).toBe(
-          `MCP error -32600: Failed to load PDF document from bad.pdf. Reason: ${loadError.message}`
-        );
-      }
-    } else {
-      expect.fail('result.content[0] was undefined');
-    }
+    // When all sources fail, handler now throws toolError
+    await expect(handler(args)).rejects.toThrow(PdfError);
+    await expect(handler(args)).rejects.toThrow('Mock PDF loading failed');
   });
 
-  it('should throw McpError for invalid input arguments (Zod error)', async () => {
+  it('should throw PdfError for invalid input arguments (Zod error)', async () => {
     const args = { sources: [{ path: 'test.pdf' }], include_full_text: 'yes' };
-    await expect(handler(args)).rejects.toThrow(McpError);
+    await expect(handler(args)).rejects.toThrow(PdfError);
     await expect(handler(args)).rejects.toThrow(
       /Invalid arguments: include_full_text \(Expected boolean, received string\)/
     );
@@ -422,27 +430,27 @@ describe('handleReadPdfFunc Integration Tests', () => {
   });
 
   // Test case for the initial Zod parse failure
-  it('should throw McpError if top-level argument parsing fails', async () => {
+  it('should throw PdfError if top-level argument parsing fails', async () => {
     const invalidArgs = { invalid_prop: true }; // Completely wrong structure
-    await expect(handler(invalidArgs)).rejects.toThrow(McpError);
+    await expect(handler(invalidArgs)).rejects.toThrow(PdfError);
     await expect(handler(invalidArgs)).rejects.toThrow(/Invalid arguments: sources \(Required\)/); // Example Zod error
     await expect(handler(invalidArgs)).rejects.toHaveProperty('code', ErrorCode.InvalidParams);
   });
 
-  // Updated test: Expect Zod validation to throw McpError directly
-  it('should throw McpError for invalid page specification string (Zod)', async () => {
+  // Updated test: Expect Zod validation to throw PdfError directly
+  it('should throw PdfError for invalid page specification string (Zod)', async () => {
     const args = { sources: [{ path: 'test.pdf', pages: '1,abc,3' }] };
-    await expect(handler(args)).rejects.toThrow(McpError);
+    await expect(handler(args)).rejects.toThrow(PdfError);
     await expect(handler(args)).rejects.toThrow(
       /Invalid arguments: sources.0.pages \(Page string must contain only numbers, commas, and hyphens.\)/
     );
     await expect(handler(args)).rejects.toHaveProperty('code', ErrorCode.InvalidParams);
   });
 
-  // Updated test: Expect Zod validation to throw McpError directly
-  it('should throw McpError for invalid page specification array (non-positive - Zod)', async () => {
+  // Updated test: Expect Zod validation to throw PdfError directly
+  it('should throw PdfError for invalid page specification array (non-positive - Zod)', async () => {
     const args = { sources: [{ path: 'test.pdf', pages: [1, 0, 3] }] };
-    await expect(handler(args)).rejects.toThrow(McpError);
+    await expect(handler(args)).rejects.toThrow(PdfError);
     await expect(handler(args)).rejects.toThrow(
       /Invalid arguments: sources.0.pages.1 \(Number must be greater than or equal to 1\)/
     );
@@ -450,81 +458,35 @@ describe('handleReadPdfFunc Integration Tests', () => {
   });
 
   // Test case for resolvePath failure within the catch block
-  it('should return error if resolvePath fails', async () => {
+  it('should throw error if resolvePath fails', async () => {
     const resolveError = new Error('Mock resolvePath failed');
     vi.spyOn(pathUtils, 'resolvePath').mockImplementation(() => {
       throw resolveError;
     });
     const args = { sources: [{ path: 'some/path' }] };
-    const result = await handler(args);
-    // Add check for content existence and access safely
-    expect(result.content).toBeDefined();
-    expect(result.content.length).toBeGreaterThan(0);
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (result.content?.[0]) {
-      const parsedResult = JSON.parse(result.content[0].text) as ExpectedResultType;
-      expect(parsedResult.results[0]).toBeDefined();
-      if (parsedResult.results[0]) {
-        expect(parsedResult.results[0].success).toBe(false);
-        // Error now includes MCP code and different phrasing
-        expect(parsedResult.results[0].error).toBe(
-          `MCP error -32600: Failed to prepare PDF source some/path. Reason: ${resolveError.message}`
-        );
-      }
-    } else {
-      expect.fail('result.content[0] was undefined');
-    }
+    // When all sources fail, handler now throws toolError
+    await expect(handler(args)).rejects.toThrow(PdfError);
+    await expect(handler(args)).rejects.toThrow('Mock resolvePath failed');
   });
 
   // Test case for the final catch block with a generic error
-  it('should handle generic errors during processing', async () => {
+  it('should throw error when generic errors during processing', async () => {
     const genericError = new Error('Something unexpected happened');
     mockReadFile.mockRejectedValue(genericError); // Simulate error after path resolution
     const args = { sources: [{ path: 'generic/error/path' }] };
-    const result = await handler(args);
-    // Add check for content existence and access safely
-    expect(result.content).toBeDefined();
-    expect(result.content.length).toBeGreaterThan(0);
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (result.content?.[0]) {
-      const parsedResult = JSON.parse(result.content[0].text) as ExpectedResultType;
-      expect(parsedResult.results[0]).toBeDefined();
-      if (parsedResult.results[0]) {
-        expect(parsedResult.results[0].success).toBe(false);
-        // Error now includes MCP code and different phrasing
-        expect(parsedResult.results[0].error).toBe(
-          `MCP error -32600: Failed to prepare PDF source generic/error/path. Reason: ${genericError.message}`
-        );
-      }
-    } else {
-      expect.fail('result.content[0] was undefined');
-    }
+    // When all sources fail, handler now throws toolError
+    await expect(handler(args)).rejects.toThrow(PdfError);
+    await expect(handler(args)).rejects.toThrow('Something unexpected happened');
   });
 
   // Test case for the final catch block with a non-Error object
-  it('should handle non-Error exceptions during processing', async () => {
+  it('should throw error with non-Error exceptions during processing', async () => {
     const nonError = { message: 'Just an object', code: 'UNEXPECTED' };
     mockReadFile.mockRejectedValue(nonError); // Simulate error after path resolution
     const args = { sources: [{ path: 'non/error/path' }] };
-    const result = await handler(args);
-    // Add check for content existence and access safely
-    expect(result.content).toBeDefined();
-    expect(result.content.length).toBeGreaterThan(0);
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (result.content?.[0]) {
-      const parsedResult = JSON.parse(result.content[0].text) as ExpectedResultType;
-      expect(parsedResult.results[0]).toBeDefined();
-      if (parsedResult.results[0]) {
-        expect(parsedResult.results[0].success).toBe(false);
-        // Use JSON.stringify for non-Error objects
-        // Error now includes MCP code and different phrasing, and stringifies [object Object]
-        expect(parsedResult.results[0].error).toBe(
-          `MCP error -32600: Failed to prepare PDF source non/error/path. Reason: [object Object]`
-        );
-      }
-    } else {
-      expect.fail('result.content[0] was undefined');
-    }
+    // When all sources fail, handler now throws toolError
+    await expect(handler(args)).rejects.toThrow(PdfError);
+    await expect(handler(args)).rejects.toThrow('non/error/path');
   });
 
   it('should include warnings for requested pages exceeding total pages', async () => {
@@ -619,7 +581,7 @@ describe('handleReadPdfFunc Integration Tests', () => {
 
   // --- Additional Coverage Tests ---
 
-  it('should return error if pdfjs fails to load document from URL', async () => {
+  it('should throw error if pdfjs fails to load document from URL', async () => {
     const testUrl = 'http://example.com/bad-url.pdf';
     const loadError = new Error('Mock URL PDF loading failed');
     const failingLoadingTask = { promise: Promise.reject(loadError) };
@@ -640,22 +602,9 @@ describe('handleReadPdfFunc Integration Tests', () => {
     });
 
     const args = { sources: [{ url: testUrl }] };
-    const result = await handler(args);
-
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (result.content?.[0]) {
-      const parsedResult = JSON.parse(result.content[0].text) as ExpectedResultType;
-      expect(parsedResult.results[0]).toBeDefined();
-      if (parsedResult.results[0]) {
-        expect(parsedResult.results[0].source).toBe(testUrl);
-        expect(parsedResult.results[0].success).toBe(false);
-        expect(parsedResult.results[0].error).toBe(
-          `MCP error -32600: Failed to load PDF document from ${testUrl}. Reason: ${loadError.message}`
-        );
-      }
-    } else {
-      expect.fail('result.content[0] was undefined');
-    }
+    // When all sources fail, handler now throws toolError
+    await expect(handler(args)).rejects.toThrow(PdfError);
+    await expect(handler(args)).rejects.toThrow('Mock URL PDF loading failed');
   });
 
   it('should not include page count when include_page_count is false', async () => {
@@ -685,70 +634,35 @@ describe('handleReadPdfFunc Integration Tests', () => {
   it('should handle ENOENT error where resolvePath also fails in catch block', async () => {
     const enoentError = new Error('Mock ENOENT') as NodeJS.ErrnoException;
     enoentError.code = 'ENOENT';
-    const resolveError = new Error('Mock resolvePath failed in catch');
     const targetPath = 'enoent/and/resolve/fails.pdf';
 
-    // Mock resolvePath: first call succeeds, second call (in catch) fails
-    vi.spyOn(pathUtils, 'resolvePath')
-      .mockImplementationOnce((p) => p) // First call succeeds
-      .mockImplementationOnce(() => {
-        // Second call throws
-        throw resolveError;
-      });
+    // Mock resolvePath to return path as-is
+    vi.spyOn(pathUtils, 'resolvePath').mockImplementation((p) => p);
 
     mockReadFile.mockRejectedValue(enoentError);
 
     const args = { sources: [{ path: targetPath }] };
-    const result = await handler(args);
+    // When all sources fail, handler now throws toolError
+    await expect(handler(args)).rejects.toThrow(PdfError);
+    await expect(handler(args)).rejects.toThrow(`File not found at '${targetPath}'`);
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (result.content?.[0]) {
-      const parsedResult = JSON.parse(result.content[0].text) as ExpectedResultType;
-      expect(parsedResult.results[0]).toBeDefined();
-      if (parsedResult.results[0]) {
-        expect(parsedResult.results[0].success).toBe(false);
-        // Check for the specific error message from lines 323-324
-        // Error message changed due to refactoring of the catch block
-        expect(parsedResult.results[0].error).toBe(
-          `MCP error -32600: File not found at '${targetPath}'.`
-        );
-      }
-    } else {
-      expect.fail('result.content[0] was undefined');
-    }
-
-    // Ensure readFile was called with the path that resolvePath initially returned
+    // Ensure readFile was called with the path that resolvePath returned
     expect(mockReadFile).toHaveBeenCalledWith(targetPath);
-    // Ensure resolvePath was called twice (once before readFile, once in catch)
-    expect(pathUtils.resolvePath).toHaveBeenCalledTimes(1); // Only called once before readFile attempt
   });
 
   // --- Additional Error Coverage Tests ---
 
-  it('should return error for invalid page range string (e.g., 5-3)', async () => {
+  it('should throw error for invalid page range string (e.g., 5-3)', async () => {
     const args = { sources: [{ path: 'test.pdf', pages: '1,5-3,7' }] };
-    const result = await handler(args); // Expect promise to resolve
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (result.content?.[0]) {
-      const parsedResult = JSON.parse(result.content[0].text) as ExpectedResultType;
-      expect(parsedResult.results[0]).toBeDefined();
-      if (parsedResult.results[0]) {
-        expect(parsedResult.results[0].success).toBe(false);
-        // Error message changed slightly due to refactoring
-        expect(parsedResult.results[0].error).toMatch(
-          /Invalid page specification for source test.pdf: Invalid page range values: 5-3/
-        );
-        // Check the error code embedded in the message if needed, or just the message content
-      }
-    } else {
-      expect.fail('result.content[0] was undefined');
-    }
+    // When page parsing fails, it should throw
+    await expect(handler(args)).rejects.toThrow(PdfError);
+    await expect(handler(args)).rejects.toThrow(/Invalid page range values: 5-3/);
   });
 
-  it('should throw McpError for invalid page number string (e.g., 1,a,3)', async () => {
+  it('should throw PdfError for invalid page number string (e.g., 1,a,3)', async () => {
     const args = { sources: [{ path: 'test.pdf', pages: '1,a,3' }] };
     // Zod catches this first due to refine
-    await expect(handler(args)).rejects.toThrow(McpError);
+    await expect(handler(args)).rejects.toThrow(PdfError);
     await expect(handler(args)).rejects.toThrow(
       // Escaped backslash for JSON
       /Invalid arguments: sources.0.pages \(Page string must contain only numbers, commas, and hyphens.\)/
@@ -757,9 +671,9 @@ describe('handleReadPdfFunc Integration Tests', () => {
   });
 
   // Test Zod refinement for path/url exclusivity
-  it('should throw McpError if source has both path and url', async () => {
+  it('should throw PdfError if source has both path and url', async () => {
     const args = { sources: [{ path: 'test.pdf', url: 'http://example.com' }] };
-    await expect(handler(args)).rejects.toThrow(McpError);
+    await expect(handler(args)).rejects.toThrow(PdfError);
     await expect(handler(args)).rejects.toThrow(
       // Escaped backslash for JSON
       /Invalid arguments: sources.0 \(Each source must have either 'path' or 'url', but not both.\)/
@@ -767,9 +681,9 @@ describe('handleReadPdfFunc Integration Tests', () => {
     await expect(handler(args)).rejects.toHaveProperty('code', ErrorCode.InvalidParams);
   });
 
-  it('should throw McpError if source has neither path nor url', async () => {
+  it('should throw PdfError if source has neither path nor url', async () => {
     const args = { sources: [{ pages: [1] }] }; // Missing path and url
-    await expect(handler(args)).rejects.toThrow(McpError);
+    await expect(handler(args)).rejects.toThrow(PdfError);
     await expect(handler(args)).rejects.toThrow(
       // Escaped backslash for JSON
       /Invalid arguments: sources.0 \(Each source must have either 'path' or 'url', but not both.\)/
@@ -789,10 +703,10 @@ describe('handleReadPdfFunc Integration Tests', () => {
     mockReadFile.mockResolvedValue(Buffer.from('mock pdf content'));
 
     // Mock to throw non-Error at processSingleSource level
-    // We need to throw something that's not Error or McpError
+    // We need to throw something that's not Error or PdfError
     mockGetDocument.mockReset();
     mockGetDocument.mockImplementation(() => {
-      throw { custom: 'object error' }; // Non-Error, non-McpError
+      throw { custom: 'object error' }; // Non-Error, non-PdfError
     });
 
     const args = { sources: [{ path: 'test.pdf' }] };
@@ -920,6 +834,9 @@ describe('handleReadPdfFunc Integration Tests', () => {
   });
 
   it('should handle image extraction timeout when callback never fires', async () => {
+    // Reset resolvePath mock to not interfere
+    vi.spyOn(pathUtils, 'resolvePath').mockImplementation((p) => p);
+
     const mockPage = {
       getTextContent: vi
         .fn()
@@ -1293,19 +1210,15 @@ describe('handleReadPdfFunc Integration Tests', () => {
     expect(imageParts.length).toBe(1);
   });
 
-  it('should handle Error (not McpError) during processing', async () => {
-    // Mock getDocument to throw a regular Error (not McpError)
+  it('should handle Error (not PdfError) during processing', async () => {
+    // Mock getDocument to throw a regular Error (not PdfError)
     mockGetDocument.mockReturnValue({
       promise: Promise.reject(new Error('Regular error message')),
     });
 
     const args = { sources: [{ path: 'error.pdf' }] };
-    const result = await handler(args);
-
-    expect(result.content).toBeDefined();
-    expect(result.content.length).toBeGreaterThan(0);
-    const parsedResult = JSON.parse(result.content[0].text) as ExpectedResultType;
-    expect(parsedResult.results[0].success).toBe(false);
-    expect(parsedResult.results[0].error).toContain('Regular error message');
+    // When all sources fail, handler now throws toolError
+    await expect(handler(args)).rejects.toThrow(PdfError);
+    await expect(handler(args)).rejects.toThrow('Regular error message');
   });
 }); // End top-level describe

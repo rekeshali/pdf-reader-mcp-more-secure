@@ -1,8 +1,8 @@
 import fs from 'node:fs/promises';
-import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
 import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { describe, expect, it, vi } from 'vitest';
 import { loadPdfDocument } from '../../src/pdf/loader.js';
+import { ErrorCode, PdfError } from '../../src/utils/errors.js';
 import * as pathUtils from '../../src/utils/pathUtils.js';
 
 vi.mock('node:fs/promises', () => ({
@@ -56,8 +56,8 @@ describe('loader', () => {
       });
     });
 
-    it('should throw McpError when neither path nor url provided', async () => {
-      await expect(loadPdfDocument({}, 'unknown')).rejects.toThrow(McpError);
+    it('should throw PdfError when neither path nor url provided', async () => {
+      await expect(loadPdfDocument({}, 'unknown')).rejects.toThrow(PdfError);
       await expect(loadPdfDocument({}, 'unknown')).rejects.toThrow(
         "Source unknown missing 'path' or 'url'."
       );
@@ -70,7 +70,7 @@ describe('loader', () => {
       fs.readFile.mockRejectedValue(enoentError);
 
       await expect(loadPdfDocument({ path: 'missing.pdf' }, 'missing.pdf')).rejects.toThrow(
-        McpError
+        PdfError
       );
       await expect(loadPdfDocument({ path: 'missing.pdf' }, 'missing.pdf')).rejects.toThrow(
         "File not found at 'missing.pdf'."
@@ -81,7 +81,7 @@ describe('loader', () => {
       pathUtils.resolvePath.mockReturnValue('/safe/path/error.pdf');
       fs.readFile.mockRejectedValue(new Error('Permission denied'));
 
-      await expect(loadPdfDocument({ path: 'error.pdf' }, 'error.pdf')).rejects.toThrow(McpError);
+      await expect(loadPdfDocument({ path: 'error.pdf' }, 'error.pdf')).rejects.toThrow(PdfError);
       await expect(loadPdfDocument({ path: 'error.pdf' }, 'error.pdf')).rejects.toThrow(
         'Failed to prepare PDF source error.pdf. Reason: Permission denied'
       );
@@ -106,7 +106,7 @@ describe('loader', () => {
         promise: Promise.reject(new Error('Invalid PDF')),
       } as pdfjsLib.PDFDocumentLoadingTask);
 
-      await expect(loadPdfDocument({ path: 'bad.pdf' }, 'bad.pdf')).rejects.toThrow(McpError);
+      await expect(loadPdfDocument({ path: 'bad.pdf' }, 'bad.pdf')).rejects.toThrow(PdfError);
       await expect(loadPdfDocument({ path: 'bad.pdf' }, 'bad.pdf')).rejects.toThrow(
         'Failed to load PDF document from bad.pdf. Reason: Invalid PDF'
       );
@@ -131,13 +131,13 @@ describe('loader', () => {
       consoleErrorSpy.mockRestore();
     });
 
-    it('should propagate McpError from resolvePath', async () => {
-      const mcpError = new McpError(ErrorCode.InvalidRequest, 'Path validation failed');
+    it('should propagate PdfError from resolvePath', async () => {
+      const pdfError = new PdfError(ErrorCode.InvalidRequest, 'Path validation failed');
       pathUtils.resolvePath.mockImplementation(() => {
-        throw mcpError;
+        throw pdfError;
       });
 
-      await expect(loadPdfDocument({ path: 'test.pdf' }, 'test.pdf')).rejects.toThrow(mcpError);
+      await expect(loadPdfDocument({ path: 'test.pdf' }, 'test.pdf')).rejects.toThrow(pdfError);
     });
 
     it('should use fallback message when PDF.js error message is empty', async () => {
@@ -163,9 +163,9 @@ describe('loader', () => {
         await loadPdfDocument({ path: 'test.pdf' }, 'test.pdf');
         expect.fail('Should have thrown');
       } catch (error) {
-        expect(error).toBeInstanceOf(McpError);
+        expect(error).toBeInstanceOf(PdfError);
         // Verify that cause is undefined when error is not an Error instance
-        expect((error as McpError).cause).toBeUndefined();
+        expect((error as PdfError).cause).toBeUndefined();
       }
     });
   });

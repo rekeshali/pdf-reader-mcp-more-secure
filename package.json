@@ -69,7 +69,7 @@
     "release:new": "bun run build && changeset publish"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.22.0",
+    "@sylphx/mcp-server-sdk": "0.2.0",
     "glob": "^11.1.0",
     "pdfjs-dist": "^5.4.394",
     "pngjs": "^7.0.0",

@@ -1,9 +1,9 @@
 // PDF document loading utilities
 
 import fs from 'node:fs/promises';
-import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
 import type * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import { ErrorCode, PdfError } from '../utils/errors.js';
 import { createLogger } from '../utils/logger.js';
 import { resolvePath } from '../utils/pathUtils.js';
 
@@ -32,7 +32,7 @@ export const loadPdfDocument = async (
 
       // Security: Check file size to prevent memory exhaustion
       if (buffer.length > MAX_PDF_SIZE) {
-        throw new McpError(
+        throw new PdfError(
           ErrorCode.InvalidRequest,
           `PDF file exceeds maximum size of ${MAX_PDF_SIZE} bytes (${(MAX_PDF_SIZE / 1024 / 1024).toFixed(0)}MB). File size: ${buffer.length} bytes.`
         );
@@ -42,13 +42,13 @@ export const loadPdfDocument = async (
     } else if (source.url) {
       pdfDataSource = { url: source.url };
     } else {
-      throw new McpError(
+      throw new PdfError(
         ErrorCode.InvalidParams,
         `Source ${sourceDescription} missing 'path' or 'url'.`
       );
     }
   } catch (err: unknown) {
-    if (err instanceof McpError) {
+    if (err instanceof PdfError) {
       throw err;
     }
 
@@ -62,12 +62,12 @@ export const loadPdfDocument = async (
       err.code === 'ENOENT' &&
       source.path
     ) {
-      throw new McpError(errorCode, `File not found at '${source.path}'.`, {
+      throw new PdfError(errorCode, `File not found at '${source.path}'.`, {
         cause: err instanceof Error ? err : undefined,
       });
     }
 
-    throw new McpError(
+    throw new PdfError(
       errorCode,
       `Failed to prepare PDF source ${sourceDescription}. Reason: ${message}`,
       { cause: err instanceof Error ? err : undefined }
@@ -81,7 +81,7 @@ export const loadPdfDocument = async (
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     logger.error('PDF.js loading error', { sourceDescription, error: message });
-    throw new McpError(
+    throw new PdfError(
       ErrorCode.InvalidRequest,
       `Failed to load PDF document from ${sourceDescription}. Reason: ${message || 'Unknown loading error'}`,
       { cause: err instanceof Error ? err : undefined }

@@ -1,6 +1,6 @@
 // Page range parsing utilities
 
-import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
+import { ErrorCode, PdfError } from '../utils/errors.js';
 import { createLogger } from '../utils/logger.js';
 
 const logger = createLogger('Parser');
@@ -96,7 +96,7 @@ export const getTargetPages = (
     return uniquePages;
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error);
-    throw new McpError(
+    throw new PdfError(
       ErrorCode.InvalidParams,
       `Invalid page specification for source ${sourceDescription}: ${message}`
     );

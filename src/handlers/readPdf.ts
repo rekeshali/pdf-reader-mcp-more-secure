@@ -1,8 +1,7 @@
 // PDF reading handler - orchestrates PDF processing workflow
 
-import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
+import { image, text, tool, toolError } from '@sylphx/mcp-server-sdk';
 import type * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
-import { z } from 'zod';
 import {
   buildWarnings,
   extractMetadataAndPageCount,
@@ -10,11 +9,9 @@ import {
 } from '../pdf/extractor.js';
 import { loadPdfDocument } from '../pdf/loader.js';
 import { determinePagesToProcess, getTargetPages } from '../pdf/parser.js';
-import type { ReadPdfArgs } from '../schemas/readPdf.js';
 import { readPdfArgsSchema } from '../schemas/readPdf.js';
 import type { ExtractedImage, PdfResultData, PdfSource, PdfSourceResult } from '../types/pdf.js';
 import { createLogger } from '../utils/logger.js';
-import type { ToolDefinition } from './index.js';
 
 const logger = createLogger('ReadPdf');
 
@@ -119,9 +116,7 @@ const processSingleSource = async (
   } catch (error: unknown) {
     let errorMessage = `Failed to process PDF from ${sourceDescription}.`;
 
-    if (error instanceof McpError) {
-      errorMessage = error.message;
-    } /* c8 ignore next */ else if (error instanceof Error) {
+    if (error instanceof Error) {
       errorMessage += ` Reason: ${error.message}`;
     } else {
       errorMessage += ` Unknown error: ${JSON.stringify(error)}`;
@@ -146,116 +141,85 @@ const processSingleSource = async (
   return individualResult;
 };
 
-/**
- * Main handler function for read_pdf tool
- */
-export const handleReadPdfFunc = async (
-  args: unknown
-): Promise<{
-  content: Array<{ type: string; text?: string; data?: string; mimeType?: string }>;
-}> => {
-  let parsedArgs: ReadPdfArgs;
+// Export the tool definition using builder pattern
+export const readPdf = tool()
+  .description(
+    'Reads content/metadata/images from one or more PDFs (local/URL). Each source can specify pages to extract.'
+  )
+  .input(readPdfArgsSchema)
+  .handler(async ({ input }) => {
+    const { sources, include_full_text, include_metadata, include_page_count, include_images } =
+      input;
 
-  try {
-    parsedArgs = readPdfArgsSchema.parse(args);
-  } catch (error: unknown) {
-    if (error instanceof z.ZodError) {
-      throw new McpError(
-        ErrorCode.InvalidParams,
-        `Invalid arguments: ${error.issues.map((e: z.ZodIssue) => `${e.path.join('.')} (${e.message})`).join(', ')}`
+    // Process sources with concurrency limit to prevent memory exhaustion
+    // Processing large PDFs concurrently can consume significant memory
+    const MAX_CONCURRENT_SOURCES = 3;
+    const results: PdfSourceResult[] = [];
+    const options = {
+      includeFullText: include_full_text ?? false,
+      includeMetadata: include_metadata ?? true,
+      includePageCount: include_page_count ?? true,
+      includeImages: include_images ?? false,
+    };
+
+    for (let i = 0; i < sources.length; i += MAX_CONCURRENT_SOURCES) {
+      const batch = sources.slice(i, i + MAX_CONCURRENT_SOURCES);
+      const batchResults = await Promise.all(
+        batch.map((source) => processSingleSource(source, options))
       );
+      results.push(...batchResults);
     }
 
-    /* c8 ignore next */
-    const message = error instanceof Error ? error.message : String(error);
-    /* c8 ignore next */
-    throw new McpError(ErrorCode.InvalidParams, `Argument validation failed: ${message}`);
-  }
+    // Check if all sources failed
+    const allFailed = results.every((r) => !r.success);
+    if (allFailed) {
+      const errorMessages = results.map((r) => r.error).join('; ');
+      return toolError(`All PDF sources failed to process: ${errorMessages}`);
+    }
 
-  const { sources, include_full_text, include_metadata, include_page_count, include_images } =
-    parsedArgs;
+    // Build content parts - start with structured JSON for backward compatibility
+    const content: Array<ReturnType<typeof text> | ReturnType<typeof image>> = [];
 
-  // Process sources with concurrency limit to prevent memory exhaustion
-  // Processing large PDFs concurrently can consume significant memory
-  const MAX_CONCURRENT_SOURCES = 3;
-  const results: PdfSourceResult[] = [];
-  const options = {
-    includeFullText: include_full_text,
-    includeMetadata: include_metadata,
-    includePageCount: include_page_count,
-    includeImages: include_images,
-  };
-
-  for (let i = 0; i < sources.length; i += MAX_CONCURRENT_SOURCES) {
-    const batch = sources.slice(i, i + MAX_CONCURRENT_SOURCES);
-    const batchResults = await Promise.all(
-      batch.map((source) => processSingleSource(source, options))
-    );
-    results.push(...batchResults);
-  }
-
-  // Build content parts - start with structured JSON for backward compatibility
-  const content: Array<{ type: string; text?: string; data?: string; mimeType?: string }> = [];
-
-  // Strip image data and page_contents from JSON to keep it manageable
-  const resultsForJson = results.map((result) => {
-    if (result.data) {
-      const { images, page_contents, ...dataWithoutBinaryContent } = result.data;
-      // Include image count and metadata in JSON, but not the base64 data
-      if (images) {
-        const imageInfo = images.map((img) => ({
-          page: img.page,
-          index: img.index,
-          width: img.width,
-          height: img.height,
-          format: img.format,
-        }));
-        return { ...result, data: { ...dataWithoutBinaryContent, image_info: imageInfo } };
+    // Strip image data and page_contents from JSON to keep it manageable
+    const resultsForJson = results.map((result) => {
+      if (result.data) {
+        const { images, page_contents, ...dataWithoutBinaryContent } = result.data;
+        // Include image count and metadata in JSON, but not the base64 data
+        if (images) {
+          const imageInfo = images.map((img) => ({
+            page: img.page,
+            index: img.index,
+            width: img.width,
+            height: img.height,
+            format: img.format,
+          }));
+          return { ...result, data: { ...dataWithoutBinaryContent, image_info: imageInfo } };
+        }
+        return { ...result, data: dataWithoutBinaryContent };
       }
-      return { ...result, data: dataWithoutBinaryContent };
-    }
-    return result;
-  });
+      return result;
+    });
 
-  // First content part: Structured JSON results
-  content.push({
-    type: 'text',
-    text: JSON.stringify({ results: resultsForJson }, null, 2),
-  });
+    // First content part: Structured JSON results
+    content.push(text(JSON.stringify({ results: resultsForJson }, null, 2)));
 
-  // Add page content in exact Y-coordinate order
-  for (const result of results) {
-    if (!result.success || !result.data?.page_contents) continue;
+    // Add page content in exact Y-coordinate order
+    for (const result of results) {
+      if (!result.success || !result.data?.page_contents) continue;
 
-    // Process each page's content items in order
-    for (const pageContent of result.data.page_contents) {
-      for (const item of pageContent.items) {
-        if (item.type === 'text' && item.textContent) {
-          // Add text content part
-          content.push({
-            type: 'text',
-            text: item.textContent,
-          });
-        } else if (item.type === 'image' && item.imageData) {
-          // Add image content part (all images are now encoded as PNG)
-          content.push({
-            type: 'image',
-            data: item.imageData.data,
-            mimeType: 'image/png',
-          });
+      // Process each page's content items in order
+      for (const pageContent of result.data.page_contents) {
+        for (const item of pageContent.items) {
+          if (item.type === 'text' && item.textContent) {
+            // Add text content part
+            content.push(text(item.textContent));
+          } else if (item.type === 'image' && item.imageData) {
+            // Add image content part (all images are now encoded as PNG)
+            content.push(image(item.imageData.data, 'image/png'));
+          }
         }
       }
     }
-  }
 
-  return { content };
-};
-
-// Export the tool definition
-export const readPdfToolDefinition: ToolDefinition = {
-  name: 'read_pdf',
-  description:
-    'Reads content/metadata/images from one or more PDFs (local/URL). Each source can specify pages to extract.',
-  schema: readPdfArgsSchema,
-  handler: handleReadPdfFunc,
-};
+    return content;
+  });
