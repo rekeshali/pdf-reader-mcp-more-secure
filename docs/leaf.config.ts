@@ -1,72 +1,35 @@
 import { defineConfig } from '@sylphx/leaf';
 
 export default defineConfig({
-  title: 'PDF Reader MCP Server',
-  description: 'MCP Server for reading PDF files securely within a project',
+  title: 'PDF Reader MCP',
+  description: 'MCP Server for reading PDF files - extract text, metadata, and images',
   head: [
-    // Open Graph meta tags
     ['meta', { property: 'og:type', content: 'website' }],
-    [
-      'meta',
-      {
-        property: 'og:title',
-        content: 'PDF Reader MCP Server - Secure PDF Processing',
-      },
-    ],
+    ['meta', { property: 'og:title', content: 'PDF Reader MCP - Extract PDF Content for AI' }],
     [
       'meta',
       {
         property: 'og:description',
         content:
-          'A Model Context Protocol server for secure PDF reading with path validation and resource management',
+          'A high-performance MCP server for reading text, metadata, and images from PDF files',
       },
     ],
-    [
-      'meta',
-      {
-        property: 'og:url',
-        content: 'https://github.com/SylphxAI/pdf-reader-mcp',
-      },
-    ],
-    ['meta', { property: 'og:site_name', content: 'PDF Reader MCP Server' }],
-
-    // Twitter Card meta tags
+    ['meta', { property: 'og:url', content: 'https://pdf-reader-mcp.vercel.app' }],
+    ['meta', { property: 'og:site_name', content: 'PDF Reader MCP' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    [
-      'meta',
-      {
-        name: 'twitter:title',
-        content: 'PDF Reader MCP Server - Secure PDF Processing',
-      },
-    ],
-    [
-      'meta',
-      {
-        name: 'twitter:description',
-        content:
-          'A Model Context Protocol server for secure PDF reading with path validation and resource management',
-      },
-    ],
+    ['meta', { name: 'twitter:title', content: 'PDF Reader MCP' }],
+    ['meta', { name: 'twitter:description', content: 'Extract PDF content for AI agents via MCP' }],
     ['meta', { name: 'twitter:site', content: '@sylphxai' }],
-
-    // Additional SEO meta tags
     [
       'meta',
       {
         name: 'keywords',
-        content:
-          'mcp, model context protocol, pdf, reader, parser, typescript, node, ai, agent, tool',
+        content: 'mcp, pdf, reader, ai, claude, model context protocol, typescript',
       },
     ],
     ['meta', { name: 'author', content: 'Sylphx' }],
     ['meta', { name: 'robots', content: 'index, follow' }],
-    [
-      'link',
-      {
-        rel: 'canonical',
-        href: 'https://github.com/SylphxAI/pdf-reader-mcp',
-      },
-    ],
+    ['link', { rel: 'canonical', href: 'https://pdf-reader-mcp.vercel.app' }],
   ],
   theme: {
     editLink: {
@@ -77,45 +40,30 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Guide', link: '/guide/' },
-      { text: 'API Reference', link: '/api/' },
+      { text: 'API', link: '/guide/getting-started' },
       { text: 'Design', link: '/design/' },
       { text: 'Performance', link: '/performance/' },
-      { text: 'Comparison', link: '/comparison/' },
     ],
     socialLinks: [
-      {
-        icon: 'github',
-        link: 'https://github.com/SylphxAI/pdf-reader-mcp',
-      },
-      {
-        icon: 'npm',
-        link: 'https://www.npmjs.com/package/@sylphx/pdf-reader-mcp',
-      },
+      { icon: 'github', link: 'https://github.com/SylphxAI/pdf-reader-mcp' },
+      { icon: 'npm', link: 'https://www.npmjs.com/package/@sylphx/pdf-reader-mcp' },
     ],
     sidebar: [
       {
-        text: 'Introduction',
+        text: 'Guide',
         items: [
-          { text: 'What is PDF Reader MCP?', link: '/guide/' },
+          { text: 'Introduction', link: '/guide/' },
           { text: 'Installation', link: '/guide/installation' },
           { text: 'Getting Started', link: '/guide/getting-started' },
         ],
       },
       {
-        text: 'API Reference',
-        items: [{ text: 'Tool: read_pdf', link: '/api/read_pdf' }],
-      },
-      {
-        text: 'Design',
-        items: [{ text: 'Philosophy', link: '/design/' }],
-      },
-      {
-        text: 'Performance',
-        items: [{ text: 'Benchmarks', link: '/performance/' }],
-      },
-      {
-        text: 'Comparison',
-        items: [{ text: 'Other Solutions', link: '/comparison/' }],
+        text: 'Reference',
+        items: [
+          { text: 'Design Philosophy', link: '/design/' },
+          { text: 'Performance', link: '/performance/' },
+          { text: 'Comparison', link: '/comparison/' },
+        ],
       },
     ],
   },

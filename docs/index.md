@@ -2,9 +2,9 @@
 layout: home
 
 hero:
-  name: 'PDF Reader MCP Server'
-  text: 'Securely Read PDFs via MCP.'
-  tagline: An MCP server enabling AI agents to read text, metadata, and page counts from PDF files within a project's context.
+  name: 'PDF Reader MCP'
+  text: 'Extract PDF Content for AI Agents'
+  tagline: A high-performance MCP server for reading text, metadata, images, and page information from PDF files.
   image:
     src: /logo.svg
     alt: PDF Reader MCP Logo
@@ -17,10 +17,12 @@ hero:
       link: https://github.com/SylphxAI/pdf-reader-mcp
 
 features:
-  - title: Secure Context
-    details: All operations are strictly confined to the project directory where the server is launched.
-  - title: Structured Data
-    details: Returns parsed text, metadata, and page counts in a structured format via MCP.
-  - title: Efficient & Focused
-    details: Uses pdfjs-dist for reliable parsing. Designed for integration with AI agent workflows.
+  - title: Full PDF Extraction
+    details: Extract text, metadata, page counts, and embedded images from any PDF file or URL.
+  - title: High Performance
+    details: Built with pdfjs-dist and optimized for speed. Supports concurrent processing and batch operations.
+  - title: Easy Integration
+    details: Works with Claude Desktop, Claude Code, Cursor, and any MCP-compatible client. One command to install.
+  - title: Image Support
+    details: Extract embedded images as base64-encoded PNG data for AI vision analysis.
 ---

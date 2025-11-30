@@ -1,58 +1,89 @@
 # Installation
 
-## Prerequisites
+## Requirements
 
-- Node.js (>= 18.0.0 recommended)
-- npm (comes with Node.js)
+- Node.js >= 22.0.0
 
-## Using npm (Recommended)
-
-To use the server in your project or MCP host environment, install it as a dependency:
+## Claude Code
 
 ```bash
-npm install @sylphx/pdf-reader-mcp
+claude mcp add pdf-reader -- npx @sylphx/pdf-reader-mcp
 ```
 
-## Running Standalone (for testing/development)
+## Claude Desktop
 
-1.  **Clone the repository:**
+Add to your `claude_desktop_config.json`:
 
-    ```bash
-    git clone https://github.com/SylphxAI/pdf-reader-mcp.git
-    cd pdf-reader-mcp
-    ```
+```json
+{
+  "mcpServers": {
+    "pdf-reader": {
+      "command": "npx",
+      "args": ["@sylphx/pdf-reader-mcp"]
+    }
+  }
+}
+```
 
-2.  **Install dependencies:**
+### Config file locations:
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
-    ```bash
-    npm install
-    ```
+## Cursor
 
-3.  **Build the project:**
+Add to your Cursor MCP settings:
 
-    ```bash
-    npm run build
-    ```
+```json
+{
+  "mcpServers": {
+    "pdf-reader": {
+      "command": "npx",
+      "args": ["@sylphx/pdf-reader-mcp"]
+    }
+  }
+}
+```
 
-4.  **Run the server:**
-    The server communicates via stdio. You'll typically run it from an MCP host.
-    ```bash
-    node build/index.js
-    ```
-    **Important:** Ensure you run this command from the root directory of the project containing the PDFs you want the server to access.
+## Other MCP Clients
 
-## Using Docker
-
-A Docker image is available on Docker Hub.
+The server communicates via stdio. Run with:
 
 ```bash
-docker pull sylphx/pdf-reader-mcp:latest
+npx @sylphx/pdf-reader-mcp
 ```
 
-To run the container, you need to mount the project directory containing your PDFs into the container's working directory (`/app`):
+## Development Setup
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/SylphxAI/pdf-reader-mcp.git
+   cd pdf-reader-mcp
+   ```
+
+2. Install dependencies:
+   ```bash
+   bun install
+   ```
+
+3. Build:
+   ```bash
+   bun run build
+   ```
+
+4. Run:
+   ```bash
+   bun dist/index.js
+   ```
+
+## Troubleshooting
+
+### Cache Issues
+
+If you encounter issues after updating, clear the npm cache:
 
 ```bash
-docker run -i --rm -v "/path/to/your/project:/app" sylphx/pdf-reader-mcp:latest
+npm cache clean --force
+rm -rf ~/.npm/_npx
 ```
 
-Replace `/path/to/your/project` with the actual absolute path to your project folder.
+Then restart your MCP client.

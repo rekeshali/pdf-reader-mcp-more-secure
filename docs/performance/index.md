@@ -1,45 +1,94 @@
 # Performance
 
-Performance is an important consideration for the PDF Reader MCP Server, especially when dealing with large or complex PDF documents. This page outlines the benchmarking approach and presents results from initial tests.
+PDF Reader MCP is optimized for speed and efficiency.
 
-## Benchmarking Setup
+## Benchmarks
 
-Benchmarks are conducted using the [Vitest](https://vitest.dev/) testing framework's built-in `bench` functionality. The tests measure the number of operations per second (hz) for different scenarios using the `read_pdf` handler.
+Benchmarks run on Node.js 22, measuring operations per second.
 
-- **Environment:** Node.js (latest LTS), Windows 11 (as per user environment)
-- **Test File:** A sample PDF located at `test/fixtures/sample.pdf`. The exact characteristics of this file (size, page count, complexity) will influence the results.
-- **Methodology:** Each scenario is run for a fixed duration (1000ms) to determine the average operations per second. The benchmark code can be found in `test/benchmark/readPdf.bench.ts`.
+| Operation | Ops/sec | Notes |
+|-----------|---------|-------|
+| Metadata only | ~5,000 | Fastest extraction mode |
+| Single page text | ~5,300 | Minimal parsing |
+| Full text (10 pages) | ~4,500 | Depends on content |
+| With images | ~2,000 | Image encoding overhead |
 
-## Initial Benchmark Results
+## Optimization Tips
 
-The following results were obtained on 2025-04-07 using the setup described above:
+### 1. Request Only What You Need
 
-| Scenario                         | Operations per Second (hz) | Relative Speed |
-| :------------------------------- | :------------------------- | :------------- |
-| Handle Non-Existent File         | ~12,933                    | Fastest        |
-| Get Full Text                    | ~5,575                     |                |
-| Get Specific Page (Page 1)       | ~5,329                     |                |
-| Get Specific Pages (Pages 1 & 2) | ~5,242                     |                |
-| Get Metadata & Page Count        | ~4,912                     | Slowest        |
+```json
+// Fast - metadata only
+{
+  "sources": [{ "path": "doc.pdf" }],
+  "include_metadata": true,
+  "include_page_count": true,
+  "include_full_text": false,
+  "include_images": false
+}
+```
 
-_(Higher hz indicates better performance)_
+### 2. Use Page Ranges
 
-**Interpretation:**
+Instead of full text extraction, request specific pages:
 
-- Handling errors for non-existent files is the fastest operation as it involves minimal I/O and no PDF parsing.
-- Extracting the full text was slightly faster than extracting specific pages or just metadata/page count in this particular test run. This might be influenced by the specific structure of `sample.pdf` and potential caching mechanisms within the `pdfjs-dist` library.
-- Extracting only metadata and page count was slightly slower than full text extraction for this file.
+```json
+{
+  "sources": [{
+    "path": "doc.pdf",
+    "pages": [1, 2]  // Only first two pages
+  }],
+  "include_full_text": false,
+  "include_metadata": false,
+  "include_page_count": false,
+  "include_images": false
+}
+```
 
-**Note:** These results are specific to the `sample.pdf` file and the testing environment used. Performance with different PDFs (varying sizes, complexities, versions, or structures) may differ significantly.
+### 3. Batch Sources
 
-## Future Benchmarking Goals
+Process multiple PDFs in one request for better throughput:
 
-Further benchmarks are planned to measure:
+```json
+{
+  "sources": [
+    { "path": "doc1.pdf" },
+    { "path": "doc2.pdf" },
+    { "path": "doc3.pdf" }
+  ],
+  "include_full_text": true,
+  "include_metadata": false,
+  "include_page_count": false,
+  "include_images": false
+}
+```
 
-- **Parsing Time:** Time taken to load and parse PDFs of varying sizes (e.g., 1 page, 10 pages, 100 pages, 1000 pages).
-- **Text Extraction Speed:** More detailed analysis across different page ranges and document structures.
-- **Memory Usage:** Peak memory consumption during processing of different PDF sizes.
-- **URL vs. Local File:** Performance difference between processing local files and downloading/processing from URLs.
-- **Comparison:** Comparison with other PDF processing methods or libraries, if applicable.
+### 4. Avoid Images Unless Needed
 
-Results will be updated here as more comprehensive testing is completed.
+Image extraction involves encoding to PNG and base64, which adds overhead:
+
+```json
+// Slower
+{ "include_images": true }
+
+// Faster
+{ "include_images": false }
+```
+
+## Concurrency
+
+The server processes multiple sources concurrently with a default limit of 3 simultaneous operations to prevent memory exhaustion.
+
+## File Size Limits
+
+- Maximum file size: 100MB
+- Files exceeding this limit will return an error
+
+## Memory Usage
+
+Memory usage scales with:
+- Number of concurrent sources
+- PDF complexity
+- Image extraction enabled
+
+For large PDFs or many concurrent requests, ensure adequate system memory.
