@@ -10,8 +10,7 @@ export default defineConfig({
       'meta',
       {
         property: 'og:description',
-        content:
-          'A high-performance MCP server for reading text, metadata, and images from PDF files',
+        content: 'A high-performance MCP server for reading text, metadata, and images from PDF files',
       },
     ],
     ['meta', { property: 'og:url', content: 'https://pdf-reader-mcp.vercel.app' }],
