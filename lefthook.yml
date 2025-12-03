@@ -15,9 +15,9 @@ pre-commit:
       run: bunx biome check {staged_files}
 
     doctor:
-      run: bunx @sylphx/doctor check --pre-commit
+      run: ./node_modules/.bin/doctor check --pre-commit
 
 pre-push:
   commands:
     doctor:
-      run: bunx @sylphx/doctor check --pre-push
+      run: ./node_modules/.bin/doctor check --pre-push
