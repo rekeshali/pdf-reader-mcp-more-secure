@@ -329,24 +329,14 @@ class PdfError extends Error {
 }
 
 // src/utils/pathUtils.ts
-import os from "node:os";
 import path from "node:path";
 var PROJECT_ROOT = process.cwd();
-var ALLOWED_ROOTS = [PROJECT_ROOT, os.homedir()];
 var resolvePath = (userPath) => {
   if (typeof userPath !== "string") {
     throw new PdfError(-32602 /* InvalidParams */, "Path must be a string.");
   }
   const normalizedUserPath = path.normalize(userPath);
-  const resolvedPath = path.isAbsolute(normalizedUserPath) ? normalizedUserPath : path.resolve(PROJECT_ROOT, normalizedUserPath);
-  const isWithinAllowedRoot = ALLOWED_ROOTS.some((allowedRoot) => {
-    const relativePath = path.relative(allowedRoot, resolvedPath);
-    return relativePath !== "" && !relativePath.startsWith("..") && !path.isAbsolute(relativePath);
-  });
-  if (!isWithinAllowedRoot) {
-    throw new PdfError(-32602 /* InvalidParams */, "Access denied: Path resolves outside allowed directories.");
-  }
-  return resolvedPath;
+  return path.isAbsolute(normalizedUserPath) ? normalizedUserPath : path.resolve(PROJECT_ROOT, normalizedUserPath);
 };
 
 // src/pdf/loader.ts
@@ -617,7 +607,7 @@ var server = createServer({
 });
 async function main() {
   await server.start();
-  if (process.env.DEBUG_MCP) {
+  if (process.env["DEBUG_MCP"]) {
     console.error("[PDF Reader MCP] Server running on stdio");
     console.error("[PDF Reader MCP] Project root:", process.cwd());
   }

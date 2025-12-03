@@ -11,6 +11,7 @@ pre-commit:
 
     lint:
       glob: "*.{js,ts,jsx,tsx}"
+      exclude: "dist/*"
       run: bunx biome check {staged_files}
 
     doctor:

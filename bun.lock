@@ -5,7 +5,7 @@
     "": {
       "name": "@sylphx/pdf-reader-mcp",
       "dependencies": {
-        "@sylphx/mcp-server-sdk": "^1.2.0",
+        "@sylphx/mcp-server-sdk": "1.3.0",
         "glob": "^13.0.0",
         "pdfjs-dist": "^5.4.449",
         "pngjs": "^7.0.0",
@@ -470,15 +470,19 @@
 
     "@sylphx/doctor": ["@sylphx/doctor@1.29.0", "", { "dependencies": { "citty": "^0.1.6", "consola": "^3.4.2", "defu": "^6.1.4", "jiti": "^2.4.2", "picocolors": "^1.1.1" }, "bin": { "doctor": "dist/cli.js" } }, "sha512-uh+a4J2z4vG8Y2eI/CHuLVg5E4W+O97eRFmzdI3l2cqFIsrbAekVSNeh73Sltln2D6pxwsPfI1Pg7Qctrw0PwQ=="],
 
-    "@sylphx/gust": ["@sylphx/gust@0.1.1", "", { "dependencies": { "@sylphx/gust-core": "^0.1.1" } }, "sha512-RfKh4Cn9lQGnUq8KtsxIkgfaONlDb+QPIdGtAlMOrEDzRSqHRnnl3rpG5BedeTLC89iZTGvpZ7Xbqci21MV9/g=="],
+    "@sylphx/gust": ["@sylphx/gust@0.1.9", "", { "dependencies": { "@sylphx/gust-app": "^0.1.7", "@sylphx/gust-server": "^0.1.7" } }, "sha512-E66/eKPEh+RKi7p8GYSD36/ko4MlT0blhH9+gVH45HESnE5KQweQm3O7J7Ntk7M8tGTPefc6SCA+RPx0v4uGhw=="],
 
-    "@sylphx/gust-core": ["@sylphx/gust-core@0.1.1", "", {}, "sha512-mdIVnR6BvT7CCugsWLaGvRJoc+VcXUUmwdaTKnv15T+TL/fsW3vmOAG7yDkQFjXuTogdiqL7t92JzTFt7eRkCw=="],
+    "@sylphx/gust-app": ["@sylphx/gust-app@0.1.7", "", { "dependencies": { "@sylphx/gust-core": "^0.1.9" } }, "sha512-Zs4hCvxh+VUAlLaLP8LmF052M5UYrfn9MocJ5iJFjB5HvWCABZKZbkdiS3WayKs8cSrg2EL0IF/nJJnmlEqN5w=="],
+
+    "@sylphx/gust-core": ["@sylphx/gust-core@0.1.9", "", {}, "sha512-hhv41JOFEbE3NwUL5+YCTn/OaQlWzLv+U7XESfC0dUSrXxiSYYgrW5NG+YAhcKzdDcE5FmxHqBgxAPMqIatBKA=="],
+
+    "@sylphx/gust-server": ["@sylphx/gust-server@0.1.7", "", { "dependencies": { "@sylphx/gust-app": "^0.1.7", "@sylphx/gust-core": "^0.1.9" }, "optionalDependencies": { "@sylphx/gust-napi": "0.1.7" } }, "sha512-PVlCoHecDQtC/CMsKsIvMOd8T5jU3N1W3j3/2Q/i3QygggAxvj7GaZdCqNRSIHZbybLt/i17AgXQV/yLzkTEHA=="],
 
     "@sylphx/leaf": ["@sylphx/leaf@1.0.0", "", { "dependencies": { "@preact/preset-vite": "^2.10.2", "fast-glob": "^3.3.3", "gray-matter": "^4.0.3", "html-react-parser": "^5.2.8", "katex": "^0.16.25", "mermaid": "^11.12.1", "minisearch": "^7.2.0", "rehype-highlight": "^7.0.2", "rehype-katex": "^7.0.1", "rehype-react": "^8.0.0", "rehype-slug": "^6.0.0", "rehype-stringify": "^10.0.1", "remark-gfm": "^4.0.1", "remark-math": "^6.0.0", "remark-parse": "^11.0.0", "remark-rehype": "^11.1.2", "unified": "^11.0.5", "unist-util-visit": "^5.0.0", "vite": "^7.2.2" }, "peerDependencies": { "preact": "^10.27.0" } }, "sha512-Bd2ttz/QQJtlHK7zXEofaExRgD+noXPPO1uOVtJXeHDC8XGc5wYt2OkTFE+GaAQRxP9HhslqfRwBXznxGv4G2w=="],
 
     "@sylphx/leaf-theme-default": ["@sylphx/leaf-theme-default@1.0.0", "", { "dependencies": { "@iconify/react": "^6.0.2", "@radix-ui/react-collapsible": "^1.1.12", "@radix-ui/react-dialog": "^1.1.15", "@radix-ui/react-dropdown-menu": "^2.1.16", "@radix-ui/react-separator": "^1.1.8", "@sylphx/silk": "^2.0.2", "@sylphx/zen": "^1.2.1", "@sylphx/zen-router": "^1.0.2", "autoprefixer": "^10.4.21", "class-variance-authority": "^0.7.1", "clsx": "^2.1.1", "html-react-parser": "^5.2.8", "iconify-icon": "^3.0.2", "katex": "^0.16.25", "minisearch": "^7.2.0", "postcss": "^8.5.6", "preact": "^10.27.2", "tailwind-merge": "^3.3.1", "tailwindcss": "^3.4.18" } }, "sha512-v3eeKJ6Hcvf/fCL03KpfRwFP2Onzlws6SaRZ0s1MHavNkoJtKAeKWpwYMBHM8KT2rU6mfJELi4DdZemx38Fv9A=="],
 
-    "@sylphx/mcp-server-sdk": ["@sylphx/mcp-server-sdk@1.2.0", "", { "dependencies": { "@sylphx/gust": "^0.1.1" }, "peerDependencies": { "typescript": "^5.0.0", "zod": "^4.0.0" }, "optionalPeers": ["zod"] }, "sha512-P+lUOT2rB8u3gLILE7Jv2qDDEaSFykyBgxdYGFvUEmyPz6IBCgAPMl4auxdFpuMN8gYSBf7ipPRNUpQCiyiRBA=="],
+    "@sylphx/mcp-server-sdk": ["@sylphx/mcp-server-sdk@1.3.0", "", { "dependencies": { "@sylphx/gust": "^0.1.7", "@sylphx/gust-core": "^0.1.7" }, "peerDependencies": { "typescript": "^5.0.0", "zod": "^4.0.0" }, "optionalPeers": ["zod"] }, "sha512-vi+zxaJy8JnmeihuClqIGu7SCLCG/IM4eVO0rSITxTuCuN6wmT0sycd3Qm0lVTI+WLIridHgx9Ft2d3dSFdlpg=="],
 
     "@sylphx/silk": ["@sylphx/silk@2.2.3", "", { "dependencies": { "@babel/parser": "^7.23.0", "@babel/traverse": "^7.23.0", "@babel/types": "^7.23.0", "lightningcss-wasm": "^1.30.1" } }, "sha512-aDN/82CQMYByitV+XPa10wfGCZtc1unB77xVJEsE2ATqDQBsbVMuuvDnrHHoEAfsevC5w/9OUb2hoDZ19fCzXg=="],
 

@@ -30,7 +30,8 @@
           }
         },
         "noForEach": "off",
-        "noUselessFragments": "warn"
+        "noUselessFragments": "warn",
+        "useLiteralKeys": "off"
       },
       "correctness": {
         "noUnusedVariables": {
