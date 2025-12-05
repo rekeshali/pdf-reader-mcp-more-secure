@@ -6,11 +6,10 @@
       "name": "@sylphx/pdf-reader-mcp",
       "dependencies": {
         "@sylphx/mcp-server-sdk": "^2.1.0",
+        "@sylphx/vex": "^0.1.11",
         "glob": "^13.0.0",
         "pdfjs-dist": "^5.4.449",
         "pngjs": "^7.0.0",
-        "zod": "4.2.0-canary.20251124T022609",
-        "zod-to-json-schema": "^3.25.0",
       },
       "devDependencies": {
         "@biomejs/biome": "^2.3.8",
@@ -1367,10 +1366,6 @@
     "yaml": ["yaml@2.8.1", "", { "bin": "bin.mjs" }, "sha512-lcYcMxX2PO9XMGvAJkJ3OsNMw+/7FKes7/hgerGUYWIoWu5j/+YQqcZr5JnPZWzOsEBgMbSbiSTn/dv/69Mkpw=="],
 
     "zlye": ["zlye@0.4.4", "", { "dependencies": { "picocolors": "^1.1.1" }, "peerDependencies": { "typescript": ">=4.5.0" }, "optionalPeers": ["typescript"] }, "sha512-fwpeC841X3ElOLYRMKXbwX29pitNrsm6nRNvEhDMrRXDl3BhR2i03Bkr0GNrpyYgZJuEzUsBylXAYzgGPXXOCQ=="],
-
-    "zod": ["zod@4.2.0-canary.20251124T022609", "", {}, "sha512-KX3zGqq4EfE4D8dE3yR7EvuODbu7461GGf34z2McVpbjJY2BoahwQiybFnF3f5Tudbzd4uzNzn4OK55I3vHG4g=="],
-
-    "zod-to-json-schema": ["zod-to-json-schema@3.25.0", "", { "peerDependencies": { "zod": "^3.25 || ^4" } }, "sha512-HvWtU2UG41LALjajJrML6uQejQhNJx+JBO9IflpSja4R03iNWfKXrj6W2h7ljuLyc1nKS+9yDyL/9tD1U/yBnQ=="],
 
     "zwitch": ["zwitch@2.0.4", "", {}, "sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A=="],
 
