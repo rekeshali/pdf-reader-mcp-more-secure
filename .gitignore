@@ -6,7 +6,6 @@ coverage/
 .env*
 
 # Leaf
-docs/dist
 docs/.leaf
 public/search-index.json
 

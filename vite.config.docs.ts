@@ -5,6 +5,7 @@ import { defineConfig } from 'vite';
 const docsDir = resolve(process.cwd(), 'docs');
 
 export default defineConfig({
+  root: docsDir,
   plugins: [
     routesPlugin(docsDir),
     ...createLeafPlugin({
@@ -15,5 +16,9 @@ export default defineConfig({
   ],
   resolve: {
     dedupe: ['solid-js', 'solid-js/web'],
+  },
+  build: {
+    outDir: resolve(process.cwd(), 'docs/dist'),
+    emptyOutDir: true,
   },
 });
