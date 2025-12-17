@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "bun run docs:build",
+  "buildCommand": "npx vitepress build docs",
+  "installCommand": "bun install",
   "outputDirectory": "docs/.vitepress/dist"
 }
