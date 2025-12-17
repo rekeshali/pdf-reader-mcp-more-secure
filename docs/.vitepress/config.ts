@@ -18,7 +18,7 @@ export default defineConfig({
           'A high-performance MCP server for reading text, metadata, and images from PDF files',
       },
     ],
-    ['meta', { property: 'og:url', content: 'https://pdf-reader-mcp.vercel.app' }],
+    ['meta', { property: 'og:url', content: 'https://pdf-reader-mcp.sylphx.com' }],
     ['meta', { property: 'og:site_name', content: 'PDF Reader MCP' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'twitter:title', content: 'PDF Reader MCP' }],
@@ -33,7 +33,7 @@ export default defineConfig({
     ],
     ['meta', { name: 'author', content: 'Sylphx' }],
     ['meta', { name: 'robots', content: 'index, follow' }],
-    ['link', { rel: 'canonical', href: 'https://pdf-reader-mcp.vercel.app' }],
+    ['link', { rel: 'canonical', href: 'https://pdf-reader-mcp.sylphx.com' }],
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
   ],
 
