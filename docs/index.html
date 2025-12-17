@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<!-- Basic meta tags (will be overridden by config) -->
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="theme-color" content="#15803D" />
+		<meta name="msapplication-TileColor" content="#15803D" />
+
+		<!-- Favicon (will be overridden by config) -->
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.png" sizes="32x32" type="image/png" />
+
+		<!-- Default title and description (will be overridden by config) -->
+		<title>Loading...</title>
+		<meta name="description" content="Documentation site built with Leaf" />
+
+		<!-- Default Open Graph tags (will be overridden by config) -->
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="Leaf" />
+		<meta property="og:description" content="Documentation site built with Leaf" />
+		<meta property="og:site_name" content="Leaf" />
+		<meta property="og:image" content="/og-image.svg" />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+
+		<!-- Default Twitter Card tags (will be overridden by config) -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="Leaf" />
+		<meta name="twitter:description" content="Documentation site built with Leaf" />
+		<meta name="twitter:image" content="/twitter-image.svg" />
+		<meta name="twitter:site" content="@sylphxltd" />
+
+		<!-- SEO tags (will be overridden by config) -->
+		<meta name="keywords" content="documentation, docs, framework" />
+		<meta name="author" content="Sylphx" />
+		<meta name="robots" content="index, follow" />
+		<meta name="language" content="en" />
+		<link rel="canonical" href="https://leaf.sylphx.com" />
+		<script>
+			// CRITICAL: Set theme BEFORE any rendering to prevent flash
+			(function() {
+				const stored = localStorage.getItem('leaf-theme');
+				const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+				const theme = stored || (prefersDark ? 'dark' : 'light');
+				document.documentElement.setAttribute('data-theme', theme);
+			})();
+		</script>
+	</head>
+	<body>
+		<div id="root"></div>
+		<script type="module" src="/.leaf/client.tsx"></script>
+
+		<!-- Mermaid initialization -->
+		<script type="module">
+			import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+
+			// Initialize mermaid with theme detection
+			function initMermaid() {
+				const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
+				mermaid.initialize({
+					startOnLoad: false, // We'll manually trigger rendering
+					theme: theme,
+					securityLevel: 'loose',
+					fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+				});
+			}
+
+			// Render all mermaid diagrams
+			async function renderMermaid() {
+				const elements = document.querySelectorAll('.mermaid:not([data-processed])');
+				if (elements.length > 0) {
+					// Store original source before rendering
+					elements.forEach(el => {
+						if (!el.hasAttribute('data-mermaid-src')) {
+							el.setAttribute('data-mermaid-src', el.textContent.trim());
+						}
+					});
+
+					try {
+						await mermaid.run({
+							nodes: elements,
+						});
+					} catch (e) {
+						console.error('Mermaid rendering error:', e);
+					}
+				}
+			}
+
+			// Initialize on load
+			initMermaid();
+
+			// Wait for React to render, then render mermaid diagrams
+			setTimeout(() => renderMermaid(), 100);
+
+			// Re-initialize when theme changes
+			const themeObserver = new MutationObserver((mutations) => {
+				mutations.forEach((mutation) => {
+					if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+						initMermaid();
+						// Restore original source and re-render all diagrams with new theme
+						document.querySelectorAll('.mermaid[data-processed]').forEach(el => {
+							const originalSrc = el.getAttribute('data-mermaid-src');
+							if (originalSrc) {
+								// Clear the element and restore original mermaid code
+								el.innerHTML = '';
+								el.textContent = originalSrc;
+								el.removeAttribute('data-processed');
+							}
+						});
+						renderMermaid();
+					}
+				});
+			});
+
+			themeObserver.observe(document.documentElement, { attributes: true });
+
+			// Re-render mermaid diagrams when navigating (SPA)
+			const rootObserver = new MutationObserver(() => {
+				renderMermaid();
+			});
+
+			// Wait for root element to exist
+			const checkRoot = setInterval(() => {
+				const root = document.getElementById('root');
+				if (root) {
+					clearInterval(checkRoot);
+					rootObserver.observe(root, { subtree: true, childList: true });
+				}
+			}, 100);
+		</script>
+	</body>
+</html>

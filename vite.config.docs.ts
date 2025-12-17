@@ -15,7 +15,7 @@ export default defineConfig({
     }),
   ],
   resolve: {
-    dedupe: ['solid-js', 'solid-js/web'],
+    dedupe: ['preact', 'preact/hooks', 'preact/compat'],
   },
   build: {
     outDir: resolve(process.cwd(), 'docs/dist'),

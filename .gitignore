@@ -12,3 +12,4 @@ public/search-index.json
 # Test Reports
 test-report.junit.xml
 .vercel
+docs/.leaf/
