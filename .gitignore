@@ -1,15 +1,13 @@
 node_modules/
 build/
-build/
 *.log
 coverage/
 .env*
 
-# Leaf
-docs/.leaf
-public/search-index.json
+# VitePress
+docs/.vitepress/cache
+docs/.vitepress/dist
 
 # Test Reports
 test-report.junit.xml
 .vercel
-docs/.leaf/

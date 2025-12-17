@@ -1,8 +1,12 @@
-import { defineConfig } from '@sylphx/leaf';
+import { defineConfig } from 'vitepress';
 
 export default defineConfig({
   title: 'PDF Reader MCP',
   description: 'MCP Server for reading PDF files - extract text, metadata, and images',
+
+  appearance: 'dark',
+  lastUpdated: true,
+
   head: [
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:title', content: 'PDF Reader MCP - Extract PDF Content for AI' }],
@@ -10,7 +14,8 @@ export default defineConfig({
       'meta',
       {
         property: 'og:description',
-        content: 'A high-performance MCP server for reading text, metadata, and images from PDF files',
+        content:
+          'A high-performance MCP server for reading text, metadata, and images from PDF files',
       },
     ],
     ['meta', { property: 'og:url', content: 'https://pdf-reader-mcp.vercel.app' }],
@@ -29,13 +34,13 @@ export default defineConfig({
     ['meta', { name: 'author', content: 'Sylphx' }],
     ['meta', { name: 'robots', content: 'index, follow' }],
     ['link', { rel: 'canonical', href: 'https://pdf-reader-mcp.vercel.app' }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
   ],
-  theme: {
-    editLink: {
-      pattern: 'https://github.com/SylphxAI/pdf-reader-mcp/edit/main/docs/:path',
-      text: 'Edit this page on GitHub',
-    },
-    lastUpdated: true,
+
+  themeConfig: {
+    logo: '/logo.svg',
+    siteTitle: 'PDF Reader MCP',
+
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Guide', link: '/guide/' },
@@ -43,10 +48,7 @@ export default defineConfig({
       { text: 'Design', link: '/design/' },
       { text: 'Performance', link: '/performance/' },
     ],
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/SylphxAI/pdf-reader-mcp' },
-      { icon: 'npm', link: 'https://www.npmjs.com/package/@sylphx/pdf-reader-mcp' },
-    ],
+
     sidebar: [
       {
         text: 'Guide',
@@ -65,5 +67,24 @@ export default defineConfig({
         ],
       },
     ],
+
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/SylphxAI/pdf-reader-mcp' },
+      { icon: 'npm', link: 'https://www.npmjs.com/package/@sylphx/pdf-reader-mcp' },
+    ],
+
+    editLink: {
+      pattern: 'https://github.com/SylphxAI/pdf-reader-mcp/edit/main/docs/:path',
+      text: 'Edit this page on GitHub',
+    },
+
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright 2024 Sylphx',
+    },
+
+    search: {
+      provider: 'local',
+    },
   },
 });

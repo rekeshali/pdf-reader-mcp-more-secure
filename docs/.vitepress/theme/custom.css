@@ -1,0 +1,377 @@
+/* ==========================================
+   PDF Reader MCP - Modern/Sleek Theme
+   Tech Startup Aesthetic with Gradients & Animations
+   ========================================== */
+
+/* ==========================================
+   CSS Variables - Dark Theme Primary
+   ========================================== */
+:root {
+  /* Brand Colors - Vibrant gradient palette */
+  --vp-c-brand-1: #8b5cf6;
+  --vp-c-brand-2: #a78bfa;
+  --vp-c-brand-3: #7c3aed;
+  --vp-c-brand-soft: rgba(139, 92, 246, 0.14);
+
+  /* Accent gradient colors */
+  --gradient-start: #8b5cf6;
+  --gradient-mid: #06b6d4;
+  --gradient-end: #10b981;
+
+  /* Smooth transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 400ms ease;
+}
+
+/* ==========================================
+   Dark Theme Enhancements
+   ========================================== */
+.dark {
+  --vp-c-bg: #0a0a0f;
+  --vp-c-bg-alt: #111118;
+  --vp-c-bg-soft: #1a1a24;
+  --vp-c-bg-elv: #1e1e2a;
+
+  /* Subtle border glow effect */
+  --vp-c-border: rgba(139, 92, 246, 0.15);
+  --vp-c-divider: rgba(139, 92, 246, 0.08);
+
+  /* Text colors */
+  --vp-c-text-1: rgba(255, 255, 255, 0.95);
+  --vp-c-text-2: rgba(255, 255, 255, 0.7);
+  --vp-c-text-3: rgba(255, 255, 255, 0.5);
+}
+
+/* ==========================================
+   Hero Section - Gradient Title
+   ========================================== */
+:root {
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(
+    135deg,
+    var(--gradient-start) 0%,
+    var(--gradient-mid) 50%,
+    var(--gradient-end) 100%
+  );
+}
+
+.VPHero .name {
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: gradient-shift 8s ease infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Hero tagline styling */
+.VPHero .tagline {
+  color: var(--vp-c-text-2);
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+
+/* Hero image glow effect */
+.VPHero .image-container {
+  position: relative;
+}
+
+.VPHero .image-container::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle at center, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+  filter: blur(40px);
+  z-index: -1;
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* ==========================================
+   Action Buttons - Modern Style
+   ========================================== */
+.VPButton.brand {
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid));
+  border: none;
+  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+  transition: all var(--transition-normal);
+}
+
+.VPButton.brand:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(139, 92, 246, 0.4);
+}
+
+.VPButton.alt {
+  background: transparent;
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  transition: all var(--transition-normal);
+}
+
+.VPButton.alt:hover {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.6);
+  transform: translateY(-2px);
+}
+
+/* ==========================================
+   Feature Cards - Glassmorphism
+   ========================================== */
+.VPFeature {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(6, 182, 212, 0.02) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  transition: all var(--transition-normal);
+}
+
+.VPFeature:hover {
+  transform: translateY(-4px);
+  border-color: rgba(139, 92, 246, 0.3);
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(139, 92, 246, 0.1);
+}
+
+.VPFeature .title {
+  color: var(--vp-c-text-1);
+  font-weight: 600;
+}
+
+.VPFeature .details {
+  color: var(--vp-c-text-2);
+}
+
+/* Feature icon gradient */
+.VPFeature .icon {
+  font-size: 1.75rem;
+}
+
+/* ==========================================
+   Navigation - Clean & Modern
+   ========================================== */
+.VPNav {
+  backdrop-filter: blur(16px) saturate(180%);
+  background: rgba(10, 10, 15, 0.8) !important;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+}
+
+.VPNavBarTitle .title {
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.VPNavBarMenuLink {
+  transition: color var(--transition-fast);
+}
+
+.VPNavBarMenuLink:hover {
+  color: var(--vp-c-brand-1);
+}
+
+/* ==========================================
+   Sidebar - Subtle Styling
+   ========================================== */
+.VPSidebar {
+  background: linear-gradient(180deg, rgba(10, 10, 15, 0.95) 0%, rgba(17, 17, 24, 0.95) 100%);
+  backdrop-filter: blur(16px);
+}
+
+.VPSidebarItem.is-active > .item .link > .text {
+  color: var(--vp-c-brand-1);
+}
+
+.VPSidebarItem .link {
+  transition: all var(--transition-fast);
+  border-radius: 8px;
+  margin: 2px 0;
+}
+
+.VPSidebarItem .link:hover {
+  background: rgba(139, 92, 246, 0.08);
+}
+
+/* ==========================================
+   Code Blocks - Enhanced
+   ========================================== */
+.vp-code-group .tabs label {
+  transition: all var(--transition-fast);
+}
+
+.vp-code-group .tabs label:hover {
+  color: var(--vp-c-brand-1);
+}
+
+div[class*="language-"] {
+  border-radius: 12px;
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  background: rgba(17, 17, 24, 0.8) !important;
+}
+
+div[class*="language-"]::before {
+  color: var(--vp-c-brand-2);
+}
+
+/* Code copy button */
+.vp-copy-code-button {
+  transition: all var(--transition-fast);
+}
+
+.vp-copy-code-button:hover {
+  background: rgba(139, 92, 246, 0.2);
+}
+
+/* ==========================================
+   Content - Typography & Links
+   ========================================== */
+.vp-doc a {
+  color: var(--vp-c-brand-1);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.vp-doc a:hover {
+  border-bottom-color: var(--vp-c-brand-1);
+}
+
+/* Headings with subtle gradient */
+.vp-doc h1,
+.vp-doc h2 {
+  border-bottom-color: rgba(139, 92, 246, 0.15);
+}
+
+.vp-doc h1 {
+  background: linear-gradient(135deg, var(--vp-c-text-1), var(--vp-c-brand-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ==========================================
+   Tables - Modern Styling
+   ========================================== */
+.vp-doc table {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(139, 92, 246, 0.1);
+}
+
+.vp-doc th {
+  background: rgba(139, 92, 246, 0.1);
+  font-weight: 600;
+}
+
+.vp-doc tr {
+  transition: background var(--transition-fast);
+}
+
+.vp-doc tr:hover {
+  background: rgba(139, 92, 246, 0.05);
+}
+
+/* ==========================================
+   Custom Containers - Styled
+   ========================================== */
+.custom-block {
+  border-radius: 12px;
+  border-left-width: 4px;
+}
+
+.custom-block.tip {
+  border-color: var(--vp-c-brand-1);
+  background: rgba(139, 92, 246, 0.08);
+}
+
+.custom-block.warning {
+  border-color: #f59e0b;
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.custom-block.danger {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.08);
+}
+
+/* ==========================================
+   Footer - Clean Design
+   ========================================== */
+.VPFooter {
+  border-top: 1px solid rgba(139, 92, 246, 0.1);
+  background: rgba(10, 10, 15, 0.95);
+}
+
+/* ==========================================
+   Scrollbar - Custom Styling
+   ========================================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.5);
+}
+
+/* ==========================================
+   Page Transitions
+   ========================================== */
+.VPContent {
+  animation: fade-in 0.3s ease;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================
+   Responsive Adjustments
+   ========================================== */
+@media (max-width: 768px) {
+  .VPHero .name {
+    font-size: 2.5rem;
+  }
+
+  .VPHero .tagline {
+    font-size: 1.1rem;
+  }
+}
