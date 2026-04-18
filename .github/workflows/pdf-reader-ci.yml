@@ -1,0 +1,45 @@
+name: pdf-reader CI
+
+# ──────────────────────────────────────────────────────────────────────
+# Monorepo relocation: when you move this file into agent-tools, change
+# the two values marked `CHANGE-AFTER-MOVE` below.  Nothing else needs
+# editing.
+# ──────────────────────────────────────────────────────────────────────
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**' # CHANGE-AFTER-MOVE → 'pdf-reader-mcp/**'
+  pull_request:
+    paths:
+      - '**' # CHANGE-AFTER-MOVE → 'pdf-reader-mcp/**'
+
+env:
+  TOOL_PATH: '.' # CHANGE-AFTER-MOVE → 'pdf-reader-mcp'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.1'
+
+      - name: Install (frozen, no scripts)
+        working-directory: ${{ env.TOOL_PATH }}
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Audit deps
+        working-directory: ${{ env.TOOL_PATH }}
+        run: bun audit
+
+      - name: Test
+        working-directory: ${{ env.TOOL_PATH }}
+        run: bun test
+
+      - name: Build
+        working-directory: ${{ env.TOOL_PATH }}
+        run: bun run build

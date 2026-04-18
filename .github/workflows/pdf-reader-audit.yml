@@ -1,0 +1,37 @@
+name: pdf-reader Scheduled Audit
+
+# ──────────────────────────────────────────────────────────────────────
+# Monorepo relocation: when you move this file into agent-tools, change
+# the `TOOL_PATH` value below.  Nothing else needs editing.
+#
+# Runs daily at 13:00 UTC (09:00 ET / 08:00 CT).  Only emails repo
+# owners on failure — GitHub's default for scheduled workflows skips
+# success notifications.  Catches newly-disclosed CVEs against already-
+# pinned versions, which push/PR CI can't detect on its own.
+# ──────────────────────────────────────────────────────────────────────
+
+on:
+  schedule:
+    - cron: '0 13 * * *'
+  workflow_dispatch: # allow manual trigger from the Actions tab
+
+env:
+  TOOL_PATH: '.' # CHANGE-AFTER-MOVE → 'pdf-reader-mcp'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.1'
+
+      - name: Install (frozen, no scripts)
+        working-directory: ${{ env.TOOL_PATH }}
+        run: bun install --frozen-lockfile --ignore-scripts
+
+      - name: Audit deps
+        working-directory: ${{ env.TOOL_PATH }}
+        run: bun audit
