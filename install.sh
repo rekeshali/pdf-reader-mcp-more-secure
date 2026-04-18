@@ -49,7 +49,8 @@ if [ ! -f "$SETTINGS_FILE" ]; then
   "url": {
     "allow": [],
     "deny": []
-  }
+  },
+  "maxFileSizeMB": 300
 }
 JSON
   echo "Created default config: $SETTINGS_FILE"

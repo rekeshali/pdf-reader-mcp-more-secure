@@ -15,20 +15,24 @@ describe('config loader', () => {
     _resetConfigCache();
   });
 
+  const DEFAULTS = {
+    path: { allow: [], deny: [] },
+    url: { allow: [], deny: [] },
+    maxFileSizeMB: 300,
+  };
+
   it('returns defaults when the file does not exist', () => {
     readSpy.mockImplementation(() => {
       const err = new Error('no such file') as Error & { code: string };
       err.code = 'ENOENT';
       throw err;
     });
-    const config = loadConfig();
-    expect(config).toEqual({ path: { allow: [], deny: [] }, url: { allow: [], deny: [] } });
+    expect(loadConfig()).toEqual(DEFAULTS);
   });
 
   it('returns defaults when the file is malformed JSON', () => {
     readSpy.mockImplementation(() => '{not json');
-    const config = loadConfig();
-    expect(config).toEqual({ path: { allow: [], deny: [] }, url: { allow: [], deny: [] } });
+    expect(loadConfig()).toEqual(DEFAULTS);
   });
 
   it('parses a well-formed config', () => {
@@ -36,11 +40,13 @@ describe('config loader', () => {
       JSON.stringify({
         path: { allow: ['~/Documents/**'], deny: ['~/.ssh/**'] },
         url: { allow: ['*.internal.example.com'], deny: ['evil.example.com'] },
+        maxFileSizeMB: 500,
       })
     );
     expect(loadConfig()).toEqual({
       path: { allow: ['~/Documents/**'], deny: ['~/.ssh/**'] },
       url: { allow: ['*.internal.example.com'], deny: ['evil.example.com'] },
+      maxFileSizeMB: 500,
     });
   });
 
@@ -49,6 +55,7 @@ describe('config loader', () => {
     expect(loadConfig()).toEqual({
       path: { allow: ['/tmp'], deny: [] },
       url: { allow: [], deny: [] },
+      maxFileSizeMB: 300,
     });
   });
 
@@ -58,10 +65,7 @@ describe('config loader', () => {
         path: { allow: 'not-an-array', deny: [123, 'valid'] },
       })
     );
-    expect(loadConfig()).toEqual({
-      path: { allow: [], deny: [] }, // deny had a non-string, whole field rejected
-      url: { allow: [], deny: [] },
-    });
+    expect(loadConfig()).toEqual(DEFAULTS); // allow wasn't array, deny had non-string
   });
 
   it('caches after first load', () => {
@@ -74,5 +78,30 @@ describe('config loader', () => {
 
   it('resolves to ~/.claude/plugin-settings/pdf-reader.json', () => {
     expect(CONFIG_PATH_FOR_TESTS).toMatch(/\.claude\/plugin-settings\/pdf-reader\.json$/);
+  });
+
+  describe('maxFileSizeMB', () => {
+    it('defaults to 300 when unset', () => {
+      readSpy.mockImplementation(() => JSON.stringify({}));
+      expect(loadConfig().maxFileSizeMB).toBe(300);
+    });
+
+    it('accepts a positive number override', () => {
+      readSpy.mockImplementation(() => JSON.stringify({ maxFileSizeMB: 500 }));
+      expect(loadConfig().maxFileSizeMB).toBe(500);
+    });
+
+    it('falls back to 300 when value is not a number', () => {
+      readSpy.mockImplementation(() => JSON.stringify({ maxFileSizeMB: 'big' }));
+      expect(loadConfig().maxFileSizeMB).toBe(300);
+    });
+
+    it('falls back to 300 when value is zero or negative', () => {
+      readSpy.mockImplementation(() => JSON.stringify({ maxFileSizeMB: 0 }));
+      expect(loadConfig().maxFileSizeMB).toBe(300);
+      _resetConfigCache();
+      readSpy.mockImplementation(() => JSON.stringify({ maxFileSizeMB: -50 }));
+      expect(loadConfig().maxFileSizeMB).toBe(300);
+    });
   });
 });

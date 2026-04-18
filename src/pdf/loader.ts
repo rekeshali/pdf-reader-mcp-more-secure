@@ -4,6 +4,7 @@ import fs from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import type * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import { loadConfig } from '../utils/config.js';
 import { ErrorCode, PdfError } from '../utils/errors.js';
 import { createLogger } from '../utils/logger.js';
 import { resolvePath } from '../utils/pathUtils.js';
@@ -16,9 +17,9 @@ const logger = createLogger('Loader');
 const require = createRequire(import.meta.url);
 const CMAP_URL = require.resolve('pdfjs-dist/package.json').replace('package.json', 'cmaps/');
 
-// Maximum PDF file size: 100MB
-// Prevents memory exhaustion from loading extremely large files
-const MAX_PDF_SIZE = 100 * 1024 * 1024;
+// Max PDF size prevents memory exhaustion when fs.readFile loads the whole
+// file into a single Buffer. Configurable via ~/.claude/plugin-settings/
+// pdf-reader.json (maxFileSizeMB); default 300 MB.
 
 /**
  * Load a PDF document from a local file path or URL
@@ -37,11 +38,11 @@ export const loadPdfDocument = async (
       const safePath = resolvePath(source.path);
       const buffer = await fs.readFile(safePath);
 
-      // Security: Check file size to prevent memory exhaustion
-      if (buffer.length > MAX_PDF_SIZE) {
+      const maxBytes = loadConfig().maxFileSizeMB * 1024 * 1024;
+      if (buffer.length > maxBytes) {
         throw new PdfError(
           ErrorCode.InvalidRequest,
-          `PDF file exceeds maximum size of ${MAX_PDF_SIZE} bytes (${(MAX_PDF_SIZE / 1024 / 1024).toFixed(0)}MB). File size: ${buffer.length} bytes.`
+          `PDF file exceeds maximum size of ${loadConfig().maxFileSizeMB}MB. File size: ${buffer.length} bytes.`
         );
       }
 

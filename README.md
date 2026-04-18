@@ -69,7 +69,7 @@ Hardening stacks as **hardcoded floor** (always on, not configurable) + **user l
 - No dynamic code execution — no `eval`, `new Function`, `vm`, `child_process`, `exec`, `spawn`.
 - No telemetry or analytics.
 - No `postinstall` / `preinstall` scripts in `package.json`.
-- 100 MB file-size cap at `src/pdf/loader.ts:20` prevents memory-exhaustion DoS.
+- Configurable file-size cap (default 300 MB) in `src/pdf/loader.ts` prevents memory-exhaustion from loading a huge local PDF into one buffer. See **User config**.
 - `pdfjs-dist` is invoked without `enableScripting: true`, so JavaScript embedded in PDFs does not execute.
 
 Runtime dependency tree: `@sylphx/mcp-server-sdk`, `@sylphx/vex`, `pdfjs-dist`, `pngjs`, `glob`, `minimatch`. Root of trust is Sylphx (publisher of the `@sylphx/*` packages) plus Mozilla (pdfjs-dist), isaacs (glob/minimatch), and the pngjs maintainers.
@@ -117,7 +117,8 @@ Optional. File location: **`~/.claude/plugin-settings/pdf-reader.json`** (the te
   "url": {
     "allow": ["*.internal.example.com", "docs.internal.example.com"],
     "deny":  ["evil.example.com"]
-  }
+  },
+  "maxFileSizeMB": 300
 }
 ```
 
@@ -127,6 +128,7 @@ Optional. File location: **`~/.claude/plugin-settings/pdf-reader.json`** (the te
 - If `allow` is non-empty, the input **must** match one entry. Empty allow = any.
 - `deny` is checked too. **Deny wins** when both match — fail-closed on conflict.
 - URL rules match the hostname, not the full URL. `*` matches any characters including dots (wildcard-cert style).
+- `maxFileSizeMB` caps the size of local-path PDFs (applies to `path:` sources only — `url:` PDFs stream and aren't bounded here). Default 300. Prevents OOM when `fs.readFile` loads the whole file into one buffer. Raise if you regularly work with large scans/manuals.
 - Changes take effect on the **next server start**. No hot-reload. Toggle with `./disable.sh && ./enable.sh`.
 
 **Always-on SSRF floor:** the built-in block list (loopback / link-local / RFC 1918 / ULA / fe80 / `169.254.169.254`) is enforced regardless of this config. The user `url.allow` list cannot permit a host that resolves to one of those ranges.
