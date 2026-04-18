@@ -44,7 +44,6 @@ It is **not** a hardened-for-shared-deployment package and it does **not** try t
 2. Claude Code CLI uses only a trusted (internal) model proxy.
 3. Single-user personal machine — not a shared server, not exposed as a LAN service.
 4. Rebuilds use `bun install --frozen-lockfile --ignore-scripts` (blocks lockfile drift and install-time code in transitive deps).
-5. OS-level egress control (firewall, Little Snitch, etc.) is in place as a backstop — **strongly recommended**.
 
 If any of these conditions is not met, treat this fork as equivalent to the upstream package.
 
@@ -52,13 +51,14 @@ If any of these conditions is not met, treat this fork as equivalent to the upst
 
 ## What we changed vs upstream
 
+Hardening stacks as **hardcoded floor** (always on, not configurable) + **user layer** (optional additional restrictions on top). The user layer can narrow access further but cannot loosen the floor.
+
 | Hardening | Details |
 |---|---|
-| HTTPS-only URL sources | `url:` sources are rejected unless the scheme is `https:`. `http:`, `file:`, `data:`, `blob:`, and malformed URLs all fail at load time in `src/pdf/loader.ts`. |
+| Hardcoded URL floor | Two checks that can't be disabled or weakened. **(1) Scheme must be `https:`** — `http:`, `file:`, `data:`, `blob:`, and malformed URLs are rejected at load time. **(2) SSRF block list** — every resolved IP is checked against loopback (`127/8`, `::1`), link-local (`169.254/16`, `fe80::/10`), RFC 1918 private (`10/8`, `172.16/12`, `192.168/16`), and IPv6 unique local (`fc00::/7`). The `169.254.169.254` cloud-metadata endpoint is in-scope. |
 | HTTP transport removed | `MCP_TRANSPORT`, `MCP_HTTP_*`, and `MCP_API_KEY` env vars and the entire `http()` branch are deleted. Transport is stdio-only. Removes the "one env var exposes a local file reader to the LAN with `cors:*`" footgun. |
+| User-configurable layer (optional) | JSON config at `~/.claude/plugin-settings/pdf-reader.json` lets you add allow/deny rules on top of the floor: hostname patterns for `url:` sources and path patterns for `path:` sources. Shell-glob syntax, deny wins on conflict. Cannot override the floor — if your allow list permits a host that resolves to a blocked IP, the request is still rejected. See the **User config** section below. |
 | Exact-pin all deps | `package.json` has no `^`/`~`: every direct dep resolves to a single version. Combined with the committed `bun.lock` and `--frozen-lockfile` on rebuild, supply-chain attackers can't auto-deliver a newer malicious version, and registry tarball swaps are blocked by the lockfile's SHA-512 integrity hashes. |
-| Built-in SSRF floor (always on) | Every `url:` resolves to one or more IPs via DNS, which are then checked against a non-removable block list: loopback (`127/8`, `::1`), link-local (`169.254/16`, `fe80::/10`), RFC 1918 private (`10/8`, `172.16/12`, `192.168/16`), IPv6 unique local (`fc00::/7`). The `169.254.169.254` cloud-metadata endpoint is in-scope. Not user-removable even by config. |
-| User allow/deny rules | Optional JSON config at `~/.claude/plugin-settings/pdf-reader.json` lets you whitelist/blacklist paths (for `path:` sources) and URL hosts (for `url:` sources) with shell-glob patterns. See the **User config** section below. |
 | Plugin install flow | Packaged as a Claude Code plugin with `.claude-plugin/plugin.json` and a `${CLAUDE_PLUGIN_ROOT}`-based `.mcp.json`. Install/uninstall/enable/disable scripts provided. |
 
 ---
@@ -131,7 +131,7 @@ Optional. File location: **`~/.claude/plugin-settings/pdf-reader.json`** (the te
 
 **Always-on SSRF floor:** the built-in block list (loopback / link-local / RFC 1918 / ULA / fe80 / `169.254.169.254`) is enforced regardless of this config. The user `url.allow` list cannot permit a host that resolves to one of those ranges.
 
-**Known caveat — DNS rebinding:** we resolve the URL host at validation time, then pdfjs-dist resolves it again at fetch time. An attacker controlling DNS for an allow-listed host could return a public IP for our lookup and a private IP for pdfjs's. The OS-level egress rule recommended in the operating-conditions section closes this gap.
+**Known caveat — DNS rebinding:** we resolve the URL host at validation time, then pdfjs-dist resolves it again at fetch time. An attacker controlling DNS for an allow-listed host could return a public IP for our lookup and a private IP for pdfjs's. Closing this gap would require forcing pdfjs to connect to the IP we validated (via a custom HTTPS agent). We haven't done that here — accepted residual for this fork.
 
 ---
 
@@ -163,7 +163,7 @@ To update: `git pull` in your clone, then re-run `./install.sh`. Because the plu
 
 1. **Plugin cache is not a live link.** The plugin directory Claude loads is a *copy* made at install time. Editing files in your clone has no effect until you re-run `./install.sh`.
 2. **Opening this repo in Claude Code will show a cosmetic `pdf-reader` failure.** The tracked `.mcp.json` uses `${CLAUDE_PLUGIN_ROOT}`, which only resolves inside the plugin context. If you open the repo directory as a project, Claude tries to spawn `node ${CLAUDE_PLUGIN_ROOT}/dist/index.js` and fails. Ignore it — the installed plugin is unaffected.
-3. **`https://localhost/...` and private-IP URLs are still permitted.** The validator blocks schemes, not destinations. If you need to prevent SSRF to internal services, add an OS-level firewall rule.
+3. **DNS rebinding is not closed in code.** We validate the host's resolved IP, but pdfjs-dist does a second lookup when it fetches. A malicious DNS server could return a clean IP to us and a blocked IP to pdfjs. Documented in **User config**; accepted residual.
 4. **Node must be on `PATH` when Claude spawns the server.** If you use `nvm` or `asdf`, ensure Claude inherits a shell with node available, or you'll get `node: command not found` in the MCP log.
 5. **Re-running `./install.sh` fully replaces the prior install.** Idempotent by design. If plugin-scoped data ever matters to you, pass `--keep-data` manually to `claude plugin uninstall`.
 
