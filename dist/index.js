@@ -319,16 +319,29 @@ import fs2 from "node:fs/promises";
 import { createRequire } from "node:module";
 import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 
+// src/utils/errors.ts
+class PdfError extends Error {
+  code;
+  constructor(code, message, options) {
+    super(message, options?.cause ? { cause: options.cause } : undefined);
+    this.code = code;
+    this.name = "PdfError";
+  }
+}
+
+// src/utils/pathUtils.ts
+import os2 from "node:os";
+import path2 from "node:path";
+import { minimatch } from "minimatch";
+
 // src/utils/config.ts
 import * as fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 var logger3 = createLogger("Config");
-var DEFAULT_MAX_FILE_SIZE_MB = 300;
 var DEFAULT_CONFIG = {
   path: { allow: [], deny: [] },
-  url: { allow: [], deny: [] },
-  maxFileSizeMB: DEFAULT_MAX_FILE_SIZE_MB
+  url: { allow: [], deny: [] }
 };
 var CONFIG_PATH = path.join(os.homedir(), ".claude", "plugin-settings", "pdf-reader.json");
 var isStringArray = (v) => Array.isArray(v) && v.every((x) => typeof x === "string");
@@ -377,30 +390,14 @@ var loadConfig = () => {
     return cached;
   }
   const obj = parsed;
-  const rawSize = obj["maxFileSizeMB"];
-  const maxFileSizeMB = typeof rawSize === "number" && Number.isFinite(rawSize) && rawSize > 0 ? rawSize : DEFAULT_MAX_FILE_SIZE_MB;
   cached = {
     path: parseRuleSet(obj["path"]),
-    url: parseRuleSet(obj["url"]),
-    maxFileSizeMB
+    url: parseRuleSet(obj["url"])
   };
   return cached;
 };
 
-// src/utils/errors.ts
-class PdfError extends Error {
-  code;
-  constructor(code, message, options) {
-    super(message, options?.cause ? { cause: options.cause } : undefined);
-    this.code = code;
-    this.name = "PdfError";
-  }
-}
-
 // src/utils/pathUtils.ts
-import os2 from "node:os";
-import path2 from "node:path";
-import { minimatch } from "minimatch";
 var PROJECT_ROOT = process.cwd();
 var expandTilde = (p) => {
   if (p === "~")
@@ -553,10 +550,6 @@ var loadPdfDocument = async (source, sourceDescription) => {
     if (source.path) {
       const safePath = resolvePath(source.path);
       const buffer = await fs2.readFile(safePath);
-      const maxBytes = loadConfig().maxFileSizeMB * 1024 * 1024;
-      if (buffer.length > maxBytes) {
-        throw new PdfError(-32600 /* InvalidRequest */, `PDF file exceeds maximum size of ${loadConfig().maxFileSizeMB}MB. File size: ${buffer.length} bytes.`);
-      }
       pdfDataSource = new Uint8Array(buffer);
     } else if (source.url) {
       await validateUrl(source.url, sourceDescription);

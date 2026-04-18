@@ -4,7 +4,6 @@ import fs from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import type * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
-import { loadConfig } from '../utils/config.js';
 import { ErrorCode, PdfError } from '../utils/errors.js';
 import { createLogger } from '../utils/logger.js';
 import { resolvePath } from '../utils/pathUtils.js';
@@ -16,10 +15,6 @@ const logger = createLogger('Loader');
 // This ensures CMap files are found regardless of the current working directory
 const require = createRequire(import.meta.url);
 const CMAP_URL = require.resolve('pdfjs-dist/package.json').replace('package.json', 'cmaps/');
-
-// Max PDF size prevents memory exhaustion when fs.readFile loads the whole
-// file into a single Buffer. Configurable via ~/.claude/plugin-settings/
-// pdf-reader.json (maxFileSizeMB); default 300 MB.
 
 /**
  * Load a PDF document from a local file path or URL
@@ -37,15 +32,6 @@ export const loadPdfDocument = async (
     if (source.path) {
       const safePath = resolvePath(source.path);
       const buffer = await fs.readFile(safePath);
-
-      const maxBytes = loadConfig().maxFileSizeMB * 1024 * 1024;
-      if (buffer.length > maxBytes) {
-        throw new PdfError(
-          ErrorCode.InvalidRequest,
-          `PDF file exceeds maximum size of ${loadConfig().maxFileSizeMB}MB. File size: ${buffer.length} bytes.`
-        );
-      }
-
       pdfDataSource = new Uint8Array(buffer);
     } else if (source.url) {
       await validateUrl(source.url, sourceDescription);

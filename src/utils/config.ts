@@ -16,16 +16,11 @@ export interface RuleSet {
 export interface PdfReaderConfig {
   path: RuleSet;
   url: RuleSet;
-  /** Max size of a local-path PDF in megabytes. Prevents OOM on fs.readFile. */
-  maxFileSizeMB: number;
 }
-
-const DEFAULT_MAX_FILE_SIZE_MB = 300;
 
 const DEFAULT_CONFIG: PdfReaderConfig = {
   path: { allow: [], deny: [] },
   url: { allow: [], deny: [] },
-  maxFileSizeMB: DEFAULT_MAX_FILE_SIZE_MB,
 };
 
 const CONFIG_PATH = path.join(os.homedir(), '.claude', 'plugin-settings', 'pdf-reader.json');
@@ -86,16 +81,9 @@ export const loadConfig = (): PdfReaderConfig => {
   }
 
   const obj = parsed as Record<string, unknown>;
-  const rawSize = obj['maxFileSizeMB'];
-  const maxFileSizeMB =
-    typeof rawSize === 'number' && Number.isFinite(rawSize) && rawSize > 0
-      ? rawSize
-      : DEFAULT_MAX_FILE_SIZE_MB;
-
   cached = {
     path: parseRuleSet(obj['path']),
     url: parseRuleSet(obj['url']),
-    maxFileSizeMB,
   };
   return cached;
 };
