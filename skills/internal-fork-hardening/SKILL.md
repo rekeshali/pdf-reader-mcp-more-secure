@@ -1,6 +1,6 @@
 ---
 name: internal-fork-hardening
-description: Take a third-party MCP server (or similar Node/JS package) and harden it for single-user installation behind an internal Claude proxy. Codifies the threat-model framing, layered controls (scheme floor + SSRF deny + user allow/deny), audit documentation, supply-chain pinning, dep-tree pruning, and CI workflow patterns proven on the pdf-reader-mcp-more-secure fork.
+description: Take a third-party MCP server (or similar Node/JS/Python package) and harden it for single-user installation behind an internal Claude proxy. Codifies the fork-strategy choice (formal GitHub fork vs hard-fork), threat-model framing, layered controls (scheme floor + SSRF deny + user allow/deny), audit documentation, supply-chain pinning, dep-tree pruning, and CI workflow patterns proven on the pdf-reader-mcp-more-secure fork.
 version: 1.0.0
 source: local-git-analysis
 analyzed_commits: 18
@@ -20,6 +20,27 @@ A repeatable workflow for taking an upstream npm/Node package and shipping a har
 - User wants to install a third-party MCP server via internal distribution rather than public npm.
 - User describes a threat model that's narrower than upstream's (single-user, not multi-tenant).
 - Any time you're auditing a third-party JS package and need a place to write down what you found.
+
+## Phase 0 — fork strategy (decide before cloning)
+
+Two ways to start. Pick deliberately; the choice affects how you'll handle upstream patches for the next year.
+
+| Pattern | Setup | When to choose |
+|---|---|---|
+| **Formal GitHub fork** | `gh repo fork upstream/repo --fork-name <new-name> --clone`. Keeps full git history; GitHub tracks the upstream relationship; adds `upstream` remote automatically. | You want to follow upstream's security patches and selectively merge them. You might contribute hardening back upstream. You want `git fetch upstream && git diff upstream/main -- src/` to surface what changed since your fork. **Default for secured-internal-network internal hardening — upstream security patches matter.** |
+| **Hard-fork (independent repo)** | `git clone <upstream> <new-name> && cd <new-name> && rm -rf .git && git init` + record upstream SHA in `.upstream-sha`. Then create your own GitHub repo with `gh repo create` and push. | You want a clean break: no upstream commit log, no implicit "we'll merge their PRs," no possibility of accidentally pushing to upstream. The upstream codebase is small enough that you'll re-review from scratch on any update anyway. |
+
+**Why formal fork is usually better for security-hardening forks:**
+
+- You'll want to know when upstream patches a CVE in their wrapper code — `git log upstream/main` shows it.
+- Diffing your fork against upstream surfaces drift the moment it appears, instead of blind-spot drift over months.
+- The "forked from" badge tells colleagues this is a derivative work, not an original — relevant for license compliance and auditability.
+
+**Hard-fork is right when** the upstream is essentially abandoned, when you've changed so much that future merges are infeasible, or when you want to obscure the lineage for legitimate reasons (rare).
+
+**After forking either way:** record the import SHA somewhere (`.upstream-sha` file or first commit message) so future-you can answer "what version did we start from?" without spelunking.
+
+---
 
 ## Core framing — start here
 
