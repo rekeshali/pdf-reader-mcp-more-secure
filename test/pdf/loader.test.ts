@@ -70,21 +70,19 @@ describe('loader', () => {
     });
 
     it('should reject file:// URLs', async () => {
-      await expect(
-        loadPdfDocument({ url: 'file:///etc/passwd' }, 'file:///etc/passwd')
-      ).rejects.toThrow("only https:// URLs are allowed (got 'file:')");
+      await expect(loadPdfDocument({ url: 'file:///etc/passwd' }, 'file:///etc/passwd')).rejects.toThrow(
+        "only https:// URLs are allowed (got 'file:')"
+      );
     });
 
     it('should reject data: URLs', async () => {
-      await expect(
-        loadPdfDocument({ url: 'data:application/pdf;base64,JVBER' }, 'data:...')
-      ).rejects.toThrow("only https:// URLs are allowed (got 'data:')");
+      await expect(loadPdfDocument({ url: 'data:application/pdf;base64,JVBER' }, 'data:...')).rejects.toThrow(
+        "only https:// URLs are allowed (got 'data:')"
+      );
     });
 
     it('should reject malformed URLs', async () => {
-      await expect(loadPdfDocument({ url: 'not a url' }, 'not a url')).rejects.toThrow(
-        'invalid URL'
-      );
+      await expect(loadPdfDocument({ url: 'not a url' }, 'not a url')).rejects.toThrow('invalid URL');
     });
 
     it('should handle file not found error (ENOENT)', async () => {

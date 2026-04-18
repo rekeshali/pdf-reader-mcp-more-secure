@@ -50,10 +50,7 @@ export const loadPdfDocument = async (
       try {
         parsedUrl = new URL(source.url);
       } catch {
-        throw new PdfError(
-          ErrorCode.InvalidParams,
-          `Source ${sourceDescription}: invalid URL.`
-        );
+        throw new PdfError(ErrorCode.InvalidParams, `Source ${sourceDescription}: invalid URL.`);
       }
       if (parsedUrl.protocol !== 'https:') {
         throw new PdfError(
