@@ -4,7 +4,19 @@ A security-hardened fork of [@sylphx/pdf-reader-mcp](https://github.com/SylphxAI
 
 ---
 
-## What this fork is for
+## What this is
+
+An **MCP server** (Model Context Protocol — the stdio-based plugin interface Claude Code uses to expose local tools to the agent) that lets Claude read PDFs. Once installed, a single tool becomes available in every Claude Code session:
+
+- `read_pdf` — given one or more sources (local file paths or HTTPS URLs), returns any combination of full text, per-page text, embedded images, tables, and document metadata. Supports page ranges (`"1-5,10,15-20"`), multi-document batching, and Y-coordinate-ordered output so extracted content preserves the document's reading flow.
+
+You don't invoke it directly. You tell Claude something like *"summarize `~/Downloads/paper.pdf`"* or *"pull the tables from https://internal.example.com/report.pdf"* — Claude decides to call `read_pdf`, gets back structured text/images/tables, and works from there. Useful for research reading, manual lookup, spec review, anything where a PDF is the source and you want the model to ground its answer in it instead of guessing.
+
+Feature parity with upstream is intentional; we didn't change what the tool *does*, only how it's distributed and what it's allowed to reach on your network and filesystem.
+
+---
+
+## Why this fork
 
 A single-user PDF reader for Claude Code on a locked-down personal workstation (e.g. an engineering laptop behind an internal Claude proxy). It answers one narrow concern:
 
@@ -31,7 +43,7 @@ It is **not** a hardened-for-shared-deployment package and it does **not** try t
 1. Installed from your organization's internal repo, not public npm.
 2. Claude Code CLI uses only a trusted (internal) model proxy.
 3. Single-user personal machine — not a shared server, not exposed as a LAN service.
-4. User installs with `--ignore-scripts --omit=optional` if rebuilding from source.
+4. Rebuilds use `bun install --frozen-lockfile --ignore-scripts` (blocks lockfile drift and install-time code in transitive deps).
 5. OS-level egress control (firewall, Little Snitch, etc.) is in place as a backstop — **strongly recommended**.
 
 If any of these conditions is not met, treat this fork as equivalent to the upstream package.
@@ -60,7 +72,7 @@ If any of these conditions is not met, treat this fork as equivalent to the upst
 - 100 MB file-size cap at `src/pdf/loader.ts:20` prevents memory-exhaustion DoS.
 - `pdfjs-dist` is invoked without `enableScripting: true`, so JavaScript embedded in PDFs does not execute.
 
-Runtime dependency tree: `@sylphx/mcp-server-sdk`, `@sylphx/vex`, `pdfjs-dist`, `pngjs`, `glob`. Root of trust is Sylphx (publisher of the `@sylphx/*` packages) plus Mozilla (pdfjs-dist), isaacs (glob), and the pngjs maintainers.
+Runtime dependency tree: `@sylphx/mcp-server-sdk`, `@sylphx/vex`, `pdfjs-dist`, `pngjs`, `glob`, `minimatch`. Root of trust is Sylphx (publisher of the `@sylphx/*` packages) plus Mozilla (pdfjs-dist), isaacs (glob/minimatch), and the pngjs maintainers.
 
 ---
 
@@ -170,14 +182,25 @@ bun run build
 - `--ignore-scripts` blocks install-time code execution in transitive deps (lifecycle scripts do not run).
 - The native `@napi-rs/canvas` optional dep is not installed by default with `--ignore-scripts` on bun, and isn't needed for text, metadata, or image extraction.
 
-**Supply-chain discipline:** dep updates must go through a PR that changes both `package.json` and `bun.lock`, with human review of the lockfile diff. Do not run `bun update` or `bun install` without `--frozen-lockfile` on the release branch.
+---
+
+## Supply-chain and CI
+
+Two workflows live at `.github/workflows/`:
+
+- **`pdf-reader-ci.yml`** — runs on push to `main` and on PRs. Installs with `--frozen-lockfile --ignore-scripts`, then runs `bun audit` (GitHub Advisory DB), the test suite, and the build. Fails the merge if any of those fail.
+- **`pdf-reader-audit.yml`** — runs daily at 13:00 UTC plus on-demand. Catches newly-disclosed CVEs that land against already-pinned versions (push-based CI can't detect these — the code didn't change, but the advisory did). Default GitHub behavior emails repo owners only on failure.
+
+Both files expose a single `TOOL_PATH` env at the top so they can drop into a monorepo with a one-line edit. Grep for `CHANGE-AFTER-MOVE` when relocating.
+
+**Dep-update discipline:** changes must go through a PR that modifies both `package.json` and `bun.lock`, with human review of the lockfile diff. Do not run `bun update` or `bun install` without `--frozen-lockfile` on the release branch.
 
 ---
 
 ## Dev-time notes
 
 - The upstream project's dev-time MCP config (context7, grep, playwright) has been moved to `.mcp.dev.json` for reference. It is not loaded by default.
-- Run the test suite: `bun test` (137 pass, 7 skip as of last commit).
+- Run the test suite: `bun test` (167 pass, 7 skip as of last commit).
 - Rebuild: `bun run build`.
 
 ---
