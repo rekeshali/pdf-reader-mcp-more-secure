@@ -258,7 +258,7 @@ describe('handleReadPdfFunc Integration Tests', () => {
   });
 
   it('should successfully read metadata only for a URL', async () => {
-    const testUrl = 'http://example.com/test.pdf';
+    const testUrl = 'https://example.com/test.pdf';
     const args = {
       sources: [{ url: testUrl }],
       include_full_text: false,
@@ -299,7 +299,7 @@ describe('handleReadPdfFunc Integration Tests', () => {
   });
 
   it('should handle multiple sources with different options', async () => {
-    const urlSource = 'http://example.com/another.pdf';
+    const urlSource = 'https://example.com/another.pdf';
     const args = {
       sources: [{ path: 'local.pdf', pages: [1] }, { url: urlSource }],
       include_full_text: true,
@@ -591,7 +591,7 @@ describe('handleReadPdfFunc Integration Tests', () => {
   // --- Additional Coverage Tests ---
 
   it('should throw error if pdfjs fails to load document from URL', async () => {
-    const testUrl = 'http://example.com/bad-url.pdf';
+    const testUrl = 'https://example.com/bad-url.pdf';
     const loadError = new Error('Mock URL PDF loading failed');
     const failingLoadingTask = { promise: Promise.reject(loadError) };
     // Ensure getDocument is mocked specifically for this URL

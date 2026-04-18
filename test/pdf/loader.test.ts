@@ -60,6 +60,33 @@ describe('loader', () => {
       await expect(loadPdfDocument({}, 'unknown')).rejects.toThrow("Source unknown missing 'path' or 'url'.");
     });
 
+    it('should reject http:// URLs (https-only policy)', async () => {
+      await expect(
+        loadPdfDocument({ url: 'http://example.com/test.pdf' }, 'http://example.com/test.pdf')
+      ).rejects.toThrow(PdfError);
+      await expect(
+        loadPdfDocument({ url: 'http://example.com/test.pdf' }, 'http://example.com/test.pdf')
+      ).rejects.toThrow("only https:// URLs are allowed (got 'http:')");
+    });
+
+    it('should reject file:// URLs', async () => {
+      await expect(
+        loadPdfDocument({ url: 'file:///etc/passwd' }, 'file:///etc/passwd')
+      ).rejects.toThrow("only https:// URLs are allowed (got 'file:')");
+    });
+
+    it('should reject data: URLs', async () => {
+      await expect(
+        loadPdfDocument({ url: 'data:application/pdf;base64,JVBER' }, 'data:...')
+      ).rejects.toThrow("only https:// URLs are allowed (got 'data:')");
+    });
+
+    it('should reject malformed URLs', async () => {
+      await expect(loadPdfDocument({ url: 'not a url' }, 'not a url')).rejects.toThrow(
+        'invalid URL'
+      );
+    });
+
     it('should handle file not found error (ENOENT)', async () => {
       const enoentError = Object.assign(new Error('File not found'), { code: 'ENOENT' });
 

@@ -356,6 +356,15 @@ var loadPdfDocument = async (source, sourceDescription) => {
       }
       pdfDataSource = new Uint8Array(buffer);
     } else if (source.url) {
+      let parsedUrl;
+      try {
+        parsedUrl = new URL(source.url);
+      } catch {
+        throw new PdfError(-32602 /* InvalidParams */, `Source ${sourceDescription}: invalid URL.`);
+      }
+      if (parsedUrl.protocol !== "https:") {
+        throw new PdfError(-32602 /* InvalidParams */, `Source ${sourceDescription}: only https:// URLs are allowed (got '${parsedUrl.protocol}').`);
+      }
       pdfDataSource = { url: source.url };
     } else {
       throw new PdfError(-32602 /* InvalidParams */, `Source ${sourceDescription} missing 'path' or 'url'.`);

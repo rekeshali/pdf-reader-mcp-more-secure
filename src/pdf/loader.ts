@@ -46,6 +46,21 @@ export const loadPdfDocument = async (
 
       pdfDataSource = new Uint8Array(buffer);
     } else if (source.url) {
+      let parsedUrl: URL;
+      try {
+        parsedUrl = new URL(source.url);
+      } catch {
+        throw new PdfError(
+          ErrorCode.InvalidParams,
+          `Source ${sourceDescription}: invalid URL.`
+        );
+      }
+      if (parsedUrl.protocol !== 'https:') {
+        throw new PdfError(
+          ErrorCode.InvalidParams,
+          `Source ${sourceDescription}: only https:// URLs are allowed (got '${parsedUrl.protocol}').`
+        );
+      }
       pdfDataSource = { url: source.url };
     } else {
       throw new PdfError(
