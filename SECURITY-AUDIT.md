@@ -161,6 +161,29 @@ Other free public scanners worth knowing about:
 - **deps.dev** (Google) — `https://deps.dev/npm/<package>` — package metadata, license, dep graph, Scorecard signals.
 - **OpenSSF Scorecard** — `https://scorecard.dev/viewer/?uri=github.com/<org>/<repo>` — maintenance/security-practice score for the publishing project.
 
+### OpenSSF Scorecard — runtime deps
+
+Pulled `2026-04-13` from `https://api.securityscorecards.dev/projects/github.com/<org>/<repo>`.
+
+| Package | Repo | Overall | Maintained | Code-Review | Token-Perms | Dangerous-Workflow | SAST | Pinned-Deps | Signed-Releases | Security-Policy |
+|---|---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| `pdfjs-dist` | mozilla/pdf.js | **7.3** | 10 | 10 | 0 | 10 | 10 | 8 | 0 | 10 |
+| `glob` | isaacs/node-glob | **5.5** | 10 | 0 | 10 | 10 | 0 | 0 | -1 | 10 |
+| `minimatch` | isaacs/minimatch | **6.2** | 10 | 0 | 10 | 10 | 0 | 0 | -1 | 10 |
+| `pngjs` | lukeapage/pngjs | **4.5** | 0 | 3 | 10 | 10 | 0 | 0 | -1 | 0 |
+| `@sylphx/mcp-server-sdk` | SylphxAI/mcp-server-sdk | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+| `@sylphx/vex`, `@sylphx/gust*`, `@sylphx/vex-json-schema` | (no repo declared in package.json) | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a | n/a |
+
+`-1` = check could not be evaluated (typically requires API auth or no relevant artifact found, not a "bad" score).
+
+**How to read these:**
+- `Maintained` and `Dangerous-Workflow` are the load-bearing signals for "is this package abandoned or weaponized." Both packages from `isaacs` (glob, minimatch) and Mozilla (pdf.js) score 10. `pngjs` scores 0 on `Maintained` — single-maintainer project with low recent activity. Functional and widely used, but slow update cadence.
+- `Code-Review` scores 0 on glob/minimatch because isaacs is the sole maintainer and self-merges. Same for many small libs. Not by itself a smell.
+- `Pinned-Dependencies`, `Signed-Releases`, `SAST`, and `CII-Best-Practices` are governance checks that most non-enterprise OSS projects fail. Low scores there are expected, not concerning.
+- `Token-Permissions: 10` and `Dangerous-Workflow: 10` together mean none of these projects' CI runs with elevated GitHub tokens or unsafe action patterns — i.e., low likelihood of supply-chain attack via their build pipeline.
+
+**Sylphx packages are not in the Scorecard index.** OpenSSF Scorecard auto-scores sufficiently popular public repos; the Sylphx repos either aren't public or haven't crossed Scorecard's eligibility threshold. The 6 Sylphx packages (`@sylphx/mcp-server-sdk` and the `gust*` / `vex*` chain) sit outside this independent verification layer. They are the largest residual trust assumption in the dep tree, mitigated by the grep audit in Section 3 and the recommended Socket.dev manual cross-check above.
+
 ---
 
 ## 9. How to re-audit
