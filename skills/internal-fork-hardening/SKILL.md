@@ -1,6 +1,6 @@
 ---
 name: internal-fork-hardening
-description: Take a third-party MCP server (or similar Node/JS/Python package) and harden it for single-user installation behind an internal Claude proxy. Always start from a formal GitHub fork (never a hard-fork). Codifies threat-model framing, layered controls (scheme floor + SSRF deny + user allow/deny), audit documentation, supply-chain pinning, dep-tree pruning, and CI workflow patterns proven on the pdf-reader-mcp-more-secure fork.
+description: Take a third-party MCP server (or similar Node/JS/Python package) and harden it for single-user installation behind a trusted internal model proxy on a secured internal network. Always start from a formal GitHub fork (never a hard-fork). Entity-name policy is non-negotiable — no company/agency/product/internal-project name ever appears in code, tests, commit messages, or docs. Codifies threat-model framing, layered controls (scheme floor + SSRF deny + user allow/deny), audit documentation, supply-chain pinning, dep-tree pruning, and CI workflow patterns proven on the pdf-reader-mcp-more-secure fork.
 version: 1.0.0
 source: local-git-analysis
 analyzed_commits: 18
@@ -43,6 +43,40 @@ git rev-parse upstream/main > .upstream-sha
 ```
 
 The `upstream` remote is added automatically by `gh repo fork --clone`. Keep it. Fetch from it before every release cycle to surface upstream changes you may need to incorporate.
+
+---
+
+## Entity-name policy — non-negotiable
+
+**No company, organization, agency, product, customer, or internal-project name ever appears in fork code, tests, commit messages, config examples, or docs.** This skill produces generic hardening for any security-hardened deployment, not for a specific entity.
+
+**Why:** forked repos tend to end up public (via org archive, accidental open-sourcing, audit leaks, or the "forked from" badge on GitHub). A repo titled `pdf-reader-hardened-for-acme-corp` tells an attacker that Acme Corp uses MCP + Claude + PDF processing, runs locked-down workstations, and has a specific package supply-chain story. That's attacker-useful reconnaissance. The hardening itself doesn't change if you replace the name with "internal-network deployment" — so drop the name.
+
+**The canonical language:**
+
+- *"secured internal network"* instead of any specific network name
+- *"locked-down workstation on a secured internal network"* instead of any specific machine type
+- *"internal-network single-user threat model"* instead of any specific org's threat model
+- *"trusted internal model proxy"* instead of any specific AI proxy
+- *"internal.example.com"* / *"corp.example.com"* in test URLs and config examples
+
+**Apply everywhere:**
+
+- Source code (comments, docstrings, log messages, error strings)
+- Tests (example domains, fixture data, test case names)
+- Commit messages (subject lines AND bodies — both reach history)
+- Docs (README.md, SECURITY-AUDIT.md, CHANGELOG if you author one)
+- Config templates (installed to the user's machine via `install.sh`)
+- The skill itself (meta; if you reference a prior fork, use its repo name, not the entity behind it)
+
+**If you slip:**
+
+1. Scrub the working tree (edit files, commit the scrub).
+2. Rewrite history via `git filter-branch --tree-filter` (file content) + `--msg-filter` (commit messages) or `git filter-repo`.
+3. Clean `refs/original/*` + `git reflog expire --expire=now --all` + `git gc --prune=now` to drop the backup refs that preserve the old content.
+4. `git push --force` (original fork SHAs are gone). Document the force-push in a follow-up commit explaining what and why.
+
+This policy applies **before, during, and after** every phase in this skill. Verify with `git log --all -p | grep -iE '<entity>'` and `grep -rniE '<entity>' .` before considering any fork complete.
 
 ---
 
@@ -228,6 +262,28 @@ benchmark_data/  tests/fixtures/            (test data, not code)
 ```
 scripts/benchmark_*.py  scripts/profile_*.py    (dev-only manual invocation; useful for verifying perf)
 ```
+
+## Entity-name verification checklist
+
+Before marking a fork "done" and after every subsequent commit batch, run:
+
+```bash
+# Tree
+grep -rniE '<entity-name>|<product-name>' . \
+    --include="*.py" --include="*.ts" --include="*.js" \
+    --include="*.md" --include="*.toml" --include="*.sh" \
+    --include="*.json" --include="*.yml" --include="*.yaml" \
+  | grep -v node_modules | grep -v 'README\.OG\.md' | grep -v '\.git/'
+
+# History
+git log --all --format="%B" | grep -iE '<entity-name>|<product-name>'
+git log --all -p | grep -iE '<entity-name>|<product-name>' \
+  | grep -vE 'Ġ\w*<fragment>|\..*<fragment>":[0-9]+'  # drop BPE / JSON tokenizer false positives
+```
+
+README.OG.md (preserved upstream README) is excluded by design — it belongs to the upstream project. If upstream itself names an entity, that's their call, not a leak from your hardening work.
+
+---
 
 ## Reference
 
