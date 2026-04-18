@@ -1,893 +1,158 @@
-<div align="center">
+# pdf-reader-mcp (hardened fork)
 
-# 📄 @sylphx/pdf-reader-mcp
-
-> Production-ready PDF processing server for AI agents
-
-[![npm version](https://img.shields.io/npm/v/@sylphx/pdf-reader-mcp?style=flat-square)](https://www.npmjs.com/package/@sylphx/pdf-reader-mcp)
-[![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](https://opensource.org/licenses/MIT)
-[![CI/CD](https://img.shields.io/github/actions/workflow/status/SylphxAI/pdf-reader-mcp/ci.yml?style=flat-square&label=CI/CD)](https://github.com/SylphxAI/pdf-reader-mcp/actions/workflows/ci.yml)
-[![codecov](https://img.shields.io/codecov/c/github/SylphxAI/pdf-reader-mcp?style=flat-square)](https://codecov.io/gh/SylphxAI/pdf-reader-mcp)
-[![coverage](https://img.shields.io/badge/coverage-94.17%25-brightgreen?style=flat-square)](https://pdf-reader-msu3esos4-sylphx.vercel.app)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg?style=flat-square)](https://www.typescriptlang.org/)
-[![Downloads](https://img.shields.io/npm/dm/@sylphx/pdf-reader-mcp?style=flat-square)](https://www.npmjs.com/package/@sylphx/pdf-reader-mcp)
-
-**5-10x faster parallel processing** • **Y-coordinate content ordering** • **94%+ test coverage** • **103 tests passing**
-
-<a href="https://mseep.ai/app/SylphxAI-pdf-reader-mcp">
-<img src="https://mseep.net/pr/SylphxAI-pdf-reader-mcp-badge.png" alt="Security Validated" width="200"/>
-</a>
-
-</div>
+A security-hardened fork of [@sylphx/pdf-reader-mcp](https://github.com/SylphxAI/pdf-reader-mcp), packaged as a Claude Code plugin for internal distribution. The upstream README is preserved as [`README.OG.md`](./README.OG.md).
 
 ---
 
-## 🚀 Overview
+## What this fork is for
 
-PDF Reader MCP is a **production-ready** Model Context Protocol server that empowers AI agents with **enterprise-grade PDF processing capabilities**. Extract text, images, and metadata with unmatched performance and reliability.
+A single-user PDF reader for Claude Code on a locked-down personal workstation (e.g. an engineering laptop behind an internal Claude proxy). It answers one narrow concern:
 
-**The Problem:**
-```typescript
-// Traditional PDF processing
-- Sequential page processing (slow)
-- No natural content ordering
-- Complex path handling
-- Poor error isolation
-```
+> *Can this third-party package, by itself, leak PDF contents to external actors without the user's knowledge?*
 
-**The Solution:**
-```typescript
-// PDF Reader MCP
-- 5-10x faster parallel processing ⚡
-- Y-coordinate based ordering 📐
-- Flexible path support (absolute/relative) 🎯
-- Per-page error resilience 🛡️
-- 94%+ test coverage ✅
-```
-
-**Result: Production-ready PDF processing that scales.**
+It is **not** a hardened-for-shared-deployment package and it does **not** try to mitigate AI-agent misuse.
 
 ---
 
-## ⚡ Key Features
+## Threat model
 
-### Performance
+### In scope
+- The package code and its direct/transitive dependencies as a potential data-exfil vector.
+- Accidental network egress (HTTP transport footguns, unrestricted URL fetching).
+- Supply-chain install-time code execution.
 
-- 🚀 **5-10x faster** than sequential with automatic parallelization
-- ⚡ **12,933 ops/sec** error handling, 5,575 ops/sec text extraction
-- 💨 **Process 50-page PDFs** in seconds with multi-core utilization
-- 📦 **Lightweight** with minimal dependencies
+### Explicitly out of scope
+- **AI-agent risks** (prompt injection, agent misuse). These need to be mitigated at the agent/policy layer, not here.
+- **Multi-user or shared-server deployments.** One user, one machine.
+- **Adversaries with physical or kernel access to the machine.**
 
-### Developer Experience
+### Operating conditions under which this fork is considered secure
 
-- 🎯 **Path Flexibility** - Absolute & relative paths, Windows/Unix support (v1.3.0)
-- 🖼️ **Smart Ordering** - Y-coordinate based content preserves document layout
-- 🛡️ **Type Safe** - Full TypeScript with strict mode enabled
-- 📚 **Battle-tested** - 103 tests, 94%+ coverage, 98%+ function coverage
-- 🎨 **Simple API** - Single tool handles all operations elegantly
+1. Installed from your organization's internal repo, not public npm.
+2. Claude Code CLI uses only a trusted (internal) model proxy.
+3. Single-user personal machine — not a shared server, not exposed as a LAN service.
+4. User installs with `--ignore-scripts --omit=optional` if rebuilding from source.
+5. OS-level egress control (firewall, Little Snitch, etc.) is in place as a backstop — **strongly recommended**.
 
----
-
-## 📊 Performance Benchmarks
-
-Real-world performance from production testing:
-
-| Operation | Ops/sec | Performance | Use Case |
-|-----------|---------|-------------|----------|
-| **Error handling** | 12,933 | ⚡⚡⚡⚡⚡ | Validation & safety |
-| **Extract full text** | 5,575 | ⚡⚡⚡⚡ | Document analysis |
-| **Extract page** | 5,329 | ⚡⚡⚡⚡ | Single page ops |
-| **Multiple pages** | 5,242 | ⚡⚡⚡⚡ | Batch processing |
-| **Metadata only** | 4,912 | ⚡⚡⚡ | Quick inspection |
-
-### Parallel Processing Speedup
-
-| Document | Sequential | Parallel | Speedup |
-|----------|-----------|----------|---------|
-| **10-page PDF** | ~2s | ~0.3s | **5-8x faster** |
-| **50-page PDF** | ~10s | ~1s | **10x faster** |
-| **100+ pages** | ~20s | ~2s | **Linear scaling** with CPU cores |
-
-*Benchmarks vary based on PDF complexity and system resources.*
+If any of these conditions is not met, treat this fork as equivalent to the upstream package.
 
 ---
 
-## 🔒 Internal Install (this fork)
+## What we changed vs upstream
 
-This fork is distributed via an internal repo only. Do not install from the public npm package; always clone the internal repo and run the scripts below.
+| Hardening | Details |
+|---|---|
+| HTTPS-only URL sources | `url:` sources are rejected unless the scheme is `https:`. `http:`, `file:`, `data:`, `blob:`, and malformed URLs all fail at load time in `src/pdf/loader.ts`. |
+| HTTP transport removed | `MCP_TRANSPORT`, `MCP_HTTP_*`, and `MCP_API_KEY` env vars and the entire `http()` branch are deleted. Transport is stdio-only. Removes the "one env var exposes a local file reader to the LAN with `cors:*`" footgun. |
+| Exact-pin all deps | `package.json` has no `^`/`~`: every direct dep resolves to a single version. Combined with the committed `bun.lock` and `--frozen-lockfile` on rebuild, supply-chain attackers can't auto-deliver a newer malicious version, and registry tarball swaps are blocked by the lockfile's SHA-512 integrity hashes. |
+| Plugin install flow | Packaged as a Claude Code plugin with `.claude-plugin/plugin.json` and a `${CLAUDE_PLUGIN_ROOT}`-based `.mcp.json`. Install/uninstall/enable/disable scripts provided. |
 
-**Prerequisites:** `node >=22`, `claude` CLI logged in.
+Things we reviewed but intentionally did *not* change:
+- **No path allow-list.** Single-user assumption; the OS file-permission boundary is considered sufficient.
+- **No SSRF deny-list beyond the scheme check.** HTTPS to private IPs (`localhost`, `169.254.169.254`, RFC 1918) is not blocked in code. If you need that guarantee, use an OS-level firewall rule.
+
+---
+
+## What we audited and found clean
+
+- No outbound network calls in `src/` or `dist/` outside user-requested URL fetches. No `fetch`, `http`, `axios`, WebSocket, `dgram`.
+- No dynamic code execution — no `eval`, `new Function`, `vm`, `child_process`, `exec`, `spawn`.
+- No telemetry or analytics.
+- No `postinstall` / `preinstall` scripts in `package.json`.
+- 100 MB file-size cap at `src/pdf/loader.ts:20` prevents memory-exhaustion DoS.
+- `pdfjs-dist` is invoked without `enableScripting: true`, so JavaScript embedded in PDFs does not execute.
+
+Runtime dependency tree: `@sylphx/mcp-server-sdk`, `@sylphx/vex`, `pdfjs-dist`, `pngjs`, `glob`. Root of trust is Sylphx (publisher of the `@sylphx/*` packages) plus Mozilla (pdfjs-dist), isaacs (glob), and the pngjs maintainers.
+
+---
+
+## Installation
+
+**Prereqs:** `node >=22`, `claude` CLI logged in.
 
 ```bash
-git clone <internal-repo-url> pdf-reader-mcp
-cd pdf-reader-mcp
+git clone <your-internal-repo-url>
+cd pdf-reader-mcp-more-secure
 ./install.sh
 ```
 
-`install.sh` installs this as a Claude Code **plugin** under user scope (`claude plugin install . --scope user`), making it available from any working directory. Clone the repo anywhere — the plugin is copied into Claude's plugin cache at install time, so after install you can move or even delete the clone directory if you want. To update, `git pull` in your clone and re-run `./install.sh`.
+`install.sh` runs `claude plugin install . --scope user`, which copies the plugin into Claude's plugin cache. After install, the clone directory can be moved or deleted — the plugin lives in the cache.
 
 **Verify:**
 
 ```bash
-claude plugin list       # should show: pdf-reader
-# Then in a Claude session:
-/mcp                     # confirms the pdf-reader MCP server is connected
+claude plugin list       # should list: pdf-reader
 ```
 
-**Disable / re-enable / uninstall:**
+Inside a Claude session:
+
+```
+/mcp
+```
+
+should show `pdf-reader` as a connected server.
+
+---
+
+## Usage
+
+Once installed, the `read_pdf` tool is available in any Claude Code session. Ask naturally:
+
+> Read `/path/to/doc.pdf` and summarize the intro.
+>
+> Summarize https://internal.example.com/manuals/foo.pdf — just the executive summary.
+
+The tool supports text extraction, metadata, page counts, page ranges, images, and tables. See [`README.OG.md`](./README.OG.md) for the full tool schema and parameters.
+
+---
+
+## Update, disable, uninstall
 
 ```bash
-./disable.sh    # stop Claude from loading it (plugin stays installed)
-./enable.sh     # turn it back on
-./uninstall.sh  # fully remove the plugin
+./disable.sh      # stop Claude from loading it (plugin stays installed)
+./enable.sh       # turn it back on
+./uninstall.sh    # fully remove the plugin
 ```
 
-All four scripts are idempotent.
+To update: `git pull` in your clone, then re-run `./install.sh`. Because the plugin is cached at install time, pulling alone does nothing — the re-install step is required to copy the new build into the cache.
 
-**Rebuilding from source** (only if `dist/index.js` is missing or you're modifying code):
+---
+
+## Gotchas
+
+1. **Plugin cache is not a live link.** The plugin directory Claude loads is a *copy* made at install time. Editing files in your clone has no effect until you re-run `./install.sh`.
+2. **Opening this repo in Claude Code will show a cosmetic `pdf-reader` failure.** The tracked `.mcp.json` uses `${CLAUDE_PLUGIN_ROOT}`, which only resolves inside the plugin context. If you open the repo directory as a project, Claude tries to spawn `node ${CLAUDE_PLUGIN_ROOT}/dist/index.js` and fails. Ignore it — the installed plugin is unaffected.
+3. **`https://localhost/...` and private-IP URLs are still permitted.** The validator blocks schemes, not destinations. If you need to prevent SSRF to internal services, add an OS-level firewall rule.
+4. **Node must be on `PATH` when Claude spawns the server.** If you use `nvm` or `asdf`, ensure Claude inherits a shell with node available, or you'll get `node: command not found` in the MCP log.
+5. **Re-running `./install.sh` fully replaces the prior install.** Idempotent by design. If plugin-scoped data ever matters to you, pass `--keep-data` manually to `claude plugin uninstall`.
+
+---
+
+## Rebuilding from source
+
+Only needed if `dist/index.js` is missing or you're modifying code:
 
 ```bash
-npm ci --ignore-scripts --omit=optional
-npm run build
+bun install --frozen-lockfile --ignore-scripts
+bun run build
 ```
 
-`--ignore-scripts` blocks any install-time code in transitive deps; `--omit=optional` skips the native `@napi-rs/canvas` dep (not needed for text/metadata extraction).
+- `--frozen-lockfile` refuses to modify `bun.lock`; if any resolution would change, the install fails loudly instead of silently drifting.
+- `--ignore-scripts` blocks install-time code execution in transitive deps (lifecycle scripts do not run).
+- The native `@napi-rs/canvas` optional dep is not installed by default with `--ignore-scripts` on bun, and isn't needed for text, metadata, or image extraction.
 
-**Opening this repo in a Claude session (dev-only note):** the tracked `.mcp.json` uses the `${CLAUDE_PLUGIN_ROOT}` variable, which only resolves when loaded as a plugin. If you open the repo directory directly in Claude Code, the project-level `pdf-reader` registration will fail to spawn — this is cosmetic and expected. Install the plugin (`./install.sh`) and use it from there. Upstream's dev-time MCP config has been moved to `.mcp.dev.json` for reference.
+**Supply-chain discipline:** dep updates must go through a PR that changes both `package.json` and `bun.lock`, with human review of the lockfile diff. Do not run `bun update` or `bun install` without `--frozen-lockfile` on the release branch.
 
 ---
 
-## 📦 Installation (upstream — do not use for internal deployment)
+## Dev-time notes
 
-### Claude Code
-
-```bash
-claude mcp add pdf-reader -- npx @sylphx/pdf-reader-mcp
-```
-
-### Claude Desktop
-
-Add to `claude_desktop_config.json`:
-
-```json
-{
-  "mcpServers": {
-    "pdf-reader": {
-      "command": "npx",
-      "args": ["@sylphx/pdf-reader-mcp"]
-    }
-  }
-}
-```
-
-<details>
-<summary><strong>📍 Config file locations</strong></summary>
-
-- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
-- **Linux**: `~/.config/Claude/claude_desktop_config.json`
-
-</details>
-
-### VS Code
-
-```bash
-code --add-mcp '{"name":"pdf-reader","command":"npx","args":["@sylphx/pdf-reader-mcp"]}'
-```
-
-### Cursor
-
-1. Open **Settings** → **MCP** → **Add new MCP Server**
-2. Select **Command** type
-3. Enter: `npx @sylphx/pdf-reader-mcp`
-
-### Windsurf
-
-Add to your Windsurf MCP config:
-
-```json
-{
-  "mcpServers": {
-    "pdf-reader": {
-      "command": "npx",
-      "args": ["@sylphx/pdf-reader-mcp"]
-    }
-  }
-}
-```
-
-### Cline
-
-Add to Cline's MCP settings:
-
-```json
-{
-  "mcpServers": {
-    "pdf-reader": {
-      "command": "npx",
-      "args": ["@sylphx/pdf-reader-mcp"]
-    }
-  }
-}
-```
-
-### Warp
-
-1. Go to **Settings** → **AI** → **Manage MCP Servers** → **Add**
-2. Command: `npx`, Args: `@sylphx/pdf-reader-mcp`
-
-### Smithery (One-click)
-
-```bash
-npx -y @smithery/cli install @sylphx/pdf-reader-mcp --client claude
-```
-
-### Manual Installation
-
-```bash
-# Quick start - zero installation
-npx @sylphx/pdf-reader-mcp
-
-# Or install globally
-npm install -g @sylphx/pdf-reader-mcp
-```
+- The upstream project's dev-time MCP config (context7, grep, playwright) has been moved to `.mcp.dev.json` for reference. It is not loaded by default.
+- Run the test suite: `bun test` (137 pass, 7 skip as of last commit).
+- Rebuild: `bun run build`.
 
 ---
 
-## 🎯 Quick Start
+## License
 
-### Basic Usage
-
-```json
-{
-  "sources": [{
-    "path": "documents/report.pdf"
-  }],
-  "include_full_text": true,
-  "include_metadata": true,
-  "include_page_count": true
-}
-```
-
-**Result:**
-- ✅ Full text content extracted
-- ✅ PDF metadata (author, title, dates)
-- ✅ Total page count
-- ✅ Structural sharing - unchanged parts preserved
-
-### Extract Specific Pages
-
-```json
-{
-  "sources": [{
-    "path": "documents/manual.pdf",
-    "pages": "1-5,10,15-20"
-  }],
-  "include_full_text": true
-}
-```
-
-### Absolute Paths (v1.3.0+)
-
-```json
-// Windows - Both formats work!
-{
-  "sources": [{
-    "path": "C:\\Users\\John\\Documents\\report.pdf"
-  }],
-  "include_full_text": true
-}
-
-// Unix/Mac
-{
-  "sources": [{
-    "path": "/home/user/documents/contract.pdf"
-  }],
-  "include_full_text": true
-}
-```
-
-**No more** `"Absolute paths are not allowed"` **errors!**
-
-### Extract Images with Natural Ordering
-
-```json
-{
-  "sources": [{
-    "path": "presentation.pdf",
-    "pages": [1, 2, 3]
-  }],
-  "include_images": true,
-  "include_full_text": true
-}
-```
-
-**Response includes:**
-- Text and images in **exact document order** (Y-coordinate sorted)
-- Base64-encoded images with metadata (width, height, format)
-- Natural reading flow preserved for AI comprehension
-
-### Batch Processing
-
-```json
-{
-  "sources": [
-    { "path": "C:\\Reports\\Q1.pdf", "pages": "1-10" },
-    { "path": "/home/user/Q2.pdf", "pages": "1-10" },
-    { "url": "https://example.com/Q3.pdf" }
-  ],
-  "include_full_text": true
-}
-```
-
-⚡ **All PDFs processed in parallel automatically!**
-
----
-
-## ✨ Features
-
-### Core Capabilities
-- ✅ **Text Extraction** - Full document or specific pages with intelligent parsing
-- ✅ **Image Extraction** - Base64-encoded with complete metadata (width, height, format)
-- ✅ **Content Ordering** - Y-coordinate based layout preservation for natural reading flow
-- ✅ **Metadata Extraction** - Author, title, creation date, and custom properties
-- ✅ **Page Counting** - Fast enumeration without loading full content
-- ✅ **Dual Sources** - Local files (absolute or relative paths) and HTTP/HTTPS URLs
-- ✅ **Batch Processing** - Multiple PDFs processed concurrently
-
-### Advanced Features
-- ⚡ **5-10x Performance** - Parallel page processing with Promise.all
-- 🎯 **Smart Pagination** - Extract ranges like "1-5,10-15,20"
-- 🖼️ **Multi-Format Images** - RGB, RGBA, Grayscale with automatic detection
-- 🛡️ **Path Flexibility** - Windows, Unix, and relative paths all supported (v1.3.0)
-- 🔍 **Error Resilience** - Per-page error isolation with detailed messages
-- 📏 **Large File Support** - Efficient streaming and memory management
-- 📝 **Type Safe** - Full TypeScript with strict mode enabled
-
----
-
-## 🆕 What's New in v1.3.0
-
-### 🎉 Absolute Paths Now Supported!
-
-```json
-// ✅ Windows
-{ "path": "C:\\Users\\John\\Documents\\report.pdf" }
-{ "path": "C:/Users/John/Documents/report.pdf" }
-
-// ✅ Unix/Mac
-{ "path": "/home/john/documents/report.pdf" }
-{ "path": "/Users/john/Documents/report.pdf" }
-
-// ✅ Relative (still works)
-{ "path": "documents/report.pdf" }
-```
-
-**Other Improvements:**
-- 🐛 Fixed Zod validation error handling
-- 📦 Updated all dependencies to latest versions
-- ✅ 103 tests passing, 94%+ coverage maintained
-
-<details>
-<summary><strong>📋 View Full Changelog</strong></summary>
-
-<br/>
-
-**v1.2.0 - Content Ordering**
-- Y-coordinate based text and image ordering
-- Natural reading flow for AI models
-- Intelligent line grouping
-
-**v1.1.0 - Image Extraction & Performance**
-- Base64-encoded image extraction
-- 10x speedup with parallel processing
-- Comprehensive test coverage (94%+)
-
-[View Full Changelog →](./CHANGELOG.md)
-
-</details>
-
----
-
-## 📖 API Reference
-
-### `read_pdf` Tool
-
-The single tool that handles all PDF operations.
-
-#### Parameters
-
-| Parameter | Type | Description | Default |
-|-----------|------|-------------|---------|
-| `sources` | Array | List of PDF sources to process | Required |
-| `include_full_text` | boolean | Extract full text content | `false` |
-| `include_metadata` | boolean | Extract PDF metadata | `true` |
-| `include_page_count` | boolean | Include total page count | `true` |
-| `include_images` | boolean | Extract embedded images | `false` |
-
-#### Source Object
-
-```typescript
-{
-  path?: string;        // Local file path (absolute or relative)
-  url?: string;         // HTTP/HTTPS URL to PDF
-  pages?: string | number[];  // Pages to extract: "1-5,10" or [1,2,3]
-}
-```
-
-#### Examples
-
-**Metadata only (fast):**
-```json
-{
-  "sources": [{ "path": "large.pdf" }],
-  "include_metadata": true,
-  "include_page_count": true,
-  "include_full_text": false
-}
-```
-
-**From URL:**
-```json
-{
-  "sources": [{
-    "url": "https://arxiv.org/pdf/2301.00001.pdf"
-  }],
-  "include_full_text": true
-}
-```
-
-**Page ranges:**
-```json
-{
-  "sources": [{
-    "path": "manual.pdf",
-    "pages": "1-5,10-15,20"  // Pages 1,2,3,4,5,10,11,12,13,14,15,20
-  }]
-}
-```
-
----
-
-## 🔧 Advanced Usage
-
-<details>
-<summary><strong>📐 Y-Coordinate Content Ordering</strong></summary>
-
-<br/>
-
-Content is returned in natural reading order based on Y-coordinates:
-
-```
-Document Layout:
-┌─────────────────────┐
-│ [Title]       Y:100 │
-│ [Image]       Y:150 │
-│ [Text]        Y:400 │
-│ [Photo A]     Y:500 │
-│ [Photo B]     Y:550 │
-└─────────────────────┘
-
-Response Order:
-[
-  { type: "text", text: "Title..." },
-  { type: "image", data: "..." },
-  { type: "text", text: "..." },
-  { type: "image", data: "..." },
-  { type: "image", data: "..." }
-]
-```
-
-**Benefits:**
-- AI understands spatial relationships
-- Natural document comprehension
-- Perfect for vision-enabled models
-- Automatic multi-line text grouping
-
-</details>
-
-<details>
-<summary><strong>🖼️ Image Extraction</strong></summary>
-
-<br/>
-
-**Enable extraction:**
-```json
-{
-  "sources": [{ "path": "manual.pdf" }],
-  "include_images": true
-}
-```
-
-**Response format:**
-```json
-{
-  "images": [{
-    "page": 1,
-    "index": 0,
-    "width": 1920,
-    "height": 1080,
-    "format": "rgb",
-    "data": "base64-encoded-png..."
-  }]
-}
-```
-
-**Supported formats:** RGB, RGBA, Grayscale
-**Auto-detected:** JPEG, PNG, and other embedded formats
-
-</details>
-
-<details>
-<summary><strong>📂 Path Configuration</strong></summary>
-
-<br/>
-
-**Absolute paths** (v1.3.0+) - Direct file access:
-```json
-{ "path": "C:\\Users\\John\\file.pdf" }
-{ "path": "/home/user/file.pdf" }
-```
-
-**Relative paths** - Workspace files:
-```json
-{ "path": "docs/report.pdf" }
-{ "path": "./2024/Q1.pdf" }
-```
-
-**Configure working directory:**
-```json
-{
-  "mcpServers": {
-    "pdf-reader-mcp": {
-      "command": "npx",
-      "args": ["@sylphx/pdf-reader-mcp"],
-      "cwd": "/path/to/documents"
-    }
-  }
-}
-```
-
-</details>
-
-<details>
-<summary><strong>📊 Large PDF Strategies</strong></summary>
-
-<br/>
-
-**Strategy 1: Page ranges**
-```json
-{ "sources": [{ "path": "big.pdf", "pages": "1-20" }] }
-```
-
-**Strategy 2: Progressive loading**
-```json
-// Step 1: Get page count
-{ "sources": [{ "path": "big.pdf" }], "include_full_text": false }
-
-// Step 2: Extract sections
-{ "sources": [{ "path": "big.pdf", "pages": "50-75" }] }
-```
-
-**Strategy 3: Parallel batching**
-```json
-{
-  "sources": [
-    { "path": "big.pdf", "pages": "1-50" },
-    { "path": "big.pdf", "pages": "51-100" }
-  ]
-}
-```
-
-</details>
-
----
-
-## 🔧 Troubleshooting
-
-### "Absolute paths are not allowed"
-
-**Solution:** Upgrade to v1.3.0+
-
-```bash
-npm update @sylphx/pdf-reader-mcp
-```
-
-Restart your MCP client completely.
-
----
-
-### "File not found"
-
-**Causes:**
-- File doesn't exist at path
-- Wrong working directory
-- Permission issues
-
-**Solutions:**
-
-Use absolute path:
-```json
-{ "path": "C:\\Full\\Path\\file.pdf" }
-```
-
-Or configure `cwd`:
-```json
-{
-  "pdf-reader-mcp": {
-    "command": "npx",
-    "args": ["@sylphx/pdf-reader-mcp"],
-    "cwd": "/path/to/docs"
-  }
-}
-```
-
----
-
-### "No tools showing up"
-
-**Solution:**
-
-```bash
-npm cache clean --force
-rm -rf node_modules package-lock.json
-npm install @sylphx/pdf-reader-mcp@latest
-```
-
-Restart MCP client completely.
-
----
-
-## 🌐 HTTP Transport (Remote Access)
-
-By default, PDF Reader MCP uses stdio transport for local use. You can also run it as an HTTP server for remote access from multiple machines.
-
-### Quick Start
-
-```bash
-# Run as HTTP server on port 8080
-MCP_TRANSPORT=http npx @sylphx/pdf-reader-mcp
-```
-
-### Environment Variables
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `MCP_TRANSPORT` | `stdio` | Transport type: `stdio` or `http` |
-| `MCP_HTTP_PORT` | `8080` | HTTP server port |
-| `MCP_HTTP_HOST` | `0.0.0.0` | HTTP server hostname |
-| `MCP_API_KEY` | - | Optional API key for authentication |
-
-### Docker Deployment
-
-```dockerfile
-FROM oven/bun:1
-WORKDIR /app
-RUN bun add @sylphx/pdf-reader-mcp
-ENV MCP_TRANSPORT=http
-ENV MCP_HTTP_PORT=8080
-EXPOSE 8080
-CMD ["bun", "node_modules/@sylphx/pdf-reader-mcp/dist/index.js"]
-```
-
-### MCP Client Configuration (HTTP)
-
-```json
-{
-  "servers": {
-    "pdf-reader": {
-      "type": "http",
-      "url": "https://your-server.com/mcp",
-      "headers": {
-        "X-API-Key": "your-api-key"
-      }
-    }
-  }
-}
-```
-
-### Endpoints
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/mcp` | POST | JSON-RPC endpoint |
-| `/mcp/health` | GET | Health check |
-
----
-
-## 🏗️ Architecture
-
-### Tech Stack
-
-| Component | Technology |
-|:----------|:-----------|
-| **Runtime** | Node.js 22+ ESM |
-| **PDF Engine** | PDF.js (Mozilla) |
-| **Validation** | Zod + JSON Schema |
-| **Protocol** | MCP SDK |
-| **Language** | TypeScript (strict) |
-| **Testing** | Vitest (103 tests) |
-| **Quality** | Biome (50x faster) |
-| **CI/CD** | GitHub Actions |
-
-### Design Principles
-
-- 🔒 **Security First** - Flexible paths with secure defaults
-- 🎯 **Simple Interface** - One tool, all operations
-- ⚡ **Performance** - Parallel processing, efficient memory
-- 🛡️ **Reliability** - Per-page isolation, detailed errors
-- 🧪 **Quality** - 94%+ coverage, strict TypeScript
-- 📝 **Type Safety** - No `any` types, strict mode
-- 🔄 **Backward Compatible** - Smooth upgrades always
-
----
-
-## 🧪 Development
-
-<details>
-<summary><strong>Setup & Scripts</strong></summary>
-
-<br/>
-
-**Prerequisites:**
-- Node.js >= 22.0.0
-- pnpm (recommended) or npm
-
-**Setup:**
-```bash
-git clone https://github.com/SylphxAI/pdf-reader-mcp.git
-cd pdf-reader-mcp
-pnpm install && pnpm build
-```
-
-**Scripts:**
-```bash
-pnpm run build       # Build TypeScript
-pnpm run test        # Run 103 tests
-pnpm run test:cov    # Coverage (94%+)
-pnpm run check       # Lint + format
-pnpm run check:fix   # Auto-fix
-pnpm run benchmark   # Performance tests
-```
-
-**Quality:**
-- ✅ 103 tests
-- ✅ 94%+ coverage
-- ✅ 98%+ function coverage
-- ✅ Zero lint errors
-- ✅ Strict TypeScript
-
-</details>
-
-<details>
-<summary><strong>Contributing</strong></summary>
-
-<br/>
-
-**Quick Start:**
-1. Fork repository
-2. Create branch: `git checkout -b feature/awesome`
-3. Make changes: `pnpm test`
-4. Format: `pnpm run check:fix`
-5. Commit: Use [Conventional Commits](https://www.conventionalcommits.org/)
-6. Open PR
-
-**Commit Format:**
-```
-feat(images): add WebP support
-fix(paths): handle UNC paths
-docs(readme): update examples
-```
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md)
-
-</details>
-
----
-
-## 📚 Documentation
-
-- 📖 [Full Docs](https://SylphxAI.github.io/pdf-reader-mcp/) - Complete guides
-- 🚀 [Getting Started](./docs/guide/getting-started.md) - Quick start
-- 📘 [API Reference](./docs/api/README.md) - Detailed API
-- 🏗️ [Design](./docs/design/index.md) - Architecture
-- ⚡ [Performance](./docs/performance/index.md) - Benchmarks
-- 🔍 [Comparison](./docs/comparison/index.md) - vs. alternatives
-
----
-
-## 🗺️ Roadmap
-
-**✅ Completed**
-- [x] Image extraction (v1.1.0)
-- [x] 5-10x parallel speedup (v1.1.0)
-- [x] Y-coordinate ordering (v1.2.0)
-- [x] Absolute paths (v1.3.0)
-- [x] 94%+ test coverage (v1.3.0)
-
-**🚀 Next**
-- [ ] OCR for scanned PDFs
-- [ ] Annotation extraction
-- [ ] Form field extraction
-- [ ] Table detection
-- [ ] 100+ MB streaming
-- [ ] Advanced caching
-- [ ] PDF generation
-
-Vote at [Discussions](https://github.com/SylphxAI/pdf-reader-mcp/discussions)
-
----
-
-## 🏆 Recognition
-
-**Featured on:**
-- [Smithery](https://smithery.ai/server/@sylphx/pdf-reader-mcp) - MCP directory
-- [Glama](https://glama.ai/mcp/servers/@sylphx/pdf-reader-mcp) - AI marketplace
-- [MseeP.ai](https://mseep.ai/app/SylphxAI-pdf-reader-mcp) - Security validated
-
-**Trusted worldwide** • **Enterprise adoption** • **Battle-tested**
-
----
-
-## 🤝 Support
-
-[![GitHub Issues](https://img.shields.io/github/issues/SylphxAI/pdf-reader-mcp?style=flat-square)](https://github.com/SylphxAI/pdf-reader-mcp/issues)
-[![Discord](https://img.shields.io/discord/YOUR_DISCORD_ID?style=flat-square&logo=discord)](https://discord.gg/sylphx)
-
-- 🐛 [Bug Reports](https://github.com/SylphxAI/pdf-reader-mcp/issues)
-- 💬 [Discussions](https://github.com/SylphxAI/pdf-reader-mcp/discussions)
-- 📖 [Documentation](https://SylphxAI.github.io/pdf-reader-mcp/)
-- 📧 [Email](mailto:hi@sylphx.com)
-
-**Show Your Support:**
-⭐ Star • 👀 Watch • 🐛 Report bugs • 💡 Suggest features • 🔀 Contribute
-
----
-
-## 📊 Stats
-
-![Stars](https://img.shields.io/github/stars/SylphxAI/pdf-reader-mcp?style=social)
-![Forks](https://img.shields.io/github/forks/SylphxAI/pdf-reader-mcp?style=social)
-![Downloads](https://img.shields.io/npm/dm/@sylphx/pdf-reader-mcp)
-![Contributors](https://img.shields.io/github/contributors/SylphxAI/pdf-reader-mcp)
-
-**103 Tests** • **94%+ Coverage** • **Production Ready**
-
----
-
-## 📄 License
-
-MIT © [Sylphx](https://sylphx.com)
-
----
-
-## 🙏 Credits
-
-Built with:
-- [PDF.js](https://mozilla.github.io/pdf.js/) - Mozilla PDF engine
-- [Bun](https://bun.sh) - Fast JavaScript runtime
-
-Special thanks to the open source community ❤️
-
-## Powered by Sylphx
-
-This project uses the following [@sylphx](https://github.com/SylphxAI) packages:
-
-- [@sylphx/mcp-server-sdk](https://github.com/SylphxAI/mcp-server-sdk) - MCP server framework
-- [@sylphx/vex](https://github.com/SylphxAI/vex) - Schema validation
-- [@sylphx/biome-config](https://github.com/SylphxAI/biome-config) - Biome configuration
-- [@sylphx/tsconfig](https://github.com/SylphxAI/tsconfig) - TypeScript configuration
-- [@sylphx/bump](https://github.com/SylphxAI/bump) - Version management
-- [@sylphx/doctor](https://github.com/SylphxAI/doctor) - Project health checker
-
----
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=SylphxAI/pdf-reader-mcp&type=Date)](https://star-history.com/#SylphxAI/pdf-reader-mcp&Date)
-
----
-
-<div align="center">
-<sub>Built with ❤️ by <a href="https://github.com/SylphxAI">Sylphx</a></sub>
-</div>
+MIT, inherited from upstream. See [`LICENSE`](./LICENSE).
