@@ -139,9 +139,9 @@ Removed from upstream's tree because they served upstream's distribution model (
 
 ## 8. External verification (recommended manual pass)
 
-Socket.dev publishes a free public risk analysis per package. We could not fetch these programmatically (their pages 403 to bots) but anyone can browse them in a normal browser.
+Socket.dev publishes a free public risk analysis per package. Their HTTP endpoints 403 to bots, but headless-browser scraping works (and is what produced the table above). Anyone can also browse them in a normal browser.
 
-For each runtime dep, open these in a browser and look for: install scripts, network access, filesystem access, shell spawning, obfuscated code, suspicious imports, recent maintainer changes.
+For an updated check, open these in a browser and look for: install scripts, network access, filesystem access, shell spawning, obfuscated code, suspicious imports, recent maintainer changes.
 
 - https://socket.dev/npm/package/@sylphx/mcp-server-sdk
 - https://socket.dev/npm/package/@sylphx/vex
@@ -160,6 +160,48 @@ Other free public scanners worth knowing about:
 - **OSV.dev** — `https://osv.dev/list?ecosystem=npm&q=<package>` — covers known vulns across more ecosystems than `bun audit`.
 - **deps.dev** (Google) — `https://deps.dev/npm/<package>` — package metadata, license, dep graph, Scorecard signals.
 - **OpenSSF Scorecard** — `https://scorecard.dev/viewer/?uri=github.com/<org>/<repo>` — maintenance/security-practice score for the publishing project.
+
+### Socket.dev — runtime deps (Playwright-driven scrape, 2026-04-18)
+
+Socket.dev's bot protection blocks API access, so this was pulled by driving a real headless browser to each package page. Scores are 0–100 (higher = better). Alert columns mark the alert categories Socket flagged.
+
+| Package | Supply Chain | Vuln | Quality | Maintenance | License | Alerts |
+|---|:-:|:-:|:-:|:-:|:-:|---|
+| `@sylphx/mcp-server-sdk` | 77 | 100 | 100 | 94 | 100 | Network access · Unpopular |
+| `@sylphx/vex` | 77 | 100 | 99 | 93 | 100 | Unpopular |
+| `@sylphx/gust` | 60 | 100 | 93 | 94 | 100 | Unpopular |
+| `@sylphx/gust-app` | 78 | 100 | 99 | 90 | 100 | Network access · Unpopular |
+| `@sylphx/gust-core` | 76 | 100 | 99 | 92 | 100 | Network access · Unpopular |
+| `@sylphx/gust-server` | 78 | 100 | 99 | 90 | 100 | Network access · Unpopular |
+| `@sylphx/vex-json-schema` | 71 | 100 | 98 | 86 | 100 | Unpopular |
+| `pdfjs-dist` | 95 | 100 | 83 | 94 | 80 | Network access · **Uses eval** |
+| `pngjs` | 100 | 100 | 100 | 80 | 100 | (none) |
+| `glob` | 95 | 100 | 99 | 87 | 100 | Network access |
+| `minimatch` | 99 | 100 | 100 | 94 | 100 | (none) |
+
+**Two alerts I followed up on in source.**
+
+1. **`pdfjs-dist` "Uses eval".** The only hit in the legacy build (`node_modules/pdfjs-dist/legacy/build/pdf.mjs:6512`) is inside a feature-test helper:
+
+   ```js
+   function isEvalSupported() {
+     try { new Function(""); return true; } catch { return false; }
+   }
+   ```
+
+   It constructs an empty function to test whether the runtime allows dynamic function construction (CSP environments forbid it). Result is cached as a static class property. This is a benign **capability probe**, not actual dynamic code execution. Socket flags `new Function(...)` patterns regardless of body. No PDF content reaches this call path.
+
+2. **`glob` "Network access".** Grep across the installed `glob@13.0.1` for `fetch`, `http`, `https`, `dns`, `net` returns **zero** hits. Top-level imports are clean (`minimatch` + internal modules only). The Socket alert appears stale or applies to a transitive that's not pulled into our resolution. **Verified false positive for the version we ship.**
+
+**Other flags interpreted.**
+
+- "**Network access**" on the four `@sylphx/*` packages with that flag — corroborates our grep finding in Section 3: the gust-server class file contains a WebSocket implementation. It's only invoked via the SDK's `http()` transport factory, which we removed (`0c58dc9`). Stdio-only code path doesn't reach it.
+- "**Unpopular package**" on every `@sylphx/*` — true and known. Single-maintainer org, low download counts. Same risk picture the missing OpenSSF Scorecard scores reflect.
+- `@sylphx/gust`'s lower Supply Chain score (60 vs 76–78 elsewhere) — propagated from its two dependencies (`gust-app`, `gust-server`) each carrying alerts.
+
+**Net.** No new findings beyond what the grep audit in Section 3 already surfaced. The "Uses eval" alert that wasn't in our prior scan turned out to be a CSP-detection helper, not exploitable. The "Network access" alerts on the gust chain match the dormant-capability finding we already documented.
+
+---
 
 ### OpenSSF Scorecard — runtime deps
 
