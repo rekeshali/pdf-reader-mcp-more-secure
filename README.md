@@ -60,6 +60,7 @@ Hardening stacks as **hardcoded floor** (always on, not configurable) + **user l
 | User-configurable layer (optional) | JSON config at `~/.claude/plugin-settings/pdf-reader.json` lets you add allow/deny rules on top of the floor: hostname patterns for `url:` sources and path patterns for `path:` sources. Shell-glob syntax, deny wins on conflict. Cannot override the floor — if your allow list permits a host that resolves to a blocked IP, the request is still rejected. See the **User config** section below. |
 | Exact-pin all deps | `package.json` has no `^`/`~`: every direct dep resolves to a single version. Combined with the committed `bun.lock` and `--frozen-lockfile` on rebuild, supply-chain attackers can't auto-deliver a newer malicious version, and registry tarball swaps are blocked by the lockfile's SHA-512 integrity hashes. |
 | Plugin install flow | Packaged as a Claude Code plugin with `.claude-plugin/plugin.json` and a `${CLAUDE_PLUGIN_ROOT}`-based `.mcp.json`. Install/uninstall/enable/disable scripts provided. |
+| File-size cap removed | Upstream had a 100 MB cap on local-path PDFs as a fail-fast guard against memory exhaustion in multi-tenant deployments. Dropped here — single-user threat model means an accidental huge file just crashes the MCP process (Claude reports the error and you retry with a smaller file). One less config knob, no functional restriction. |
 
 ---
 
