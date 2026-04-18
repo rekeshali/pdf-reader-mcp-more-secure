@@ -11,3 +11,6 @@ docs/.vitepress/dist
 # Test Reports
 test-report.junit.xml
 .vercel
+
+# Playwright MCP scraper snapshot artifacts (from Socket.dev audit sweep)
+.playwright-mcp/
