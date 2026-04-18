@@ -7,7 +7,7 @@ analyzed_commits: 18
 applies_to:
   - "third-party Node/TypeScript packages distributed via internal repo"
   - "Claude Code plugin packaging (.claude-plugin/, .mcp.json, install scripts)"
-  - "single-user deployment threat models (secured-internal-network locked-down workstation)"
+  - "single-user deployment threat models (locked-down workstation on a secured internal network)"
 ---
 
 # Internal Fork Hardening

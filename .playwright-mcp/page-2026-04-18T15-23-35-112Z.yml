@@ -1,0 +1,635 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - 'link "New Research: Supply Chain Attack on Axios Pulls Malicious Dependency from npm. Details →" [ref=e4] [cursor=pointer]':
+      - /url: https://socket.dev/blog/axios-npm-package-compromised
+      - generic [ref=e5]:
+        - text: "New Research:"
+        - generic [ref=e6]: Supply Chain Attack on Axios Pulls Malicious Dependency from npm.
+        - generic [ref=e8]: Details →
+    - generic [ref=e9]:
+      - banner [ref=e10]:
+        - generic [ref=e12]:
+          - generic [ref=e13]:
+            - link "Socket" [ref=e14] [cursor=pointer]:
+              - /url: /
+              - img "Socket" [ref=e15]
+            - navigation "Main" [ref=e16]:
+              - list [ref=e18]:
+                - navigation "Navigation" [ref=e19]:
+                  - listitem [ref=e20]:
+                    - button "Product" [ref=e22] [cursor=pointer]:
+                      - text: Product
+                      - img [ref=e23]
+                  - listitem [ref=e25]:
+                    - button "Learn" [ref=e27] [cursor=pointer]:
+                      - text: Learn
+                      - img [ref=e28]
+                  - listitem [ref=e30]:
+                    - button "Company" [ref=e32] [cursor=pointer]:
+                      - text: Company
+                      - img [ref=e33]
+                  - listitem [ref=e35]:
+                    - link "Pricing" [ref=e37] [cursor=pointer]:
+                      - /url: /pricing
+                  - listitem [ref=e38]:
+                    - link "Love" [ref=e40] [cursor=pointer]:
+                      - /url: /love
+                  - listitem [ref=e41]:
+                    - link "Docs" [ref=e43] [cursor=pointer]:
+                      - /url: https://docs.socket.dev
+          - generic [ref=e44]:
+            - button "Search packages" [ref=e46] [cursor=pointer]:
+              - img [ref=e47]
+              - generic [ref=e52]: Search
+              - img [ref=e55]
+            - link "Book a Demo" [ref=e57] [cursor=pointer]:
+              - /url: /demo
+            - link "Sign in" [ref=e58] [cursor=pointer]:
+              - /url: /auth/login
+      - generic [ref=e59]:
+        - generic [ref=e60]:
+          - generic [ref=e61]:
+            - generic [ref=e62]:
+              - paragraph [ref=e63]: "@sylphx/gust"
+              - generic [ref=e65]:
+                - combobox "0.1.13" [ref=e66]:
+                  - option "0.1.13 (latest)" [selected]
+                  - option "0.1.12"
+                  - option "0.1.11"
+                  - option "0.1.10"
+                  - option "0.1.9"
+                  - option "0.1.7"
+                  - option "0.1.6"
+                  - option "0.1.5"
+                  - option "0.1.4"
+                  - option "0.1.3"
+                  - option "0.1.2"
+                  - option "0.1.1"
+                  - option "0.1.0"
+                - generic:
+                  - img
+            - generic [ref=e68]:
+              - link "Package Overview" [ref=e69] [cursor=pointer]:
+                - /url: /npm/package/@sylphx/gust/overview/0.1.13
+                - generic [ref=e70]:
+                  - img [ref=e72]
+                  - generic [ref=e74]: Package Overview
+              - link "Dependencies" [ref=e75] [cursor=pointer]:
+                - /url: /npm/package/@sylphx/gust/dependencies/0.1.13
+                - generic [ref=e76]:
+                  - img [ref=e78]
+                  - generic [ref=e84]: Dependencies
+              - link "Maintainers 1" [ref=e85] [cursor=pointer]:
+                - /url: /npm/package/@sylphx/gust/maintainers/0.1.13
+                - generic [ref=e86]:
+                  - img [ref=e88]
+                  - generic [ref=e90]: Maintainers
+                  - generic [ref=e93]: "1"
+              - link "Versions 13" [ref=e94] [cursor=pointer]:
+                - /url: /npm/package/@sylphx/gust/versions/0.1.13
+                - generic [ref=e95]:
+                  - img [ref=e97]
+                  - generic [ref=e99]: Versions
+                  - generic [ref=e102]: "13"
+              - link "Alerts" [ref=e103] [cursor=pointer]:
+                - /url: /npm/package/@sylphx/gust/alerts/0.1.13
+                - generic [ref=e104]:
+                  - img [ref=e106]
+                  - generic [ref=e108]: Alerts
+              - link "File Explorer" [ref=e109] [cursor=pointer]:
+                - /url: /npm/package/@sylphx/gust/files/0.1.13
+                - generic [ref=e110]:
+                  - img [ref=e112]
+                  - generic [ref=e114]: File Explorer
+            - generic [ref=e115]:
+              - paragraph [ref=e116]: Advanced tools
+              - link "License" [ref=e118] [cursor=pointer]:
+                - /url: /npm/package/@sylphx/gust/license/0.1.13
+                - generic [ref=e119]:
+                  - img [ref=e121]
+                  - generic [ref=e123]: License
+          - generic [ref=e125]:
+            - generic [ref=e126]:
+              - img "Socket logo" [ref=e127]
+              - paragraph [ref=e128]: Install Socket
+            - paragraph [ref=e129]: Detect and block malicious and high-risk dependencies
+            - link "Install" [ref=e130] [cursor=pointer]:
+              - /url: /github-app
+              - img [ref=e131]
+              - text: Install
+        - generic [ref=e134]:
+          - navigation "breadcrumb" [ref=e135]:
+            - list [ref=e136]:
+              - listitem [ref=e137]:
+                - link "npm" [ref=e138] [cursor=pointer]:
+                  - /url: /npm
+              - listitem [ref=e139]:
+                - img [ref=e140]
+              - listitem [ref=e142]:
+                - paragraph [ref=e143]: "@sylphx/gust"
+          - generic [ref=e145]:
+            - generic [ref=e146]:
+              - generic [ref=e147]:
+                - heading "@sylphx/gust" [level=1] [ref=e149]
+                - paragraph [ref=e150]: High-performance HTTP server framework - stateless app + Rust-powered server
+                - generic [ref=e151]:
+                  - generic [ref=e154]: latest
+                  - link "npm npm" [ref=e156] [cursor=pointer]:
+                    - /url: https://npmjs.com/package/@sylphx/gust
+                    - generic [ref=e157]:
+                      - img "npm" [ref=e159]
+                      - generic [ref=e162]: npm
+                  - generic [ref=e164]:
+                    - button "Copy purl" [ref=e165] [cursor=pointer]
+                    - link "Learn more about Socket Package URL (purl)" [ref=e166] [cursor=pointer]:
+                      - /url: https://docs.socket.dev/reference/socket-package-urls-purl
+                      - img [ref=e167]
+                  - button "Socket score" [ref=e171]:
+                    - img "Socket score" [ref=e172] [cursor=pointer]
+              - group [ref=e173]:
+                - generic [ref=e174]:
+                  - generic "60" [ref=e175]:
+                    - progressbar "60%" [ref=e176]
+                    - generic [ref=e180]: "60"
+                  - paragraph [ref=e181]: Supply Chain Security
+                - generic [ref=e182]:
+                  - generic "100" [ref=e183]:
+                    - progressbar "100%" [ref=e184]
+                    - generic [ref=e188]: "100"
+                  - paragraph [ref=e189]: Vulnerability
+                - generic [ref=e190]:
+                  - generic "93" [ref=e191]:
+                    - progressbar "93%" [ref=e192]
+                    - generic [ref=e196]: "93"
+                  - paragraph [ref=e197]: Quality
+                - generic [ref=e198]:
+                  - generic "94" [ref=e199]:
+                    - progressbar "94%" [ref=e200]
+                    - generic [ref=e204]: "94"
+                  - paragraph [ref=e205]: Maintenance
+                - generic [ref=e206]:
+                  - generic "100" [ref=e207]:
+                    - progressbar "100%" [ref=e208]
+                    - generic [ref=e212]: "100"
+                  - paragraph [ref=e213]: License
+            - separator [ref=e214]
+            - generic [ref=e215]:
+              - generic [ref=e216]:
+                - term [ref=e217]: Version
+                - definition [ref=e218]:
+                  - generic [ref=e220]: 0.1.13
+              - generic [ref=e221]:
+                - term [ref=e222]: Version published
+                - definition [ref=e223]:
+                  - time [ref=e224]: 4 months ago
+              - generic [ref=e225]:
+                - term [ref=e226]: Maintainers
+                - definition [ref=e227]:
+                  - link "1" [ref=e228] [cursor=pointer]:
+                    - /url: /npm/package/@sylphx/gust/maintainers/0.1.13
+              - generic [ref=e229]:
+                - term [ref=e230]: Created
+                - definition [ref=e231]:
+                  - time [ref=e232]: 5 months ago
+            - generic [ref=e234]:
+              - generic [ref=e236]:
+                - tablist [ref=e237]:
+                  - list [ref=e238]:
+                    - listitem [ref=e239]:
+                      - tab "README" [selected] [ref=e240] [cursor=pointer]:
+                        - generic [ref=e241]:
+                          - img [ref=e242]
+                          - paragraph [ref=e244]: README
+                - tabpanel "README" [ref=e246]:
+                  - link "Source" [ref=e247] [cursor=pointer]:
+                    - /url: /npm/package/@sylphx/gust/files/0.1.13/README.md
+              - tabpanel "README" [ref=e250]:
+                - heading "@sylphx/gust" [level=2] [ref=e251]
+                - blockquote [ref=e252]:
+                  - paragraph [ref=e253]: High-performance HTTP server framework for Bun and Node.js
+                - paragraph [ref=e254]:
+                  - link "CI" [ref=e255] [cursor=pointer]:
+                    - /url: https://github.com/SylphxAI/gust/actions/workflows/ci.yml
+                    - img "CI" [ref=e256]
+                  - link "npm" [ref=e257] [cursor=pointer]:
+                    - /url: https://www.npmjs.com/package/@sylphx/gust
+                    - img "npm" [ref=e258]
+                  - link "License" [ref=e259] [cursor=pointer]:
+                    - /url: /npm/package/@sylphx/gust/LICENSE
+                    - img "License" [ref=e260]
+                - heading "Performance" [level=2] [ref=e261]
+                - table [ref=e262]:
+                  - rowgroup [ref=e263]:
+                    - row "Runtime Requests/sec Latency" [ref=e264]:
+                      - columnheader "Runtime" [ref=e265]
+                      - columnheader "Requests/sec" [ref=e266]
+                      - columnheader "Latency" [ref=e267]
+                  - rowgroup [ref=e268]:
+                    - row "Bun 232,704 417μs" [ref=e269]:
+                      - cell "Bun" [ref=e270]:
+                        - strong [ref=e271]: Bun
+                      - cell "232,704" [ref=e272]:
+                        - strong [ref=e273]: 232,704
+                      - cell "417μs" [ref=e274]
+                    - row "Node.js 215,821 446μs" [ref=e275]:
+                      - cell "Node.js" [ref=e276]:
+                        - strong [ref=e277]: Node.js
+                      - cell "215,821" [ref=e278]:
+                        - strong [ref=e279]: 215,821
+                      - cell "446μs" [ref=e280]
+                - blockquote [ref=e281]:
+                  - paragraph [ref=e282]:
+                    - text: "Benchmarks:"
+                    - code [ref=e283]: bombardier -c 500 -d 10s
+                    - text: on Apple M3 Max
+                - heading "Features" [level=2] [ref=e284]
+                - list [ref=e285]:
+                  - listitem [ref=e286]:
+                    - strong [ref=e287]: Native Rust
+                    - text: "- 220k+ req/s with Hyper + Tokio via napi-rs"
+                  - listitem [ref=e288]:
+                    - strong [ref=e289]: Portable Apps
+                    - text: "- Same code on Bun, Deno, Cloudflare Workers, AWS Lambda"
+                  - listitem [ref=e290]:
+                    - strong [ref=e291]: Type-safe
+                    - text: "- Full TypeScript with path parameter inference"
+                  - listitem [ref=e292]:
+                    - strong [ref=e293]: Batteries included
+                    - text: "- 20+ middleware (auth, validation, rate limiting, etc.)"
+                  - listitem [ref=e294]:
+                    - strong [ref=e295]: Production ready
+                    - text: "- Health checks, circuit breakers, OpenTelemetry"
+                - heading "Architecture" [level=2] [ref=e296]
+                - paragraph [ref=e297]: "This is the main package that re-exports from two sub-packages:"
+                - table [ref=e298]:
+                  - rowgroup [ref=e299]:
+                    - row "Package Description Use Case" [ref=e300]:
+                      - columnheader "Package" [ref=e301]
+                      - columnheader "Description" [ref=e302]
+                      - columnheader "Use Case" [ref=e303]
+                  - rowgroup [ref=e304]:
+                    - row "@sylphx/gust-app Stateless app framework Serverless, Edge, portable code" [ref=e305]:
+                      - cell "@sylphx/gust-app" [ref=e306]:
+                        - link "@sylphx/gust-app" [ref=e307] [cursor=pointer]:
+                          - /url: /npm/package/@sylphx/app
+                      - cell "Stateless app framework" [ref=e308]
+                      - cell "Serverless, Edge, portable code" [ref=e309]
+                    - row "@sylphx/gust-server Rust-powered HTTP server Maximum performance, long-lived connections" [ref=e310]:
+                      - cell "@sylphx/gust-server" [ref=e311]:
+                        - link "@sylphx/gust-server" [ref=e312] [cursor=pointer]:
+                          - /url: /npm/package/@sylphx/server
+                      - cell "Rust-powered HTTP server" [ref=e313]
+                      - cell "Maximum performance, long-lived connections" [ref=e314]
+                - code [ref=e316]: ┌─────────────────────────────────────────────────────────────┐ │ @sylphx/gust │ │ (re-exports both) │ ├─────────────────────────┬───────────────────────────────────┤ │ @sylphx/gust-app │ @sylphx/gust-server │ │ Stateless framework │ Rust HTTP server │ │ • createApp() │ • serve() │ │ • Routes, middleware │ • Cluster, HTTP/2 │ │ • WASM router │ • WebSocket, SSE │ │ • Portable │ • Native acceleration │ └─────────────────────────┴───────────────────────────────────┘
+                - heading "Installation" [level=2] [ref=e317]
+                - code [ref=e319]: "bun add @sylphx/gust # or npm install @sylphx/gust"
+                - heading "Quick Start" [level=2] [ref=e320]
+                - code [ref=e322]:
+                  - text: "import { createApp, serve, get, json, cors, rateLimit, compose } from '@sylphx/gust' const app = createApp({ routes: [ get('/', () => json({ message: 'Hello World' })), get('/users/:id',"
+                  - generic [ref=e323]: "({ ctx }) =>"
+                  - text: "json({ id: ctx.params.id })), ], middleware: compose( cors(), rateLimit({ max: 100, window: 60000 }), ), }) // Start with native Rust acceleration await serve({ app, port: 3000 })"
+                - heading "Usage Patterns" [level=2] [ref=e324]
+                - heading "Full Server (this package)" [level=3] [ref=e325]
+                - paragraph [ref=e326]: "For maximum performance with native Rust server:"
+                - code [ref=e328]: "import { createApp, serve, get, json } from '@sylphx/gust' const app = createApp({ routes: [get('/', () => json({ hello: 'world' }))], }) await serve({ app, port: 3000 })"
+                - heading "Portable App Only" [level=3] [ref=e329]
+                - paragraph [ref=e330]: "For serverless/edge, import just the app framework:"
+                - code [ref=e332]: "import { createApp, get, json } from '@sylphx/gust-app' const app = createApp({ routes: [get('/', () => json({ hello: 'world' }))], }) // Use with any runtime Bun.serve({ fetch: app.fetch }) Deno.serve(app.fetch) export default { fetch: app.fetch } // Workers"
+                - heading "Server Features Only" [level=3] [ref=e333]
+                - paragraph [ref=e334]: "For advanced server features without the app:"
+                - code [ref=e336]: "import { serve, websocket, sse, clusterServe } from '@sylphx/gust-server' // WebSocket serve({ port: 3000, fetch: websocket({ ... }) }) // Cluster mode clusterServe({ app, workers: 4 })"
+                - heading "Examples" [level=2] [ref=e337]
+                - heading "With Middleware" [level=3] [ref=e338]
+                - code [ref=e340]:
+                  - text: "import { createApp, serve, get, post, json, compose, cors, compress, rateLimit, jwtAuth, validate, object, string, getValidated, } from '@sylphx/gust' const app = createApp({ routes: [ get('/health', () => json({ status: 'ok' })), get('/me', compose( jwtAuth({ secret: process.env.JWT_SECRET! }),"
+                  - generic [ref=e341]: "({ ctx }) =>"
+                  - text: "json(ctx.jwt) )), post('/users', compose( validate({ body: object({ name: string({ minLength: 1 }), email: string(), }), }),"
+                  - generic [ref=e342]: "({ ctx }) =>"
+                  - text: "json(getValidated(ctx)) )), ], middleware: compose( cors(), compress(), rateLimit({ max: 100, window: 60000 }), ), }) await serve({ app, port: 3000 })"
+                - heading "WebSocket" [level=3] [ref=e343]
+                - code [ref=e345]:
+                  - text: "import { serve, websocket } from '@sylphx/gust' await serve({ port: 3000, fetch: websocket({ open:"
+                  - generic [ref=e346]: (ws) =>
+                  - text: "ws.send('Welcome!'), message:"
+                  - generic [ref=e347]: (ws, msg) =>
+                  - text: ws.send(
+                  - generic [ref=e348]: "`Echo: ${msg}`"
+                  - text: "), close:"
+                  - generic [ref=e349]: (ws) =>
+                  - text: "console.log('Disconnected'), }), })"
+                - heading "Server-Sent Events" [level=3] [ref=e350]
+                - code [ref=e352]:
+                  - text: "import { createApp, serve, get, sse } from '@sylphx/gust' const app = createApp({ routes: [ get('/events', () => sse(async function* () { for (let i = 0; i < 10; i++) { yield { data: { count: i } } await new Promise("
+                  - generic [ref=e353]: r =>
+                  - text: "setTimeout(r, 1000)) } }) ), ], }) await serve({ app, port: 3000 })"
+                - heading "Health Checks" [level=3] [ref=e354]
+                - code [ref=e356]: "import { createApp, serve, get, liveness, readiness, memoryCheck } from '@sylphx/gust' const app = createApp({ routes: [ get('/healthz', liveness()), get('/ready', readiness([memoryCheck(90)])), ], }) await serve({ app, port: 3000 })"
+                - heading "Cluster Mode" [level=3] [ref=e357]
+                - code [ref=e359]: "import { createApp, clusterServe, get, json } from '@sylphx/gust' const app = createApp({ routes: [get('/', () => json({ pid: process.pid }))], }) await clusterServe({ app, port: 3000, workers: 4 })"
+                - heading "External Handler Integration" [level=3] [ref=e360]
+                - paragraph [ref=e361]: "Seamlessly integrate fetch-based handlers like GraphQL Yoga, tRPC, Hono:"
+                - code [ref=e363]: "import { createApp, serve, all, get, json } from '@sylphx/gust' import { createYoga, createSchema } from 'graphql-yoga' const yoga = createYoga({ schema: createSchema({ typeDefs: `type Query { hello: String }`, resolvers: { Query: { hello: () => 'Hello!' } }, }), }) const app = createApp({ routes: [ get('/', () => json({ message: 'Hello' })), // Direct integration - just pass the handler! all('/graphql', yoga.fetch), ], }) await serve({ app, port: 3000 })"
+                - paragraph [ref=e364]: Works with any fetch-compatible handler (Hono, tRPC, etc.) - auto-detects handler signature and converts Response types automatically.
+                - heading "API Reference" [level=2] [ref=e365]
+                - paragraph [ref=e366]: "See the sub-package documentation for detailed API:"
+                - list [ref=e367]:
+                  - listitem [ref=e368]:
+                    - link "@sylphx/gust-app" [ref=e369] [cursor=pointer]:
+                      - /url: /npm/package/@sylphx/app/README.md
+                    - text: "- App framework, routes, middleware"
+                  - listitem [ref=e370]:
+                    - link "@sylphx/gust-server" [ref=e371] [cursor=pointer]:
+                      - /url: /npm/package/@sylphx/server/README.md
+                    - text: "- Server, WebSocket, SSE, streaming"
+                - heading "Bundle Size" [level=2] [ref=e372]
+                - table [ref=e373]:
+                  - rowgroup [ref=e374]:
+                    - row "Package JS Size Types Native" [ref=e375]:
+                      - columnheader "Package" [ref=e376]
+                      - columnheader "JS Size" [ref=e377]
+                      - columnheader "Types" [ref=e378]
+                      - columnheader "Native" [ref=e379]
+                  - rowgroup [ref=e380]:
+                    - row "@sylphx/gust-app 82 KB 47 KB -" [ref=e381]:
+                      - cell "@sylphx/gust-app" [ref=e382]
+                      - cell "82 KB" [ref=e383]
+                      - cell "47 KB" [ref=e384]
+                      - cell "-" [ref=e385]
+                    - row "@sylphx/gust-server 73 KB 41 KB 1.7 MB" [ref=e386]:
+                      - cell "@sylphx/gust-server" [ref=e387]
+                      - cell "73 KB" [ref=e388]
+                      - cell "41 KB" [ref=e389]
+                      - cell "1.7 MB" [ref=e390]
+                    - row "@sylphx/gust (combined) ~87 B ~71 B -" [ref=e391]:
+                      - cell "@sylphx/gust (combined)" [ref=e392]
+                      - cell "~87 B" [ref=e393]
+                      - cell "~71 B" [ref=e394]
+                      - cell "-" [ref=e395]
+                - paragraph [ref=e396]: The main package is just re-exports (~87 bytes). Tree-shaking removes unused code.
+                - heading "License" [level=2] [ref=e397]
+                - paragraph [ref=e398]: MIT
+                - separator [ref=e399]
+                - paragraph [ref=e400]:
+                  - text: Built with
+                  - link "Sylphx" [ref=e401] [cursor=pointer]:
+                    - /url: https://github.com/SylphxAI
+                  - text: "|"
+                  - link "@sylphx/biome-config" [ref=e402] [cursor=pointer]:
+                    - /url: https://github.com/SylphxAI/biome-config
+                  - text: "|"
+                  - link "@sylphx/bump" [ref=e403] [cursor=pointer]:
+                    - /url: https://github.com/SylphxAI/bump
+                  - text: "|"
+                  - link "@sylphx/doctor" [ref=e404] [cursor=pointer]:
+                    - /url: https://github.com/SylphxAI/doctor
+            - generic [ref=e405]:
+              - heading "Keywords" [level=2] [ref=e406]
+              - generic [ref=e407]:
+                - link "gust" [ref=e409] [cursor=pointer]:
+                  - /url: /search?e=npm&q=gust
+                  - generic [ref=e410]: gust
+                - link "sylphx" [ref=e412] [cursor=pointer]:
+                  - /url: /search?e=npm&q=sylphx
+                  - generic [ref=e413]: sylphx
+                - link "http" [ref=e415] [cursor=pointer]:
+                  - /url: /search?e=npm&q=http
+                  - generic [ref=e416]: http
+                - link "server" [ref=e418] [cursor=pointer]:
+                  - /url: /search?e=npm&q=server
+                  - generic [ref=e419]: server
+                - link "web" [ref=e421] [cursor=pointer]:
+                  - /url: /search?e=npm&q=web
+                  - generic [ref=e422]: web
+                - link "fast" [ref=e424] [cursor=pointer]:
+                  - /url: /search?e=npm&q=fast
+                  - generic [ref=e425]: fast
+                - button "+6 more" [ref=e427]
+            - generic [ref=e428]:
+              - paragraph [ref=e429]: FAQs
+              - generic [ref=e430]:
+                - button "What is @sylphx/gust?" [ref=e432] [cursor=pointer]:
+                  - paragraph [ref=e433]: What is @sylphx/gust?
+                  - img [ref=e435]
+                - button "Is @sylphx/gust well maintained?" [ref=e438] [cursor=pointer]:
+                  - paragraph [ref=e439]: Is @sylphx/gust well maintained?
+                  - img [ref=e441]
+            - generic [ref=e443]: Package last updated on 04 Dec 2025
+            - separator [ref=e444]
+            - generic [ref=e445]:
+              - paragraph [ref=e446]: Did you know?
+              - generic [ref=e447]:
+                - img "Socket" [ref=e448]
+                - paragraph [ref=e449]: Socket for GitHub automatically highlights issues in each pull request and monitors the health of all your open source dependencies. Discover the contents of your packages and block harmful activity before you install or update your dependencies.
+              - link "Install" [ref=e450] [cursor=pointer]:
+                - /url: /github-app
+                - img [ref=e451]
+                - text: Install
+      - generic [ref=e454]:
+        - heading "Related posts" [level=2] [ref=e456]
+        - generic [ref=e457]:
+          - article [ref=e458]:
+            - generic [ref=e459]:
+              - generic [ref=e460]:
+                - img "Socket Named Top Sales Organization by RepVue"
+              - generic [ref=e461]:
+                - paragraph [ref=e463]: Company News
+                - heading "Socket Named Top Sales Organization by RepVue" [level=3] [ref=e464]:
+                  - link "Socket Named Top Sales Organization by RepVue" [ref=e465] [cursor=pointer]:
+                    - /url: /blog/socket-named-top-sales-organization-by-repvue
+                - paragraph [ref=e467]: Socket won two 2026 Reppy Awards from RepVue, ranking in the top 5% of all sales orgs. AE Alexandra Lister shares what it's like to grow a sales career here.
+                - generic [ref=e469]:
+                  - text: By
+                  - generic [ref=e470]: Sarah Gooding
+                  - generic [ref=e471]: "- Apr 17, 2026"
+          - article [ref=e472]:
+            - generic [ref=e473]:
+              - generic [ref=e474]:
+                - img "NIST Officially Stops Enriching Most CVEs as Vulnerability Volume Skyrockets"
+              - generic [ref=e475]:
+                - paragraph [ref=e477]: Security News
+                - heading "NIST Officially Stops Enriching Most CVEs as Vulnerability Volume Skyrockets" [level=3] [ref=e478]:
+                  - link "NIST Officially Stops Enriching Most CVEs as Vulnerability Volume Skyrockets" [ref=e479] [cursor=pointer]:
+                    - /url: /blog/nist-officially-stops-enriching-most-cves
+                - paragraph [ref=e481]: NIST will stop enriching most CVEs under a new risk-based model, narrowing the NVD's scope as vulnerability submissions continue to surge.
+                - generic [ref=e483]:
+                  - text: By
+                  - generic [ref=e484]: Sarah Gooding
+                  - generic [ref=e485]: "- Apr 17, 2026"
+          - article [ref=e486]:
+            - generic [ref=e487]:
+              - generic [ref=e488]:
+                - img "Socket Selected for OpenAI's Cybersecurity Grant Program"
+              - generic [ref=e489]:
+                - generic [ref=e490]:
+                  - paragraph [ref=e491]: Company News
+                  - generic [ref=e492]: /
+                  - paragraph [ref=e493]: Security News
+                - heading "Socket Selected for OpenAI's Cybersecurity Grant Program" [level=3] [ref=e494]:
+                  - link "Socket Selected for OpenAI's Cybersecurity Grant Program" [ref=e495] [cursor=pointer]:
+                    - /url: /blog/openai-cybersecurity-grant-program
+                - paragraph [ref=e497]: Socket is an initial recipient of OpenAI's Cybersecurity Grant Program, which commits $10M in API credits to defenders securing open source software.
+                - generic [ref=e499]:
+                  - text: By
+                  - generic [ref=e500]: Sarah Gooding
+                  - generic [ref=e501]: "- Apr 16, 2026"
+      - contentinfo [ref=e503]:
+        - generic [ref=e504]:
+          - generic [ref=e505]:
+            - generic [ref=e506]:
+              - link "Socket" [ref=e507] [cursor=pointer]:
+                - /url: /
+                - img "Socket" [ref=e508]
+              - link "Socket SOC 2 Logo" [ref=e509] [cursor=pointer]:
+                - /url: /security
+                - img "Socket SOC 2 Logo" [ref=e510]
+            - generic [ref=e511]:
+              - paragraph [ref=e512]: Product
+              - list [ref=e513]:
+                - listitem [ref=e514]:
+                  - link "Package Alerts" [ref=e515] [cursor=pointer]:
+                    - /url: /alerts
+                    - generic [ref=e517]: Package Alerts
+                - listitem [ref=e518]:
+                  - link "Integrations" [ref=e519] [cursor=pointer]:
+                    - /url: /integrations
+                    - generic [ref=e521]: Integrations
+                - listitem [ref=e522]:
+                  - link "Docs" [ref=e523] [cursor=pointer]:
+                    - /url: https://docs.socket.dev
+                    - generic [ref=e525]: Docs
+                - listitem [ref=e526]:
+                  - link "Pricing" [ref=e527] [cursor=pointer]:
+                    - /url: /pricing
+                    - generic [ref=e529]: Pricing
+                - listitem [ref=e530]:
+                  - link "FAQ" [ref=e531] [cursor=pointer]:
+                    - /url: /faq
+                    - generic [ref=e533]: FAQ
+                - listitem [ref=e534]:
+                  - link "Roadmap" [ref=e535] [cursor=pointer]:
+                    - /url: https://feedback.socket.dev
+                    - generic [ref=e537]: Roadmap
+                - listitem [ref=e538]:
+                  - link "Changelog" [ref=e539] [cursor=pointer]:
+                    - /url: /changelog
+                    - generic [ref=e541]: Changelog
+            - generic [ref=e542]:
+              - paragraph [ref=e543]: About
+              - list [ref=e544]:
+                - listitem [ref=e545]:
+                  - link "About" [ref=e546] [cursor=pointer]:
+                    - /url: /about
+                    - generic [ref=e548]: About
+                - listitem [ref=e549]:
+                  - link "Love" [ref=e550] [cursor=pointer]:
+                    - /url: /love
+                    - generic [ref=e552]: Love
+                - listitem [ref=e553]:
+                  - link "Blog" [ref=e554] [cursor=pointer]:
+                    - /url: /blog
+                    - generic [ref=e556]: Blog
+                - listitem [ref=e557]:
+                  - link "Glossary" [ref=e558] [cursor=pointer]:
+                    - /url: /glossary
+                    - generic [ref=e560]: Glossary
+                - listitem [ref=e561]:
+                  - link "Careers Hiring" [ref=e562] [cursor=pointer]:
+                    - /url: /careers
+                    - generic [ref=e563]:
+                      - generic [ref=e564]: Careers
+                      - generic [ref=e567]: Hiring
+                - listitem [ref=e568]:
+                  - link "Send Feedback" [ref=e569] [cursor=pointer]:
+                    - /url: https://feedback.socket.dev
+                    - generic [ref=e571]: Send Feedback
+                - listitem [ref=e572]:
+                  - link "Contact Us" [ref=e573] [cursor=pointer]:
+                    - /url: /contact
+                    - generic [ref=e575]: Contact Us
+                - listitem [ref=e576]:
+                  - link "System Status" [ref=e577] [cursor=pointer]:
+                    - /url: https://status.socket.dev
+                    - generic [ref=e579]: System Status
+            - generic [ref=e580]:
+              - paragraph [ref=e581]: Packages
+              - generic [ref=e582]:
+                - link "Explore npm" [ref=e583] [cursor=pointer]:
+                  - /url: /npm/category
+                  - generic [ref=e585]: Explore npm
+                - link "Explore crates.io" [ref=e586] [cursor=pointer]:
+                  - /url: /cargo/category
+                  - generic [ref=e588]: Explore crates.io
+                - link "Explore Chrome Web Store" [ref=e589] [cursor=pointer]:
+                  - /url: /chrome
+                  - generic [ref=e591]: Explore Chrome Web Store
+                - link "Explore Packagist" [ref=e592] [cursor=pointer]:
+                  - /url: /composer/category
+                  - generic [ref=e594]: Explore Packagist
+                - link "Explore Go Modules" [ref=e595] [cursor=pointer]:
+                  - /url: /go/category
+                  - generic [ref=e597]: Explore Go Modules
+                - link "Explore Hugging Face Hub" [ref=e598] [cursor=pointer]:
+                  - /url: /huggingface
+                  - generic [ref=e600]: Explore Hugging Face Hub
+                - link "Explore Maven Central" [ref=e601] [cursor=pointer]:
+                  - /url: /maven/category
+                  - generic [ref=e603]: Explore Maven Central
+                - link "Explore NuGet" [ref=e604] [cursor=pointer]:
+                  - /url: /nuget/category
+                  - generic [ref=e606]: Explore NuGet
+                - link "Explore Open VSX" [ref=e607] [cursor=pointer]:
+                  - /url: /openvsx
+                  - generic [ref=e609]: Explore Open VSX
+                - link "Explore PyPI" [ref=e610] [cursor=pointer]:
+                  - /url: /pypi/category
+                  - generic [ref=e612]: Explore PyPI
+                - link "Explore RubyGems.org" [ref=e613] [cursor=pointer]:
+                  - /url: /rubygems/category
+                  - generic [ref=e615]: Explore RubyGems.org
+            - generic [ref=e616]:
+              - paragraph [ref=e617]: Stay in touch
+              - paragraph [ref=e618]: Get open source security insights delivered straight into your inbox.
+              - generic [ref=e620]:
+                - group [ref=e621]:
+                  - generic [ref=e622]: Enter your email
+                  - textbox "Enter your email" [ref=e623]
+                - button "Subscribe" [ref=e624] [cursor=pointer]
+          - separator [ref=e625]
+          - generic [ref=e626]:
+            - list [ref=e627]:
+              - listitem [ref=e628]:
+                - link "Twitter" [ref=e629] [cursor=pointer]:
+                  - /url: https://x.com/SocketSecurity
+                  - img [ref=e630]
+              - listitem [ref=e632]:
+                - link "GitHub" [ref=e633] [cursor=pointer]:
+                  - /url: https://github.com/SocketDev
+                  - img [ref=e634]
+              - listitem [ref=e636]:
+                - link "LinkedIn" [ref=e637] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/company/socketinc/
+                  - img [ref=e638]
+              - listitem [ref=e640]:
+                - link "Discord" [ref=e641] [cursor=pointer]:
+                  - /url: https://discord.gg/JkhgPpXDSd
+                  - img [ref=e642]
+              - listitem [ref=e644]:
+                - link "Terms" [ref=e645] [cursor=pointer]:
+                  - /url: /terms
+              - listitem [ref=e646]:
+                - link "Privacy" [ref=e647] [cursor=pointer]:
+                  - /url: /privacy
+              - listitem [ref=e648]:
+                - link "Security" [ref=e649] [cursor=pointer]:
+                  - /url: /security
+              - listitem
+              - listitem [ref=e650]:
+                - button "English" [ref=e651] [cursor=pointer]:
+                  - img [ref=e652]
+                  - text: English
+            - generic [ref=e655]:
+              - paragraph [ref=e656]: Made with ⚡️ by Socket Inc
+              - paragraph [ref=e657]: U.S. Patent No. 12,346,443 & 12,314,394. Other pending.
+  - alert [ref=e658]
+  - region "bottom-end Notifications alt+T"
+  - alert

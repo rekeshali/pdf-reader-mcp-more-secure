@@ -1,0 +1,1786 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - 'link "New Research: Supply Chain Attack on Axios Pulls Malicious Dependency from npm. Details →" [ref=e4] [cursor=pointer]':
+      - /url: https://socket.dev/blog/axios-npm-package-compromised
+      - generic [ref=e5]:
+        - text: "New Research:"
+        - generic [ref=e6]: Supply Chain Attack on Axios Pulls Malicious Dependency from npm.
+        - generic [ref=e8]: Details →
+    - generic [ref=e9]:
+      - banner [ref=e10]:
+        - generic [ref=e12]:
+          - generic [ref=e13]:
+            - link "Socket" [ref=e14] [cursor=pointer]:
+              - /url: /
+              - img "Socket" [ref=e15]
+            - navigation "Main" [ref=e16]:
+              - list [ref=e18]:
+                - navigation "Navigation" [ref=e19]:
+                  - listitem [ref=e20]:
+                    - button "Product" [ref=e22] [cursor=pointer]:
+                      - text: Product
+                      - img [ref=e23]
+                  - listitem [ref=e25]:
+                    - button "Learn" [ref=e27] [cursor=pointer]:
+                      - text: Learn
+                      - img [ref=e28]
+                  - listitem [ref=e30]:
+                    - button "Company" [ref=e32] [cursor=pointer]:
+                      - text: Company
+                      - img [ref=e33]
+                  - listitem [ref=e35]:
+                    - link "Pricing" [ref=e37] [cursor=pointer]:
+                      - /url: /pricing
+                  - listitem [ref=e38]:
+                    - link "Love" [ref=e40] [cursor=pointer]:
+                      - /url: /love
+                  - listitem [ref=e41]:
+                    - link "Docs" [ref=e43] [cursor=pointer]:
+                      - /url: https://docs.socket.dev
+          - generic [ref=e44]:
+            - button "Search packages" [ref=e46] [cursor=pointer]:
+              - img [ref=e47]
+              - generic [ref=e52]: Search
+              - img [ref=e55]
+            - link "Book a Demo" [ref=e57] [cursor=pointer]:
+              - /url: /demo
+            - link "Sign in" [ref=e58] [cursor=pointer]:
+              - /url: /auth/login
+      - generic [ref=e59]:
+        - generic [ref=e60]:
+          - generic [ref=e61]:
+            - generic [ref=e62]:
+              - paragraph [ref=e63]: glob
+              - generic [ref=e65]:
+                - combobox "13.0.6" [ref=e66]:
+                  - option "13.0.6 (latest)" [selected]
+                  - option "13.0.5"
+                  - option "13.0.4"
+                  - option "13.0.3"
+                  - option "13.0.2"
+                  - option "13.0.1"
+                  - option "13.0.0"
+                  - option "12.0.0"
+                  - option "11.1.0"
+                  - option "11.0.3"
+                  - option "11.0.2"
+                  - option "11.0.1"
+                  - option "11.0.0"
+                  - option "10.5.0 (legacy-v10)"
+                  - option "10.4.5"
+                  - option "10.4.4"
+                  - option "10.4.3"
+                  - option "10.4.2"
+                  - option "10.4.1"
+                  - option "10.4.0"
+                  - option "10.3.16"
+                  - option "10.3.15"
+                  - option "10.3.14"
+                  - option "10.3.13"
+                  - option "10.3.12"
+                  - option "10.3.11"
+                  - option "10.3.10"
+                  - option "10.3.9"
+                  - option "10.3.8"
+                  - option "10.3.7"
+                  - option "10.3.6"
+                  - option "10.3.5"
+                  - option "10.3.4"
+                  - option "10.3.3"
+                  - option "10.3.2"
+                  - option "10.3.1"
+                  - option "10.3.0"
+                  - option "10.2.7"
+                  - option "10.2.6"
+                  - option "10.2.5"
+                  - option "10.2.4"
+                  - option "10.2.3"
+                  - option "10.2.2"
+                  - option "10.2.1"
+                  - option "10.2.0"
+                  - option "10.1.0"
+                  - option "10.0.0"
+                  - option "9.3.5 (legacy-v9)"
+                  - option "9.3.4"
+                  - option "9.3.3"
+                  - option "9.3.2"
+                  - option "9.3.1"
+                  - option "9.3.0"
+                  - option "9.2.1"
+                  - option "9.2.0"
+                  - option "9.1.2"
+                  - option "9.1.1"
+                  - option "9.1.0"
+                  - option "9.0.2"
+                  - option "9.0.1"
+                  - option "9.0.0"
+                  - option "8.1.0"
+                  - option "8.0.3"
+                  - option "8.0.2"
+                  - option "8.0.1"
+                  - option "7.2.3"
+                  - option "7.2.2"
+                  - option "7.2.0 (v7-legacy)"
+                  - option "7.1.7"
+                  - option "7.1.6"
+                  - option "7.1.5"
+                  - option "7.1.4"
+                  - option "7.1.3"
+                  - option "7.1.2"
+                  - option "7.1.1"
+                  - option "7.1.0"
+                  - option "7.0.6"
+                  - option "7.0.5"
+                  - option "7.0.4"
+                  - option "7.0.3"
+                  - option "7.0.1"
+                  - option "7.0.0"
+                  - option "6.0.4"
+                  - option "6.0.3"
+                  - option "6.0.2"
+                  - option "6.0.1"
+                  - option "5.0.15"
+                  - option "5.0.14"
+                  - option "5.0.13"
+                  - option "5.0.12"
+                  - option "5.0.11"
+                  - option "5.0.10"
+                  - option "5.0.9"
+                  - option "5.0.7"
+                  - option "5.0.6"
+                  - option "5.0.5"
+                  - option "5.0.4"
+                  - option "5.0.3"
+                  - option "5.0.2"
+                  - option "5.0.1"
+                  - option "5.0.0"
+                  - option "4.5.3 (legacy)"
+                  - option "4.5.2"
+                  - option "4.5.1"
+                  - option "4.5.0"
+                  - option "4.4.2"
+                  - option "4.4.0"
+                  - option "4.3.5"
+                  - option "4.3.4"
+                  - option "4.3.3"
+                  - option "4.3.2"
+                  - option "4.3.1"
+                  - option "4.3.0"
+                  - option "4.2.2"
+                  - option "4.2.1"
+                  - option "4.2.0"
+                  - option "4.1.6"
+                  - option "4.1.5"
+                  - option "4.1.4"
+                  - option "4.1.3"
+                  - option "4.1.2"
+                  - option "4.1.2-beta"
+                  - option "4.0.6"
+                  - option "4.0.5"
+                  - option "4.0.4"
+                  - option "4.0.3"
+                  - option "4.0.2"
+                  - option "4.0.1"
+                  - option "4.0.0"
+                  - option "3.2.11"
+                  - option "3.2.10"
+                  - option "3.2.9"
+                  - option "3.2.8"
+                  - option "3.2.7"
+                  - option "3.2.6"
+                  - option "3.2.5"
+                  - option "3.2.4"
+                  - option "3.2.3"
+                  - option "3.2.1"
+                  - option "3.2.0"
+                  - option "3.1.21"
+                  - option "3.1.20"
+                  - option "3.1.19"
+                  - option "3.1.18"
+                  - option "3.1.17"
+                  - option "3.1.16"
+                  - option "3.1.15"
+                  - option "3.1.14"
+                  - option "3.1.13"
+                  - option "3.1.12"
+                  - option "3.1.11"
+                  - option "3.1.10"
+                  - option "3.1.9"
+                  - option "3.1.7"
+                  - option "3.1.6"
+                  - option "3.1.5"
+                  - option "3.1.4"
+                  - option "3.1.3"
+                  - option "3.1.2"
+                  - option "3.1.1"
+                  - option "3.1.0"
+                  - option "3.0.1"
+                  - option "3.0.0"
+                  - option "2.1.0"
+                  - option "2.0.9"
+                  - option "2.0.8"
+                  - option "2.0.7"
+                  - option "1.1.0"
+                - generic:
+                  - img
+            - generic [ref=e68]:
+              - link "Package Overview" [ref=e69] [cursor=pointer]:
+                - /url: /npm/package/glob/overview/13.0.6
+                - generic [ref=e70]:
+                  - img [ref=e72]
+                  - generic [ref=e74]: Package Overview
+              - link "Dependencies 3" [ref=e75] [cursor=pointer]:
+                - /url: /npm/package/glob/dependencies/13.0.6
+                - generic [ref=e76]:
+                  - img [ref=e78]
+                  - generic [ref=e84]: Dependencies
+                  - generic [ref=e87]: "3"
+              - link "Maintainers 1" [ref=e88] [cursor=pointer]:
+                - /url: /npm/package/glob/maintainers/13.0.6
+                - generic [ref=e89]:
+                  - img [ref=e91]
+                  - generic [ref=e93]: Maintainers
+                  - generic [ref=e96]: "1"
+              - link "Versions 168" [ref=e97] [cursor=pointer]:
+                - /url: /npm/package/glob/versions/13.0.6
+                - generic [ref=e98]:
+                  - img [ref=e100]
+                  - generic [ref=e102]: Versions
+                  - generic [ref=e105]: "168"
+              - link "Alerts" [ref=e106] [cursor=pointer]:
+                - /url: /npm/package/glob/alerts/13.0.6
+                - generic [ref=e107]:
+                  - img [ref=e109]
+                  - generic [ref=e111]: Alerts
+              - link "File Explorer" [ref=e112] [cursor=pointer]:
+                - /url: /npm/package/glob/files/13.0.6
+                - generic [ref=e113]:
+                  - img [ref=e115]
+                  - generic [ref=e117]: File Explorer
+            - generic [ref=e118]:
+              - paragraph [ref=e119]: Advanced tools
+              - link "License" [ref=e121] [cursor=pointer]:
+                - /url: /npm/package/glob/license/13.0.6
+                - generic [ref=e122]:
+                  - img [ref=e124]
+                  - generic [ref=e126]: License
+          - generic [ref=e128]:
+            - generic [ref=e129]:
+              - img "Socket logo" [ref=e130]
+              - paragraph [ref=e131]: Install Socket
+            - paragraph [ref=e132]: Detect and block malicious and high-risk dependencies
+            - link "Install" [ref=e133] [cursor=pointer]:
+              - /url: /github-app
+              - img [ref=e134]
+              - text: Install
+        - generic [ref=e137]:
+          - navigation "breadcrumb" [ref=e138]:
+            - list [ref=e139]:
+              - listitem [ref=e140]:
+                - link "npm" [ref=e141] [cursor=pointer]:
+                  - /url: /npm
+              - listitem [ref=e142]:
+                - img [ref=e143]
+              - listitem [ref=e145]:
+                - paragraph [ref=e146]: glob
+          - generic [ref=e148]:
+            - generic [ref=e149]:
+              - generic [ref=e150]:
+                - generic [ref=e151]:
+                  - img "node-glob" [ref=e153]
+                  - heading "glob" [level=1] [ref=e154]
+                - paragraph [ref=e155]: the most correct and second fastest glob implementation in JavaScript
+                - generic [ref=e156]:
+                  - generic [ref=e159]: latest
+                  - link "Source" [ref=e161] [cursor=pointer]:
+                    - /url: https://github.com/isaacs/node-glob
+                    - generic [ref=e162]:
+                      - img [ref=e164]
+                      - generic [ref=e166]: Source
+                  - link "npm npm" [ref=e168] [cursor=pointer]:
+                    - /url: https://npmjs.com/package/glob
+                    - generic [ref=e169]:
+                      - img "npm" [ref=e171]
+                      - generic [ref=e174]: npm
+                  - generic [ref=e176]:
+                    - button "Copy purl" [ref=e177] [cursor=pointer]
+                    - link "Learn more about Socket Package URL (purl)" [ref=e178] [cursor=pointer]:
+                      - /url: https://docs.socket.dev/reference/socket-package-urls-purl
+                      - img [ref=e179]
+                  - button "Socket score" [ref=e183]:
+                    - img "Socket score" [ref=e184] [cursor=pointer]
+              - group [ref=e185]:
+                - generic [ref=e186]:
+                  - generic "95" [ref=e187]:
+                    - progressbar "95%" [ref=e188]
+                    - generic [ref=e192]: "95"
+                  - paragraph [ref=e193]: Supply Chain Security
+                - generic [ref=e194]:
+                  - generic "100" [ref=e195]:
+                    - progressbar "100%" [ref=e196]
+                    - generic [ref=e200]: "100"
+                  - paragraph [ref=e201]: Vulnerability
+                - generic [ref=e202]:
+                  - generic "99" [ref=e203]:
+                    - progressbar "99%" [ref=e204]
+                    - generic [ref=e208]: "99"
+                  - paragraph [ref=e209]: Quality
+                - generic [ref=e210]:
+                  - generic "87" [ref=e211]:
+                    - progressbar "87%" [ref=e212]
+                    - generic [ref=e216]: "87"
+                  - paragraph [ref=e217]: Maintenance
+                - generic [ref=e218]:
+                  - generic "100" [ref=e219]:
+                    - progressbar "100%" [ref=e220]
+                    - generic [ref=e224]: "100"
+                  - paragraph [ref=e225]: License
+            - separator [ref=e226]
+            - generic [ref=e227]:
+              - generic [ref=e230]:
+                - img [ref=e231]
+                - generic [ref=e233]:
+                  - generic [ref=e235]:
+                    - paragraph [ref=e236]: Network access
+                    - generic [ref=e237]: Supply chain risk
+                  - generic [ref=e238]:
+                    - paragraph [ref=e239]: This module accesses the network.
+                    - paragraph [ref=e240]: Found 1 instance in 1 package
+              - separator [ref=e241]
+            - generic [ref=e242]:
+              - generic [ref=e243]:
+                - term [ref=e244]: Version
+                - definition [ref=e245]:
+                  - generic [ref=e247]: 13.0.6
+              - generic [ref=e248]:
+                - term [ref=e249]: Version published
+                - definition [ref=e250]:
+                  - time [ref=e251]: 2 months ago
+              - generic [ref=e252]:
+                - term [ref=e253]: Weekly downloads
+                - definition [ref=e254]: 332M
+                - generic [ref=e255]:
+                  - img [ref=e257]
+                  - text: 13.74%
+              - generic [ref=e259]:
+                - term [ref=e260]: Maintainers
+                - definition [ref=e261]:
+                  - link "1" [ref=e262] [cursor=pointer]:
+                    - /url: /npm/package/glob/maintainers/13.0.6
+              - generic [ref=e263]:
+                - generic [ref=e264]: Weekly downloads
+                - img [ref=e266]
+              - generic [ref=e268]:
+                - term [ref=e269]: Created
+                - definition [ref=e270]:
+                  - time [ref=e271]: 5 years ago
+              - generic [ref=e272]:
+                - term [ref=e273]: Issues + PRs
+                - definition [ref=e274]:
+                  - link "4" [ref=e275] [cursor=pointer]:
+                    - /url: https://github.com/isaacs/node-glob/issues
+            - generic [ref=e277]:
+              - generic [ref=e279]:
+                - tablist [ref=e280]:
+                  - list [ref=e281]:
+                    - listitem [ref=e282]:
+                      - tab "README" [selected] [ref=e283] [cursor=pointer]:
+                        - generic [ref=e284]:
+                          - img [ref=e285]
+                          - paragraph [ref=e287]: README
+                    - listitem [ref=e288]:
+                      - tab "Similar packages" [ref=e289] [cursor=pointer]:
+                        - generic [ref=e290]:
+                          - img [ref=e291]
+                          - paragraph [ref=e293]: Similar packages
+                - tabpanel "README" [ref=e295]:
+                  - link "Source" [ref=e296] [cursor=pointer]:
+                    - /url: /npm/package/glob/files/13.0.6/README.md
+              - tabpanel "README" [ref=e299]:
+                - heading "Glob" [level=2] [ref=e300]
+                - paragraph [ref=e301]: Match files using the patterns the shell uses.
+                - paragraph [ref=e302]:
+                  - text: The most correct and second fastest glob implementation in JavaScript. (See
+                  - link "Comparison to Other JavaScript Glob Implementations" [ref=e303] [cursor=pointer]:
+                    - /url: /npm/package/glob#comparisons-to-other-fnmatchglob-implementations
+                    - strong [ref=e304]: Comparison to Other JavaScript Glob Implementations
+                  - text: at the bottom of this readme.)
+                - paragraph [ref=e305]:
+                  - img "a fun cartoon logo made of glob characters" [ref=e306]
+                - heading "Usage" [level=2] [ref=e307]
+                - paragraph [ref=e308]: Install with npm
+                - code [ref=e310]: npm i glob
+                - blockquote [ref=e311]:
+                  - paragraph [ref=e312]:
+                    - text: "[!NOTE] The npm package name is"
+                    - emphasis [ref=e313]: not
+                    - code [ref=e314]: node-glob
+                    - text: that's a different thing that was abandoned years ago. Just
+                    - code [ref=e315]: glob
+                    - text: .
+                - code [ref=e317]:
+                  - text: "// load using import import { glob, globSync, globStream, globStreamSync, Glob } from 'glob' // or using commonjs, that's fine, too const { glob, globSync, globStream, globStreamSync, Glob, } = require('glob') // the main glob() and globSync() resolve/return array of filenames // all js files, but don't look in node_modules const jsfiles = await glob('**/*.js', { ignore: 'node_modules/**' }) // pass in a signal to cancel the glob walk const stopAfter100ms = await glob('**/*.css', { signal: AbortSignal.timeout(100), }) // multiple patterns supported as well const images = await glob(['css/*.{png,jpeg}', 'public/*.{png,jpeg}']) // but of course you can do that with the glob pattern also // the sync function is the same, just returns a string[] instead // of Promise<string[]> const imagesAlt = globSync('{css,public}/*.{png,jpeg}') // you can also stream them, this is a Minipass stream const filesStream = globStream(['**/*.dat', 'logs/**/*.log']) // construct a Glob object if you wanna do it that way, which // allows for much faster walks if you have to look in the same // folder multiple times. const g = new Glob('**/foo', {}) // glob objects are async iterators, can also do globIterate() or // g.iterate(), same deal for await (const file of g) { console.log('found a foo file:', file) } // pass a glob as the glob options to reuse its settings and caches const g2 = new Glob('**/bar', g) // sync iteration works as well for (const file of g2) { console.log('found a bar file:', file) } // you can also pass withFileTypes: true to get Path objects // these are like a fs.Dirent, but with some more added powers // check out https://isaacs.github.io/path-scurry/classes/PathBase.html // for more info on their API const g3 = new Glob('**/baz/**', { withFileTypes: true }) g3.stream().on('data',"
+                  - generic [ref=e318]: path =>
+                  - text: "{ console.log( 'got a path object', path.fullpath(), path.isDirectory(), path.readdirSync().map("
+                  - generic [ref=e319]: e =>
+                  - text: "e.name), ) }) // if you use stat:true and withFileTypes, you can sort results // by things like modified time, filter by permission mode, etc. // All Stats fields will be available in that case. Slightly // slower, though. // For example: const results = await glob('**', { stat: true, withFileTypes: true }) const timeSortedFiles = results .sort("
+                  - generic [ref=e320]: (a, b) =>
+                  - text: a.mtimeMs - b.mtimeMs) .map(
+                  - generic [ref=e321]: path =>
+                  - text: path.fullpath()) const groupReadableFiles = results .filter(
+                  - generic [ref=e322]: path =>
+                  - text: path.mode & 0o040) .map(
+                  - generic [ref=e323]: path =>
+                  - text: "path.fullpath()) // custom ignores can be done like this, for example by saying // you'll ignore all markdown files, and all folders named 'docs' const customIgnoreResults = await glob('**', { ignore: { ignored:"
+                  - generic [ref=e324]: p =>
+                  - text: "/\\.md$/.test(p.name), childrenIgnored:"
+                  - generic [ref=e325]: p =>
+                  - text: "p.isNamed('docs'), }, }) // another fun use case, only return files with the same name as // their parent folder, plus either `.ts` or `.js` const folderNamedModules = await glob('**/*.{ts,js}', { ignore: { ignored:"
+                  - generic [ref=e326]: p =>
+                  - text: "{ const pp = p.parent return !(p.isNamed(pp.name + '.ts') || p.isNamed(pp.name + '.js')) }, }, }) // find all files edited in the last hour, to do this, we ignore // all of them that are more than an hour old const newFiles = await glob('**', { // need stat so we have mtime stat: true, // only want the files, not the dirs nodir: true, ignore: { ignored:"
+                  - generic [ref=e327]: p =>
+                  - text: "{ return new Date() - p.mtime > 60 * 60 * 1000 }, // could add similar childrenIgnored here as well, but // directory mtime is inconsistent across platforms, so // probably better not to, unless you know the system // tracks this reliably. }, })"
+                - blockquote [ref=e328]:
+                  - paragraph [ref=e329]:
+                    - text: "[!NOTE] Glob patterns should always use"
+                    - code [ref=e330]: /
+                    - text: as a path separator, even on Windows systems, as
+                    - code [ref=e331]: \
+                    - text: is used to escape glob characters. If you wish to use
+                    - code [ref=e332]: \
+                    - text: as a path separator
+                    - emphasis [ref=e333]: instead of
+                    - text: using it as an escape character on Windows platforms, you may set
+                    - code [ref=e334]: windowsPathsNoEscape:true
+                    - text: in the options. In this mode, special glob characters cannot be escaped, making it impossible to match a literal
+                    - code [ref=e335]: "*"
+                    - code [ref=e336]: "?"
+                    - text: and so on in filenames.
+                - heading "Command Line Interface" [level=2] [ref=e337]
+                - paragraph [ref=e338]:
+                  - text: The glob CLI has been moved to the
+                  - code [ref=e339]: glob-bin
+                  - text: package, and must be installed separately, as of version 13.
+                - code [ref=e341]: npm install glob-bin
+                - 'heading "glob(pattern: string | string[], options?: GlobOptions) => Promise<string[] | Path[]>" [level=2] [ref=e342]':
+                  - code [ref=e343]: "glob(pattern: string | string[], options?: GlobOptions) => Promise<string[] | Path[]>"
+                - paragraph [ref=e344]:
+                  - text: Perform an asynchronous glob search for the pattern(s) specified. Returns
+                  - link "Path" [ref=e345] [cursor=pointer]:
+                    - /url: https://isaacs.github.io/path-scurry/classes/PathBase
+                  - text: objects if the
+                  - code [ref=e346]: withFileTypes
+                  - text: option is set to
+                  - code [ref=e347]: "true"
+                  - text: . See below for full options field desciptions.
+                - 'heading "globSync(pattern: string | string[], options?: GlobOptions) => string[] | Path[]" [level=2] [ref=e348]':
+                  - code [ref=e349]: "globSync(pattern: string | string[], options?: GlobOptions) => string[] | Path[]"
+                - paragraph [ref=e350]:
+                  - text: Synchronous form of
+                  - code [ref=e351]: glob()
+                  - text: .
+                - paragraph [ref=e352]:
+                  - text: "Alias:"
+                  - code [ref=e353]: glob.sync()
+                - 'heading "globIterate(pattern: string | string[], options?: GlobOptions) => AsyncGenerator<string>" [level=2] [ref=e354]':
+                  - code [ref=e355]: "globIterate(pattern: string | string[], options?: GlobOptions) => AsyncGenerator<string>"
+                - paragraph [ref=e356]: Return an async iterator for walking glob pattern matches.
+                - paragraph [ref=e357]:
+                  - text: "Alias:"
+                  - code [ref=e358]: glob.iterate()
+                - 'heading "globIterateSync(pattern: string | string[], options?: GlobOptions) => Generator<string>" [level=2] [ref=e359]':
+                  - code [ref=e360]: "globIterateSync(pattern: string | string[], options?: GlobOptions) => Generator<string>"
+                - paragraph [ref=e361]: Return a sync iterator for walking glob pattern matches.
+                - paragraph [ref=e362]:
+                  - text: "Alias:"
+                  - code [ref=e363]: glob.iterate.sync()
+                  - text: ","
+                  - code [ref=e364]: glob.sync.iterate()
+                - 'heading "globStream(pattern: string | string[], options?: GlobOptions) => Minipass<string | Path>" [level=2] [ref=e365]':
+                  - code [ref=e366]: "globStream(pattern: string | string[], options?: GlobOptions) => Minipass<string | Path>"
+                - paragraph [ref=e367]:
+                  - text: Return a stream that emits all the strings or
+                  - code [ref=e368]: Path
+                  - text: objects and then emits
+                  - code [ref=e369]: end
+                  - text: when completed.
+                - paragraph [ref=e370]:
+                  - text: "Alias:"
+                  - code [ref=e371]: glob.stream()
+                - 'heading "globStreamSync(pattern: string | string[], options?: GlobOptions) => Minipass<string | Path>" [level=2] [ref=e372]':
+                  - code [ref=e373]: "globStreamSync(pattern: string | string[], options?: GlobOptions) => Minipass<string | Path>"
+                - paragraph [ref=e374]:
+                  - text: Syncronous form of
+                  - code [ref=e375]: globStream()
+                  - text: . Will read all the matches as fast as you consume them, even all in a single tick if you consume them immediately, but will still respond to backpressure if they're not consumed immediately.
+                - paragraph [ref=e376]:
+                  - text: "Alias:"
+                  - code [ref=e377]: glob.stream.sync()
+                  - text: ","
+                  - code [ref=e378]: glob.sync.stream()
+                - 'heading "hasMagic(pattern: string | string[], options?: GlobOptions) => boolean" [level=2] [ref=e379]':
+                  - code [ref=e380]: "hasMagic(pattern: string | string[], options?: GlobOptions) => boolean"
+                - paragraph [ref=e381]:
+                  - text: Returns
+                  - code [ref=e382]: "true"
+                  - text: if the provided pattern contains any "magic" glob characters, given the options provided.
+                - paragraph [ref=e383]:
+                  - text: Brace expansion is not considered "magic" unless the
+                  - code [ref=e384]: magicalBraces
+                  - text: option is set, as brace expansion just turns one string into an array of strings. So a pattern like
+                  - code [ref=e385]: "'x{a,b}y'"
+                  - text: would return
+                  - code [ref=e386]: "false"
+                  - text: ", because"
+                  - code [ref=e387]: "'xay'"
+                  - text: and
+                  - code [ref=e388]: "'xby'"
+                  - text: both do not contain any magic glob characters, and it's treated the same as if you had called it on
+                  - code [ref=e389]: "['xay', 'xby']"
+                  - text: . When
+                  - code [ref=e390]: magicalBraces:true
+                  - text: is in the options, brace expansion
+                  - emphasis [ref=e391]: is
+                  - text: treated as a pattern having magic.
+                - 'heading "escape(pattern: string, options?: GlobOptions) => string" [level=2] [ref=e392]':
+                  - code [ref=e393]: "escape(pattern: string, options?: GlobOptions) => string"
+                - paragraph [ref=e394]: Escape all magic characters in a glob pattern, so that it will only ever match literal strings
+                - paragraph [ref=e395]:
+                  - text: If the
+                  - code [ref=e396]: windowsPathsNoEscape
+                  - text: option is used, then characters are escaped by wrapping in
+                  - code [ref=e397]: "[]"
+                  - text: ", because a magic character wrapped in a character class can only be satisfied by that exact character."
+                - paragraph [ref=e398]:
+                  - text: Slashes (and backslashes in
+                  - code [ref=e399]: windowsPathsNoEscape
+                  - text: mode) cannot be escaped or unescaped.
+                - 'heading "unescape(pattern: string, options?: GlobOptions) => string" [level=2] [ref=e400]':
+                  - code [ref=e401]: "unescape(pattern: string, options?: GlobOptions) => string"
+                - paragraph [ref=e402]: Un-escape a glob string that may contain some escaped characters.
+                - paragraph [ref=e403]:
+                  - text: If the
+                  - code [ref=e404]: windowsPathsNoEscape
+                  - text: option is used, then square-brace escapes are removed, but not backslash escapes. For example, it will turn the string
+                  - code [ref=e405]: "'[*]'"
+                  - text: into
+                  - code [ref=e406]: "*"
+                  - text: ", but it will not turn"
+                  - code [ref=e407]: "'\\\\*'"
+                  - text: into
+                  - code [ref=e408]: "'*'"
+                  - text: ", because"
+                  - code [ref=e409]: \
+                  - text: is a path separator in
+                  - code [ref=e410]: windowsPathsNoEscape
+                  - text: mode.
+                - paragraph [ref=e411]:
+                  - text: When
+                  - code [ref=e412]: windowsPathsNoEscape
+                  - text: is not set, then both brace escapes and backslash escapes are removed.
+                - paragraph [ref=e413]:
+                  - text: Slashes (and backslashes in
+                  - code [ref=e414]: windowsPathsNoEscape
+                  - text: mode) cannot be escaped or unescaped.
+                - heading "Class Glob" [level=2] [ref=e415]:
+                  - text: Class
+                  - code [ref=e416]: Glob
+                - paragraph [ref=e417]: An object that can perform glob pattern traversals.
+                - 'heading "const g = new Glob(pattern: string | string[], options: GlobOptions)" [level=3] [ref=e418]':
+                  - code [ref=e419]: "const g = new Glob(pattern: string | string[], options: GlobOptions)"
+                - paragraph [ref=e420]: Options object is required.
+                - paragraph [ref=e421]: See full options descriptions below.
+                - blockquote [ref=e422]:
+                  - paragraph [ref=e423]:
+                    - text: "[!NOTE] A previous"
+                    - code [ref=e424]: Glob
+                    - text: object can be passed as the
+                    - code [ref=e425]: GlobOptions
+                    - text: to another
+                    - code [ref=e426]: Glob
+                    - text: instantiation to re-use settings and caches with a new pattern.
+                - paragraph [ref=e427]: Traversal functions can be called multiple times to run the walk again.
+                - heading "g.stream()" [level=3] [ref=e428]:
+                  - code [ref=e429]: g.stream()
+                - paragraph [ref=e430]: Stream results asynchronously.
+                - heading "g.streamSync()" [level=3] [ref=e431]:
+                  - code [ref=e432]: g.streamSync()
+                - paragraph [ref=e433]: Stream results synchronously.
+                - heading "g.iterate()" [level=3] [ref=e434]:
+                  - code [ref=e435]: g.iterate()
+                - paragraph [ref=e436]: Default async iteration function. Returns an AsyncGenerator that iterates over the results.
+                - heading "g.iterateSync()" [level=3] [ref=e437]:
+                  - code [ref=e438]: g.iterateSync()
+                - paragraph [ref=e439]: Default sync iteration function. Returns a Generator that iterates over the results.
+                - heading "g.walk()" [level=3] [ref=e440]:
+                  - code [ref=e441]: g.walk()
+                - paragraph [ref=e442]: Returns a Promise that resolves to the results array.
+                - heading "g.walkSync()" [level=3] [ref=e443]:
+                  - code [ref=e444]: g.walkSync()
+                - paragraph [ref=e445]: Returns a results array.
+                - heading "Properties" [level=3] [ref=e446]
+                - paragraph [ref=e447]:
+                  - text: All options are stored as properties on the
+                  - code [ref=e448]: Glob
+                  - text: object.
+                - list [ref=e449]:
+                  - listitem [ref=e450]:
+                    - code [ref=e451]: opts
+                    - text: The options provided to the constructor.
+                  - listitem [ref=e452]:
+                    - code [ref=e453]: patterns
+                    - text: An array of parsed immutable
+                    - code [ref=e454]: Pattern
+                    - text: objects.
+                - heading "Options" [level=2] [ref=e455]
+                - paragraph [ref=e456]:
+                  - text: Exported as
+                  - code [ref=e457]: GlobOptions
+                  - text: TypeScript interface. A
+                  - code [ref=e458]: GlobOptions
+                  - text: object may be provided to any of the exported methods, and must be provided to the
+                  - code [ref=e459]: Glob
+                  - text: constructor.
+                - paragraph [ref=e460]: All options are optional, boolean, and false by default, unless otherwise noted.
+                - paragraph [ref=e461]: All resolved options are added to the Glob object as properties.
+                - paragraph [ref=e462]:
+                  - text: If you are running many
+                  - code [ref=e463]: glob
+                  - text: operations, you can pass a Glob object as the
+                  - code [ref=e464]: options
+                  - text: argument to a subsequent operation to share the previously loaded cache.
+                - list [ref=e465]:
+                  - listitem [ref=e466]:
+                    - paragraph [ref=e467]:
+                      - code [ref=e468]: cwd
+                      - text: String path or
+                      - code [ref=e469]: file://
+                      - text: string or URL object. The current working directory in which to search. Defaults to
+                      - code [ref=e470]: process.cwd()
+                      - text: ". See also: \"Windows, CWDs, Drive Letters, and UNC Paths\", below."
+                    - paragraph [ref=e471]:
+                      - text: This option may be either a string path or a
+                      - code [ref=e472]: file://
+                      - text: URL object or string.
+                  - listitem [ref=e473]:
+                    - paragraph [ref=e474]:
+                      - code [ref=e475]: root
+                      - text: A string path resolved against the
+                      - code [ref=e476]: cwd
+                      - text: option, which is used as the starting point for absolute patterns that start with
+                      - code [ref=e477]: /
+                      - text: ", (but not drive letters or UNC paths on Windows)."
+                    - paragraph [ref=e478]:
+                      - text: To start absolute and non-absolute patterns in the same path, you can use
+                      - code [ref=e479]: "{root:''}"
+                      - text: . However, be aware that on Windows systems, a pattern like
+                      - code [ref=e480]: x:/*
+                      - text: or
+                      - code [ref=e481]: //host/share/*
+                      - text: will
+                      - emphasis [ref=e482]: always
+                      - text: start in the
+                      - code [ref=e483]: x:/
+                      - text: or
+                      - code [ref=e484]: //host/share
+                      - text: directory, regardless of the
+                      - code [ref=e485]: root
+                      - text: setting.
+                - blockquote [ref=e486]:
+                  - paragraph [ref=e487]:
+                    - text: "[!NOTE] This"
+                    - emphasis [ref=e488]: doesn't
+                    - text: necessarily limit the walk to the
+                    - code [ref=e489]: root
+                    - text: directory, and doesn't affect the cwd starting point for non-absolute patterns. A pattern containing
+                    - code [ref=e490]: ..
+                    - text: will still be able to traverse out of the root directory, if it is not an actual root directory on the filesystem, and any non-absolute patterns will be matched in the
+                    - code [ref=e491]: cwd
+                    - text: . For example, the pattern
+                    - code [ref=e492]: /../*
+                    - text: with
+                    - code [ref=e493]: "{root:'/some/path'}"
+                    - text: will return all files in
+                    - code [ref=e494]: /some
+                    - text: ", not all files in"
+                    - code [ref=e495]: /some/path
+                    - text: . The pattern
+                    - code [ref=e496]: "*"
+                    - text: with
+                    - code [ref=e497]: "{root:'/some/path'}"
+                    - text: will return all the entries in the cwd, not the entries in
+                    - code [ref=e498]: /some/path
+                    - text: .
+                - list [ref=e499]:
+                  - listitem [ref=e500]:
+                    - code [ref=e501]: windowsPathsNoEscape
+                    - text: Use
+                    - code [ref=e502]: \\
+                    - text: as a path separator
+                    - emphasis [ref=e503]: only
+                    - text: ", and"
+                    - emphasis [ref=e504]: never
+                    - text: as an escape character. If set, all
+                    - code [ref=e505]: \\
+                    - text: characters are replaced with
+                    - code [ref=e506]: /
+                    - text: in the pattern.
+                - blockquote [ref=e507]:
+                  - paragraph [ref=e508]:
+                    - text: "[!NOTE] This makes it"
+                    - strong [ref=e509]: impossible
+                    - text: to match against paths containing literal glob pattern characters, but allows matching with patterns constructed using
+                    - code [ref=e510]: path.join()
+                    - text: and
+                    - code [ref=e511]: path.resolve()
+                    - text: on Windows platforms, mimicking the (buggy!) behavior of Glob v7 and before on Windows. Please use with caution, and be mindful of
+                    - link "the caveat below about Windows paths" [ref=e512] [cursor=pointer]:
+                      - /url: /npm/package/glob#windows
+                    - text: . (For legacy reasons, this is also set if
+                    - code [ref=e513]: allowWindowsEscape
+                    - text: is set to the exact value
+                    - code [ref=e514]: "false"
+                    - text: .)
+                - list [ref=e515]:
+                  - listitem [ref=e516]:
+                    - paragraph [ref=e517]:
+                      - code [ref=e518]: dot
+                      - text: Include
+                      - code [ref=e519]: .dot
+                      - text: files in normal matches and
+                      - code [ref=e520]: globstar
+                      - text: matches. Note that an explicit dot in a portion of the pattern will always match dot files.
+                  - listitem [ref=e521]:
+                    - paragraph [ref=e522]:
+                      - code [ref=e523]: magicalBraces
+                      - text: Treat brace expansion like
+                      - code [ref=e524]: "{a,b}"
+                      - text: "as a \"magic\" pattern. Has no effect if {@link nobrace} is set."
+                    - paragraph [ref=e525]: "Only has effect on the {@link hasMagic} function, no effect on glob pattern matching itself."
+                  - listitem [ref=e526]:
+                    - paragraph [ref=e527]:
+                      - code [ref=e528]: dotRelative
+                      - text: Prepend all relative path strings with
+                      - code [ref=e529]: ./
+                      - text: (or
+                      - code [ref=e530]: .\
+                      - text: on Windows).
+                    - paragraph [ref=e531]:
+                      - text: Without this option, returned relative paths are "bare", so instead of returning
+                      - code [ref=e532]: "'./foo/bar'"
+                      - text: ", they are returned as"
+                      - code [ref=e533]: "'foo/bar'"
+                      - text: .
+                    - paragraph [ref=e534]:
+                      - text: Relative patterns starting with
+                      - code [ref=e535]: "'../'"
+                      - text: are not prepended with
+                      - code [ref=e536]: ./
+                      - text: ", even if this option is set."
+                  - listitem [ref=e537]:
+                    - paragraph [ref=e538]:
+                      - code [ref=e539]: mark
+                      - text: Add a
+                      - code [ref=e540]: /
+                      - text: character to directory matches. Note that this requires additional stat calls.
+                  - listitem [ref=e541]:
+                    - paragraph [ref=e542]:
+                      - code [ref=e543]: nobrace
+                      - text: Do not expand
+                      - code [ref=e544]: "{a,b}"
+                      - text: and
+                      - code [ref=e545]: "{1..3}"
+                      - text: brace sets.
+                  - listitem [ref=e546]:
+                    - paragraph [ref=e547]:
+                      - code [ref=e548]: noglobstar
+                      - text: Do not match
+                      - code [ref=e549]: "**"
+                      - text: against multiple filenames. (Ie, treat it as a normal
+                      - code [ref=e550]: "*"
+                      - text: instead.)
+                  - listitem [ref=e551]:
+                    - paragraph [ref=e552]:
+                      - code [ref=e553]: noext
+                      - text: Do not match "extglob" patterns such as
+                      - code [ref=e554]: +(a|b)
+                      - text: .
+                  - listitem [ref=e555]:
+                    - paragraph [ref=e556]:
+                      - code [ref=e557]: nocase
+                      - text: Perform a case-insensitive match. This defaults to
+                      - code [ref=e558]: "true"
+                      - text: on macOS and Windows systems, and
+                      - code [ref=e559]: "false"
+                      - text: on all others.
+                - blockquote [ref=e560]:
+                  - paragraph [ref=e561]:
+                    - text: "[!NOTE]"
+                    - code [ref=e562]: nocase
+                    - text: should only be explicitly set when it is known that the filesystem's case sensitivity differs from the platform default. If set
+                    - code [ref=e563]: "true"
+                    - text: on case-sensitive file systems, or
+                    - code [ref=e564]: "false"
+                    - text: on case-insensitive file systems, then the walk may return more or less results than expected.
+                  - paragraph [ref=e565]:
+                    - text: As a shortcut to avoid excessive
+                    - code [ref=e566]: RegExp
+                    - text: creations,
+                    - code [ref=e567]: Glob
+                    - text: will use string portions as-is to
+                    - code [ref=e568]: readdir()
+                    - text: calls while doing its traversal. If you are setting a
+                    - code [ref=e569]: "nocase: true"
+                    - text: match on a file system that is in fact case sensitive, then this will result in matches not being found that you might expect, because for example the pattern
+                    - code [ref=e570]: Foo/*
+                    - text: will fail to read the
+                    - code [ref=e571]: FOO/
+                    - text: or
+                    - code [ref=e572]: foo/
+                    - text: directories.
+                  - paragraph [ref=e573]:
+                    - text: On the other hand, if you set
+                    - code [ref=e574]: "nocase: false"
+                    - text: on a case-
+                    - emphasis [ref=e575]: insensitive
+                    - text: "system, then the opposite problem occurs:"
+                    - code [ref=e576]: Foo/*
+                    - text: will match
+                    - code [ref=e577]: foo/bar
+                    - text: ", but because we only detect the existence of the"
+                    - code [ref=e578]: foo/
+                    - text: folder by successfully performing a
+                    - code [ref=e579]: readdir
+                    - text: ", there's no way to know what the \"real\" case is, and the match will be reported as"
+                    - code [ref=e580]: Foo/bar
+                    - text: ", using the case of the string portion of the glob pattern."
+                  - paragraph [ref=e581]:
+                    - text: The default is usually correct, however it
+                    - emphasis [ref=e582]: is
+                    - text: possible to mount file systems with a different case-sensitivity from the host system. If you know this is the case, set this flag appropriately to the file system you are searching.
+                - list [ref=e583]:
+                  - listitem [ref=e584]:
+                    - paragraph [ref=e585]:
+                      - code [ref=e586]: maxDepth
+                      - text: Specify a number to limit the depth of the directory traversal to this many levels below the
+                      - code [ref=e587]: cwd
+                      - text: .
+                  - listitem [ref=e588]:
+                    - paragraph [ref=e589]:
+                      - code [ref=e590]: matchBase
+                      - text: Perform a basename-only match if the pattern does not contain any slash characters. That is,
+                      - code [ref=e591]: "*.js"
+                      - text: would be treated as equivalent to
+                      - code [ref=e592]: "**/*.js"
+                      - text: ", matching all js files in all directories."
+                  - listitem [ref=e593]:
+                    - paragraph [ref=e594]:
+                      - code [ref=e595]: nodir
+                      - text: "Do not match directories, only files. (Note: to match"
+                      - emphasis [ref=e596]: only
+                      - text: directories, put a
+                      - code [ref=e597]: /
+                      - text: at the end of the pattern.)
+                - blockquote [ref=e598]:
+                  - paragraph [ref=e599]:
+                    - text: "[!NOTE] When"
+                    - code [ref=e600]: follow
+                    - text: and
+                    - code [ref=e601]: nodir
+                    - text: are both set, then symbolic links to directories are also omitted.
+                - list [ref=e602]:
+                  - listitem [ref=e603]:
+                    - paragraph [ref=e604]:
+                      - code [ref=e605]: stat
+                      - text: Call
+                      - code [ref=e606]: lstat()
+                      - text: on all entries, whether required or not to determine whether it's a valid match. When used with
+                      - code [ref=e607]: withFileTypes
+                      - text: ", this means that matches will include data such as modified time, permissions, and so on. Note that this will incur a performance cost due to the added system calls."
+                  - listitem [ref=e608]:
+                    - paragraph [ref=e609]:
+                      - code [ref=e610]: ignore
+                      - text: string or string[], or an object with
+                      - code [ref=e611]: ignored
+                      - text: and
+                      - code [ref=e612]: childrenIgnored
+                      - text: methods.
+                    - paragraph [ref=e613]:
+                      - text: If a string or string[] is provided, then this is treated as a glob pattern or array of glob patterns to exclude from matches. To ignore all children within a directory, as well as the entry itself, append
+                      - code [ref=e614]: "'/**'"
+                      - text: to the ignore pattern.
+                    - paragraph [ref=e615]:
+                      - text: If an object is provided that has
+                      - code [ref=e616]: ignored(path)
+                      - text: and/or
+                      - code [ref=e617]: childrenIgnored(path)
+                      - text: methods, then these methods will be called to determine whether any Path is a match or if its children should be traversed, respectively.
+                    - paragraph [ref=e618]:
+                      - text: The
+                      - code [ref=e619]: path
+                      - text: argument to the methods will be a
+                      - link "path-scurry" [ref=e620] [cursor=pointer]:
+                        - /url: https://isaacs.github.io/path-scurry/index.html
+                        - code [ref=e621]: path-scurry
+                      - link "Path" [ref=e622] [cursor=pointer]:
+                        - /url: https://isaacs.github.io/path-scurry/classes/PathBase
+                        - code [ref=e623]: Path
+                      - text: object, which extends
+                      - link "fs.Dirent" [ref=e624] [cursor=pointer]:
+                        - /url: https://nodejs.org/docs/latest/api/fs.html#class-fsdirent
+                        - code [ref=e625]: fs.Dirent
+                      - text: with additional useful methods like
+                      - link ".fullpath()" [ref=e626] [cursor=pointer]:
+                        - /url: https://isaacs.github.io/path-scurry/classes/PathBase.html#fullpath
+                        - code [ref=e627]: .fullpath()
+                      - text: ","
+                      - link ".relative()" [ref=e628] [cursor=pointer]:
+                        - /url: https://isaacs.github.io/path-scurry/classes/PathBase.html#relative
+                        - code [ref=e629]: .relative()
+                      - text: ", and more."
+                - blockquote [ref=e630]:
+                  - paragraph [ref=e631]:
+                    - text: "[!NOTE]"
+                    - code [ref=e632]: ignore
+                    - text: patterns are
+                    - emphasis [ref=e633]: always
+                    - text: in
+                    - code [ref=e634]: dot:true
+                    - text: mode, regardless of any other settings.
+                - list [ref=e635]:
+                  - listitem [ref=e636]:
+                    - paragraph [ref=e637]:
+                      - code [ref=e638]: follow
+                      - text: Follow symlinked directories when expanding
+                      - code [ref=e639]: "**"
+                      - text: patterns. This can result in a lot of duplicate references in the presence of cyclic links, and make performance quite bad.
+                    - paragraph [ref=e640]:
+                      - text: By default, a
+                      - code [ref=e641]: "**"
+                      - text: in a pattern will follow 1 symbolic link if it is not the first item in the pattern, or none if it is the first item in the pattern, following the same behavior as Bash.
+                - blockquote [ref=e642]:
+                  - paragraph [ref=e643]:
+                    - text: "[!NOTE] When"
+                    - code [ref=e644]: follow
+                    - text: and
+                    - code [ref=e645]: nodir
+                    - text: are both set, then symbolic links to directories are also omitted.
+                - list [ref=e646]:
+                  - listitem [ref=e647]:
+                    - paragraph [ref=e648]:
+                      - code [ref=e649]: realpath
+                      - text: Set to true to call
+                      - code [ref=e650]: fs.realpath
+                      - text: on all of the results. In the case of an entry that cannot be resolved, the entry is omitted. This incurs a slight performance penalty, of course, because of the added system calls.
+                  - listitem [ref=e651]:
+                    - paragraph [ref=e652]:
+                      - code [ref=e653]: absolute
+                      - text: Set to true to always receive absolute paths for matched files. Set to
+                      - code [ref=e654]: "false"
+                      - text: to always receive relative paths for matched files.
+                    - paragraph [ref=e655]:
+                      - text: By default, when this option is not set, absolute paths are returned for patterns that are absolute, and otherwise paths are returned that are relative to the
+                      - code [ref=e656]: cwd
+                      - text: setting.
+                    - paragraph [ref=e657]:
+                      - text: This does
+                      - emphasis [ref=e658]: not
+                      - text: make an extra system call to get the realpath, it only does string path resolution.
+                    - paragraph [ref=e659]:
+                      - code [ref=e660]: absolute
+                      - text: may not be used along with
+                      - code [ref=e661]: withFileTypes
+                      - text: .
+                  - listitem [ref=e662]:
+                    - paragraph [ref=e663]:
+                      - code [ref=e664]: posix
+                      - text: Set to true to use
+                      - code [ref=e665]: /
+                      - text: as the path separator in returned results. On POSIX systems, this has no effect. On Windows systems, this will return
+                      - code [ref=e666]: /
+                      - text: delimited path results, and absolute paths will be returned in their fully resolved UNC path form, e.g. instead of
+                      - code [ref=e667]: "'C:\\\\foo\\\\bar'"
+                      - text: ", it will return"
+                      - code [ref=e668]: //?/C:/foo/bar
+                      - text: .
+                  - listitem [ref=e669]:
+                    - paragraph [ref=e670]:
+                      - code [ref=e671]: platform
+                      - text: Defaults to the value of
+                      - code [ref=e672]: process.platform
+                      - text: if available, or
+                      - code [ref=e673]: "'linux'"
+                      - text: if not. Setting
+                      - code [ref=e674]: platform:'win32'
+                      - text: on non-Windows systems may cause strange behavior.
+                  - listitem [ref=e675]:
+                    - paragraph [ref=e676]:
+                      - code [ref=e677]: withFileTypes
+                      - text: Return
+                      - link "path-scurry" [ref=e678] [cursor=pointer]:
+                        - /url: http://npm.im/path-scurry
+                        - code [ref=e679]: path-scurry
+                      - link "Path" [ref=e680] [cursor=pointer]:
+                        - /url: https://isaacs.github.io/path-scurry/classes/PathBase.html
+                        - code [ref=e681]: Path
+                      - text: objects instead of strings. These are similar to a NodeJS
+                      - code [ref=e682]: fs.Dirent
+                      - text: object, but with additional methods and properties.
+                    - paragraph [ref=e683]:
+                      - code [ref=e684]: withFileTypes
+                      - text: may not be used along with
+                      - code [ref=e685]: absolute
+                      - text: .
+                  - listitem [ref=e686]:
+                    - paragraph [ref=e687]:
+                      - code [ref=e688]: signal
+                      - text: An AbortSignal which will cancel the Glob walk when triggered.
+                  - listitem [ref=e689]:
+                    - paragraph [ref=e690]:
+                      - code [ref=e691]: fs
+                      - text: An override object to pass in custom filesystem methods. See
+                      - link "path-scurry docs" [ref=e692] [cursor=pointer]:
+                        - /url: https://isaacs.github.io/path-scurry/interfaces/FSOption.html
+                        - code [ref=e693]: path-scurry
+                        - text: docs
+                      - text: for what can be overridden.
+                  - listitem [ref=e694]:
+                    - paragraph [ref=e695]:
+                      - code [ref=e696]: scurry
+                      - text: A
+                      - link "PathScurry" [ref=e697] [cursor=pointer]:
+                        - /url: https://isaacs.github.io/path-scurry/classes/PathScurryBase.html
+                        - code [ref=e698]: PathScurry
+                      - text: object used to traverse the file system. If the
+                      - code [ref=e699]: nocase
+                      - text: option is set explicitly, then any provided
+                      - code [ref=e700]: scurry
+                      - text: object must match this setting.
+                  - listitem [ref=e701]:
+                    - paragraph [ref=e702]:
+                      - code [ref=e703]: includeChildMatches
+                      - text: boolean, default
+                      - code [ref=e704]: "true"
+                      - text: . Do not match any children of any matches. For example, the pattern
+                      - code [ref=e705]: "**\\/foo"
+                      - text: would match
+                      - code [ref=e706]: a/foo
+                      - text: ", but not"
+                      - code [ref=e707]: a/foo/b/foo
+                      - text: in this mode.
+                    - paragraph [ref=e708]:
+                      - text: This is especially useful for cases like "find all
+                      - code [ref=e709]: node_modules
+                      - text: folders, but not the ones in
+                      - code [ref=e710]: node_modules
+                      - text: "\"."
+                    - paragraph [ref=e711]:
+                      - text: In order to support this, the
+                      - code [ref=e712]: Ignore
+                      - text: implementation must support an
+                      - code [ref=e713]: "add(pattern: string)"
+                      - text: method. If using the default
+                      - code [ref=e714]: Ignore
+                      - text: class, then this is fine, but if this is set to
+                      - code [ref=e715]: "false"
+                      - text: ", and a custom"
+                      - code [ref=e716]: Ignore
+                      - text: is provided that does not have an
+                      - code [ref=e717]: add()
+                      - text: method, then it will throw an error.
+                    - paragraph [ref=e718]: "For example:"
+                    - code [ref=e720]: "const results = await glob( [ // likely to match first, since it's just a stat 'a/b/c/d/e/f', // this pattern is more complicated! It must to various readdir() // calls and test the results against a regular expression, and that // is certainly going to take a little bit longer. // // So, later on, it encounters a match at 'a/b/c/d/e', but it's too // late to ignore a/b/c/d/e/f, because it's already been emitted. 'a/[bdf]/?/[a-z]/*', ], { includeChildMatches: false }, )"
+                    - paragraph [ref=e721]:
+                      - text: It's best to only set this to
+                      - code [ref=e722]: "false"
+                      - text: if you can be reasonably sure that no components of the pattern will potentially match one another's file system descendants, or if the occasional included child entry will not cause problems.
+                - blockquote [ref=e723]:
+                  - paragraph [ref=e724]:
+                    - text: "[!NOTE] It"
+                    - emphasis [ref=e725]: only
+                    - text: ignores matches that would be a descendant of a previous match, and only if that descendant is matched
+                    - emphasis [ref=e726]: after
+                    - text: the ancestor is encountered. Since the file system walk happens in indeterminate order, it's possible that a match will already be added before its ancestor, if multiple or braced patterns are used.
+                - list [ref=e727]:
+                  - listitem [ref=e728]:
+                    - code [ref=e729]: braceExpandMax
+                    - text: number, defaults to
+                    - code [ref=e730]: 10_000
+                    - text: . This is the maximum number of
+                    - code [ref=e731]: "{x,y,...}"
+                    - text: patterns to expand. It is very unlikely that you'll need more than this, and setting it higher exposes the system to out-of-memory errors.
+                - heading "Glob Primer" [level=2] [ref=e732]
+                - paragraph [ref=e733]:
+                  - text: Much more information about glob pattern expansion can be found by running
+                  - code [ref=e734]: man bash
+                  - text: and searching for
+                  - code [ref=e735]: Pattern Matching
+                  - text: .
+                - paragraph [ref=e736]:
+                  - text: "\"Globs\" are the patterns you type when you do stuff like"
+                  - code [ref=e737]: ls *.js
+                  - text: on the command line, or put
+                  - code [ref=e738]: build/*
+                  - text: in a
+                  - code [ref=e739]: .gitignore
+                  - text: file.
+                - paragraph [ref=e740]:
+                  - text: Before parsing the path part patterns, braced sections are expanded into a set. Braced sections start with
+                  - code [ref=e741]: "{"
+                  - text: and end with
+                  - code [ref=e742]: "}"
+                  - text: ", with 2 or more comma-delimited sections within. Braced sections may contain slash characters, so"
+                  - code [ref=e743]: "a{/b/c,bcd}"
+                  - text: would expand into
+                  - code [ref=e744]: a/b/c
+                  - text: and
+                  - code [ref=e745]: abcd
+                  - text: .
+                - paragraph [ref=e746]:
+                  - text: The following characters have special magic meaning when used in a path portion. With the exception of
+                  - code [ref=e747]: "**"
+                  - text: ", none of these match path separators (ie,"
+                  - code [ref=e748]: /
+                  - text: on all platforms, and
+                  - code [ref=e749]: \
+                  - text: on Windows).
+                - list [ref=e750]:
+                  - listitem [ref=e751]:
+                    - code [ref=e752]: "*"
+                    - text: Matches 0 or more characters in a single path portion. When alone in a path portion, it must match at least 1 character. If
+                    - code [ref=e753]: dot:true
+                    - text: is not specified, then
+                    - code [ref=e754]: "*"
+                    - text: will not match against a
+                    - code [ref=e755]: .
+                    - text: character at the start of a path portion.
+                  - listitem [ref=e756]:
+                    - code [ref=e757]: "?"
+                    - text: Matches 1 character. If
+                    - code [ref=e758]: dot:true
+                    - text: is not specified, then
+                    - code [ref=e759]: "?"
+                    - text: will not match against a
+                    - code [ref=e760]: .
+                    - text: character at the start of a path portion.
+                  - listitem [ref=e761]:
+                    - code [ref=e762]: "[...]"
+                    - text: Matches a range of characters, similar to a RegExp range. If the first character of the range is
+                    - code [ref=e763]: "!"
+                    - text: or
+                    - code [ref=e764]: ^
+                    - text: then it matches any character not in the range. If the first character is
+                    - code [ref=e765]: "]"
+                    - text: ", then it will be considered the same as"
+                    - code [ref=e766]: \]
+                    - text: ", rather than the end of the character class."
+                  - listitem [ref=e767]:
+                    - code [ref=e768]: "!(pattern|pattern|pattern)"
+                    - text: Matches anything that does not match any of the patterns provided. May
+                    - emphasis [ref=e769]: not
+                    - text: contain
+                    - code [ref=e770]: /
+                    - text: characters. Similar to
+                    - code [ref=e771]: "*"
+                    - text: ", if alone in a path portion, then the path portion must have at least one character."
+                  - listitem [ref=e772]:
+                    - code [ref=e773]: "?(pattern|pattern|pattern)"
+                    - text: Matches zero or one occurrence of the patterns provided. May
+                    - emphasis [ref=e774]: not
+                    - text: contain
+                    - code [ref=e775]: /
+                    - text: characters.
+                  - listitem [ref=e776]:
+                    - code [ref=e777]: +(pattern|pattern|pattern)
+                    - text: Matches one or more occurrences of the patterns provided. May
+                    - emphasis [ref=e778]: not
+                    - text: contain
+                    - code [ref=e779]: /
+                    - text: characters.
+                  - listitem [ref=e780]:
+                    - code [ref=e781]: "*(a|b|c)"
+                    - text: Matches zero or more occurrences of the patterns provided. May
+                    - emphasis [ref=e782]: not
+                    - text: contain
+                    - code [ref=e783]: /
+                    - text: characters.
+                  - listitem [ref=e784]:
+                    - code [ref=e785]: "@(pattern|pat*|pat?erN)"
+                    - text: Matches exactly one of the patterns provided. May
+                    - emphasis [ref=e786]: not
+                    - text: contain
+                    - code [ref=e787]: /
+                    - text: characters.
+                  - listitem [ref=e788]:
+                    - code [ref=e789]: "**"
+                    - text: If a "globstar" is alone in a path portion, then it matches zero or more directories and subdirectories searching for matches. It does not crawl symlinked directories, unless
+                    - code [ref=e790]: "{follow:true}"
+                    - text: is passed in the options object. A pattern like
+                    - code [ref=e791]: a/b/**
+                    - text: will only match
+                    - code [ref=e792]: a/b
+                    - text: if it is a directory. Follows 1 symbolic link if not the first item in the pattern, or 0 if it is the first item, unless
+                    - code [ref=e793]: follow:true
+                    - text: is set, in which case it follows all symbolic links.
+                - paragraph [ref=e794]:
+                  - code [ref=e795]: "[:class:]"
+                  - text: patterns are supported by this implementation, but
+                  - code [ref=e796]: "[=c=]"
+                  - text: and
+                  - code [ref=e797]: "[.symbol.]"
+                  - text: style class patterns are not.
+                - heading "Dots" [level=3] [ref=e798]
+                - paragraph [ref=e799]:
+                  - text: If a file or directory path portion has a
+                  - code [ref=e800]: .
+                  - text: as the first character, then it will not match any glob pattern unless that pattern's corresponding path part also has a
+                  - code [ref=e801]: .
+                  - text: as its first character.
+                - paragraph [ref=e802]:
+                  - text: For example, the pattern
+                  - code [ref=e803]: a/.*/c
+                  - text: would match the file at
+                  - code [ref=e804]: a/.b/c
+                  - text: . However the pattern
+                  - code [ref=e805]: a/*/c
+                  - text: would not, because
+                  - code [ref=e806]: "*"
+                  - text: does not start with a dot character.
+                - paragraph [ref=e807]:
+                  - text: You can make glob treat dots as normal characters by setting
+                  - code [ref=e808]: dot:true
+                  - text: in the options.
+                - heading "Basename Matching" [level=3] [ref=e809]
+                - paragraph [ref=e810]:
+                  - text: If you set
+                  - code [ref=e811]: matchBase:true
+                  - text: in the options, and the pattern has no slashes in it, then it will seek for any file anywhere in the tree with a matching basename. For example,
+                  - code [ref=e812]: "*.js"
+                  - text: would match
+                  - code [ref=e813]: test/simple/basic.js
+                  - text: .
+                - heading "Empty Sets" [level=3] [ref=e814]
+                - paragraph [ref=e815]: "If no matching files are found, then an empty array is returned. This differs from the shell, where the pattern itself is returned. For example:"
+                - code [ref=e817]: $ echo a*s*d*f a*s*d*f
+                - heading "Comparisons to other fnmatch/glob implementations" [level=2] [ref=e818]
+                - paragraph [ref=e819]: While strict compliance with the existing standards is a worthwhile goal, some discrepancies exist between node-glob and other implementations, and are intentional.
+                - paragraph [ref=e820]:
+                  - text: The double-star character
+                  - code [ref=e821]: "**"
+                  - text: is supported by default, unless the
+                  - code [ref=e822]: noglobstar
+                  - text: flag is set. This is supported in the manner of bsdglob and bash 5, where
+                  - code [ref=e823]: "**"
+                  - text: only has special significance if it is the only thing in a path part. That is,
+                  - code [ref=e824]: a/**/b
+                  - text: will match
+                  - code [ref=e825]: a/x/y/b
+                  - text: ", but"
+                  - code [ref=e826]: a/**b
+                  - text: will not.
+                - blockquote [ref=e827]:
+                  - paragraph [ref=e828]:
+                    - text: "[!NOTE] Symlinked directories are not traversed as part of a"
+                    - code [ref=e829]: "**"
+                    - text: ", though their contents may match against subsequent portions of the pattern. This prevents infinite loops and duplicates and the like. You can force glob to traverse symlinks with"
+                    - code [ref=e830]: "**"
+                    - text: by setting
+                    - code [ref=e831]: "{follow:true}"
+                    - text: in the options.
+                - paragraph [ref=e832]:
+                  - text: There is no equivalent of the
+                  - code [ref=e833]: nonull
+                  - text: option. A pattern that does not find any matches simply resolves to nothing. (An empty array, immediately ended stream, etc.)
+                - paragraph [ref=e834]:
+                  - text: If brace expansion is not disabled, then it is performed before any other interpretation of the glob pattern. Thus, a pattern like
+                  - code [ref=e835]: "+(a|{b),c)}"
+                  - text: ", which would not be valid in bash or zsh, is expanded"
+                  - strong [ref=e836]: first
+                  - text: into the set of
+                  - code [ref=e837]: +(a|b)
+                  - text: and
+                  - code [ref=e838]: +(a|c)
+                  - text: ", and those patterns are checked for validity. Since those two are valid, matching proceeds."
+                - paragraph [ref=e839]:
+                  - text: The character class patterns
+                  - code [ref=e840]: "[:class:]"
+                  - text: (POSIX standard named classes) style class patterns are supported and Unicode-aware, but
+                  - code [ref=e841]: "[=c=]"
+                  - text: (locale-specific character collation weight), and
+                  - code [ref=e842]: "[.symbol.]"
+                  - text: (collating symbol), are not.
+                - heading "Repeated Slashes" [level=3] [ref=e843]
+                - paragraph [ref=e844]:
+                  - text: Unlike Bash and zsh, repeated
+                  - code [ref=e845]: /
+                  - text: are always coalesced into a single path separator.
+                - heading "Comments and Negation" [level=3] [ref=e846]
+                - paragraph [ref=e847]:
+                  - text: Previously, this module let you mark a pattern as a "comment" if it started with a
+                  - code [ref=e848]: "#"
+                  - text: character, or a "negated" pattern if it started with a
+                  - code [ref=e849]: "!"
+                  - text: character.
+                - paragraph [ref=e850]: These options were deprecated in version 5, and removed in version 6.
+                - paragraph [ref=e851]:
+                  - text: To specify things that should not match, use the
+                  - code [ref=e852]: ignore
+                  - text: option.
+                - heading "Windows" [level=2] [ref=e853]
+                - paragraph [ref=e854]:
+                  - strong [ref=e855]: Please only use forward-slashes in glob expressions.
+                - paragraph [ref=e856]:
+                  - text: Though Windows uses either
+                  - code [ref=e857]: /
+                  - text: or
+                  - code [ref=e858]: \
+                  - text: as its path separator, only
+                  - code [ref=e859]: /
+                  - text: characters are used by this glob implementation. You must use forward-slashes
+                  - strong [ref=e860]: only
+                  - text: in glob expressions. Back-slashes will always be interpreted as escape characters, not path separators.
+                - paragraph [ref=e861]:
+                  - text: Results from absolute patterns such as
+                  - code [ref=e862]: /foo/*
+                  - text: are mounted onto the root setting using
+                  - code [ref=e863]: path.join
+                  - text: . On Windows, this will by default result in
+                  - code [ref=e864]: /foo/*
+                  - text: matching
+                  - code [ref=e865]: C:\foo\bar.txt
+                  - text: .
+                - paragraph [ref=e866]:
+                  - text: To automatically coerce all
+                  - code [ref=e867]: \
+                  - text: characters to
+                  - code [ref=e868]: /
+                  - text: in pattern strings,
+                  - strong [ref=e869]: thus making it impossible to escape literal glob characters
+                  - text: ", you may set the"
+                  - code [ref=e870]: windowsPathsNoEscape
+                  - text: option to
+                  - code [ref=e871]: "true"
+                  - text: .
+                - heading "Windows, CWDs, Drive Letters, and UNC Paths" [level=3] [ref=e872]
+                - paragraph [ref=e873]:
+                  - text: On POSIX systems, when a pattern starts with
+                  - code [ref=e874]: /
+                  - text: ", any"
+                  - code [ref=e875]: cwd
+                  - text: option is ignored, and the traversal starts at
+                  - code [ref=e876]: /
+                  - text: ", plus any non-magic path portions specified in the pattern."
+                - paragraph [ref=e877]: On Windows systems, the behavior is similar, but the concept of an "absolute path" is somewhat more involved.
+                - heading "UNC Paths" [level=4] [ref=e878]
+                - paragraph [ref=e879]:
+                  - text: "A UNC path may be used as the start of a pattern on Windows platforms. For example, a pattern like:"
+                  - code [ref=e880]: //?/x:/*
+                  - text: will return all file entries in the root of the
+                  - code [ref=e881]: "x:"
+                  - text: drive. A pattern like
+                  - code [ref=e882]: //ComputerName/Share/*
+                  - text: will return all files in the associated share.
+                - paragraph [ref=e883]: UNC path roots are always compared case insensitively.
+                - heading "Drive Letters" [level=4] [ref=e884]
+                - paragraph [ref=e885]:
+                  - text: A pattern starting with a drive letter, like
+                  - code [ref=e886]: c:/*
+                  - text: ", will search in that drive, regardless of any"
+                  - code [ref=e887]: cwd
+                  - text: option provided.
+                - paragraph [ref=e888]:
+                  - text: If the pattern starts with
+                  - code [ref=e889]: /
+                  - text: ", and is not a UNC path, and there is an explicit"
+                  - code [ref=e890]: cwd
+                  - text: option set with a drive letter, then the drive letter in the
+                  - code [ref=e891]: cwd
+                  - text: is used as the root of the directory traversal.
+                - paragraph [ref=e892]:
+                  - text: For example,
+                  - code [ref=e893]: "glob('/tmp', { cwd: 'c:/any/thing' })"
+                  - text: will return
+                  - code [ref=e894]: "['c:/tmp']"
+                  - text: as the result.
+                - paragraph [ref=e895]:
+                  - text: If an explicit
+                  - code [ref=e896]: cwd
+                  - text: option is not provided, and the pattern starts with
+                  - code [ref=e897]: /
+                  - text: ", then the traversal will run on the root of the drive provided as the"
+                  - code [ref=e898]: cwd
+                  - text: option. (That is, it is the result of
+                  - code [ref=e899]: path.resolve('/')
+                  - text: .)
+                - heading "Race Conditions" [level=2] [ref=e900]
+                - paragraph [ref=e901]: Glob searching, by its very nature, is susceptible to race conditions, since it relies on directory walking.
+                - paragraph [ref=e902]: As a result, it is possible that a file that exists when glob looks for it may have been deleted or modified by the time it returns the result.
+                - paragraph [ref=e903]: By design, this implementation caches all readdir calls that it makes, in order to cut down on system overhead. However, this also makes it even more susceptible to races, especially if the cache object is reused between glob calls.
+                - paragraph [ref=e904]: Users are thus advised not to use a glob result as a guarantee of filesystem state in the face of rapid changes. For the vast majority of operations, this is never a problem.
+                - heading "See Also:" [level=3] [ref=e905]
+                - list [ref=e906]:
+                  - listitem [ref=e907]:
+                    - code [ref=e908]: man sh
+                  - listitem [ref=e909]:
+                    - code [ref=e910]: man bash
+                    - link "Pattern Matching" [ref=e911] [cursor=pointer]:
+                      - /url: https://www.gnu.org/software/bash/manual/html_node/Pattern-Matching.html
+                  - listitem [ref=e912]:
+                    - code [ref=e913]: man 3 fnmatch
+                  - listitem [ref=e914]:
+                    - code [ref=e915]: man 5 gitignore
+                  - listitem [ref=e916]:
+                    - link "minimatch documentation" [ref=e917] [cursor=pointer]:
+                      - /url: https://github.com/isaacs/minimatch
+                - heading "Glob Logo" [level=2] [ref=e918]
+                - paragraph [ref=e919]:
+                  - text: Glob's logo was created by
+                  - link "Tanya Brassie" [ref=e920] [cursor=pointer]:
+                    - /url: http://tanyabrassie.com/
+                  - text: . Logo files can be found
+                  - link "here" [ref=e921] [cursor=pointer]:
+                    - /url: https://github.com/isaacs/node-glob/tree/master/logo
+                  - text: .
+                - paragraph [ref=e922]:
+                  - text: The logo is licensed under a
+                  - link "Creative Commons Attribution-ShareAlike 4.0 International License" [ref=e923] [cursor=pointer]:
+                    - /url: https://creativecommons.org/licenses/by-sa/4.0/
+                  - text: .
+                - heading "Contributing" [level=2] [ref=e924]
+                - paragraph [ref=e925]: Any change to behavior (including bugfixes) must come with a test.
+                - paragraph [ref=e926]: Patches that fail tests or reduce performance will be rejected.
+                - code [ref=e928]: "# to run tests npm test # to re-generate test fixtures npm run test-regen # run the benchmarks npm run bench # to profile javascript npm run prof"
+                - heading "Comparison to Other JavaScript Glob Implementations" [level=2] [ref=e929]
+                - paragraph [ref=e930]:
+                  - strong [ref=e931]: tl;dr
+                - list [ref=e932]:
+                  - listitem [ref=e933]:
+                    - text: If you want glob matching that is as faithful as possible to Bash pattern expansion semantics, and as fast as possible within that constraint,
+                    - emphasis [ref=e934]: use this module
+                    - text: .
+                  - listitem [ref=e935]:
+                    - text: If you are reasonably sure that the patterns you will encounter are relatively simple, and want the absolutely fastest glob matcher out there,
+                    - emphasis [ref=e936]:
+                      - text: use
+                      - link "fast-glob" [ref=e937] [cursor=pointer]:
+                        - /url: http://npm.im/fast-glob
+                    - text: .
+                  - listitem [ref=e938]:
+                    - text: If you are reasonably sure that the patterns you will encounter are relatively simple, and want the convenience of automatically respecting
+                    - code [ref=e939]: .gitignore
+                    - text: files,
+                    - emphasis [ref=e940]:
+                      - text: use
+                      - link "globby" [ref=e941] [cursor=pointer]:
+                        - /url: http://npm.im/globby
+                    - text: .
+                - paragraph [ref=e942]: There are some other glob matcher libraries on npm, but these three are (in my opinion, as of 2023) the best.
+                - separator [ref=e943]
+                - paragraph [ref=e944]:
+                  - strong [ref=e945]: full explanation
+                - paragraph [ref=e946]:
+                  - text: Every library reflects a set of opinions and priorities in the trade-offs it makes. Other than this library, I can personally recommend both
+                  - link "globby" [ref=e947] [cursor=pointer]:
+                    - /url: http://npm.im/globby
+                  - text: and
+                  - link "fast-glob" [ref=e948] [cursor=pointer]:
+                    - /url: http://npm.im/fast-glob
+                  - text: ", though they differ in their benefits and drawbacks."
+                - paragraph [ref=e949]: Both have very nice APIs and are reasonably fast.
+                - paragraph [ref=e950]:
+                  - code [ref=e951]: fast-glob
+                  - text: is, as far as I am aware, the fastest glob implementation in JavaScript today. However, there are many cases where the choices that
+                  - code [ref=e952]: fast-glob
+                  - text: makes in pursuit of speed mean that its results differ from the results returned by Bash and other sh-like shells, which may be surprising.
+                - paragraph [ref=e953]:
+                  - text: In my testing,
+                  - code [ref=e954]: fast-glob
+                  - text: is around 10-20% faster than this module when walking over 200k files nested 4 directories deep
+                  - link "1" [ref=e955] [cursor=pointer]:
+                    - /url: /npm/package/glob#fn-webscale
+                  - text: ". However, there are some inconsistencies with Bash matching behavior that this module does not suffer from:"
+                - list [ref=e956]:
+                  - listitem [ref=e957]:
+                    - code [ref=e958]: "**"
+                    - text: only matches files, not directories
+                  - listitem [ref=e959]:
+                    - code [ref=e960]: ..
+                    - text: path portions are not handled unless they appear at the start of the pattern
+                  - listitem [ref=e961]:
+                    - code [ref=e962]: ./!(<pattern>)
+                    - text: will not match any files that
+                    - emphasis [ref=e963]: start
+                    - text: with
+                    - code [ref=e964]: <pattern>
+                    - text: ", even if they do not match"
+                    - code [ref=e965]: <pattern>
+                    - text: . For example,
+                    - code [ref=e966]: "!(9).txt"
+                    - text: will not match
+                    - code [ref=e967]: 9999.txt
+                    - text: .
+                  - listitem [ref=e968]: Some brace patterns in the middle of a pattern will result in failing to find certain matches.
+                  - listitem [ref=e969]:
+                    - text: Extglob patterns are allowed to contain
+                    - code [ref=e970]: /
+                    - text: characters.
+                - paragraph [ref=e971]: Globby exhibits all of the same pattern semantics as fast-glob, (as it is a wrapper around fast-glob) and is slightly slower than node-glob (by about 10-20% in the benchmark test set, or in other words, anywhere from 20-50% slower than fast-glob). However, it adds some API conveniences that may be worth the costs.
+                - list [ref=e972]:
+                  - listitem [ref=e973]:
+                    - text: Support for
+                    - code [ref=e974]: .gitignore
+                    - text: and other ignore files.
+                  - listitem [ref=e975]:
+                    - text: Support for negated globs (ie, patterns starting with
+                    - code [ref=e976]: "!"
+                    - text: rather than using a separate
+                    - code [ref=e977]: ignore
+                    - text: option).
+                - paragraph [ref=e978]: The priority of this module is "correctness" in the sense of performing a glob pattern expansion as faithfully as possible to the behavior of Bash and other sh-like shells, with as much speed as possible.
+                - blockquote [ref=e979]:
+                  - paragraph [ref=e980]:
+                    - text: "[!NOTE] Prior versions of"
+                    - code [ref=e981]: node-glob
+                    - text: are
+                    - emphasis [ref=e982]: not
+                    - text: on this list. Former versions of this module are far too slow for any cases where performance matters at all, and were designed with APIs that are extremely dated by current JavaScript standards.
+                - separator [ref=e983]
+                - paragraph [ref=e984]:
+                  - text: "[1]: In the cases where this module returns results and"
+                  - code [ref=e985]: fast-glob
+                  - text: doesn't, it's even faster, of course.
+                - paragraph [ref=e986]:
+                  - img "lumpy space princess saying 'oh my GLOB'" [ref=e987]
+                - heading "Benchmark Results" [level=3] [ref=e988]
+                - paragraph [ref=e989]: The first number is time, smaller is better.
+                - paragraph [ref=e990]: The second number is the count of results returned.
+                - code [ref=e992]: "--- pattern: '**' --- ~~ sync ~~ node fast-glob sync 0m0.598s 200364 node globby sync 0m0.765s 200364 node current globSync mjs 0m0.683s 222656 node current glob syncStream 0m0.649s 222656 ~~ async ~~ node fast-glob async 0m0.350s 200364 node globby async 0m0.509s 200364 node current glob async mjs 0m0.463s 222656 node current glob stream 0m0.411s 222656 --- pattern: '**/..' --- ~~ sync ~~ node fast-glob sync 0m0.486s 0 node globby sync 0m0.769s 200364 node current globSync mjs 0m0.564s 2242 node current glob syncStream 0m0.583s 2242 ~~ async ~~ node fast-glob async 0m0.283s 0 node globby async 0m0.512s 200364 node current glob async mjs 0m0.299s 2242 node current glob stream 0m0.312s 2242 --- pattern: './**/0/**/0/**/0/**/0/**/*.txt' --- ~~ sync ~~ node fast-glob sync 0m0.490s 10 node globby sync 0m0.517s 10 node current globSync mjs 0m0.540s 10 node current glob syncStream 0m0.550s 10 ~~ async ~~ node fast-glob async 0m0.290s 10 node globby async 0m0.296s 10 node current glob async mjs 0m0.278s 10 node current glob stream 0m0.302s 10 --- pattern: './**/[01]/**/[12]/**/[23]/**/[45]/**/*.txt' --- ~~ sync ~~ node fast-glob sync 0m0.500s 160 node globby sync 0m0.528s 160 node current globSync mjs 0m0.556s 160 node current glob syncStream 0m0.573s 160 ~~ async ~~ node fast-glob async 0m0.283s 160 node globby async 0m0.301s 160 node current glob async mjs 0m0.306s 160 node current glob stream 0m0.322s 160 --- pattern: './**/0/**/0/**/*.txt' --- ~~ sync ~~ node fast-glob sync 0m0.502s 5230 node globby sync 0m0.527s 5230 node current globSync mjs 0m0.544s 5230 node current glob syncStream 0m0.557s 5230 ~~ async ~~ node fast-glob async 0m0.285s 5230 node globby async 0m0.305s 5230 node current glob async mjs 0m0.304s 5230 node current glob stream 0m0.310s 5230 --- pattern: '**/*.txt' --- ~~ sync ~~ node fast-glob sync 0m0.580s 200023 node globby sync 0m0.771s 200023 node current globSync mjs 0m0.685s 200023 node current glob syncStream 0m0.649s 200023 ~~ async ~~ node fast-glob async 0m0.349s 200023 node globby async 0m0.509s 200023 node current glob async mjs 0m0.427s 200023 node current glob stream 0m0.388s 200023 --- pattern: '{**/*.txt,**/?/**/*.txt,**/?/**/?/**/*.txt,**/?/**/?/**/?/**/*.txt,**/?/**/?/**/?/**/?/**/*.txt}' --- ~~ sync ~~ node fast-glob sync 0m0.589s 200023 node globby sync 0m0.771s 200023 node current globSync mjs 0m0.716s 200023 node current glob syncStream 0m0.684s 200023 ~~ async ~~ node fast-glob async 0m0.351s 200023 node globby async 0m0.518s 200023 node current glob async mjs 0m0.462s 200023 node current glob stream 0m0.468s 200023 --- pattern: '**/5555/0000/*.txt' --- ~~ sync ~~ node fast-glob sync 0m0.496s 1000 node globby sync 0m0.519s 1000 node current globSync mjs 0m0.539s 1000 node current glob syncStream 0m0.567s 1000 ~~ async ~~ node fast-glob async 0m0.285s 1000 node globby async 0m0.299s 1000 node current glob async mjs 0m0.305s 1000 node current glob stream 0m0.301s 1000 --- pattern: './**/0/**/../[01]/**/0/../**/0/*.txt' --- ~~ sync ~~ node fast-glob sync 0m0.484s 0 node globby sync 0m0.507s 0 node current globSync mjs 0m0.577s 4880 node current glob syncStream 0m0.586s 4880 ~~ async ~~ node fast-glob async 0m0.280s 0 node globby async 0m0.298s 0 node current glob async mjs 0m0.327s 4880 node current glob stream 0m0.324s 4880 --- pattern: '**/????/????/????/????/*.txt' --- ~~ sync ~~ node fast-glob sync 0m0.547s 100000 node globby sync 0m0.673s 100000 node current globSync mjs 0m0.626s 100000 node current glob syncStream 0m0.618s 100000 ~~ async ~~ node fast-glob async 0m0.315s 100000 node globby async 0m0.414s 100000 node current glob async mjs 0m0.366s 100000 node current glob stream 0m0.345s 100000 --- pattern: './{**/?{/**/?{/**/?{/**/?,,,,},,,,},,,,},,,}/**/*.txt' --- ~~ sync ~~ node fast-glob sync 0m0.588s 100000 node globby sync 0m0.670s 100000 node current globSync mjs 0m0.717s 200023 node current glob syncStream 0m0.687s 200023 ~~ async ~~ node fast-glob async 0m0.343s 100000 node globby async 0m0.418s 100000 node current glob async mjs 0m0.519s 200023 node current glob stream 0m0.451s 200023 --- pattern: '**/!(0|9).txt' --- ~~ sync ~~ node fast-glob sync 0m0.573s 160023 node globby sync 0m0.731s 160023 node current globSync mjs 0m0.680s 180023 node current glob syncStream 0m0.659s 180023 ~~ async ~~ node fast-glob async 0m0.345s 160023 node globby async 0m0.476s 160023 node current glob async mjs 0m0.427s 180023 node current glob stream 0m0.388s 180023 --- pattern: './{*/**/../{*/**/../{*/**/../{*/**/../{*/**,,,,},,,,},,,,},,,,},,,,}/*.txt' --- ~~ sync ~~ node fast-glob sync 0m0.483s 0 node globby sync 0m0.512s 0 node current globSync mjs 0m0.811s 200023 node current glob syncStream 0m0.773s 200023 ~~ async ~~ node fast-glob async 0m0.280s 0 node globby async 0m0.299s 0 node current glob async mjs 0m0.617s 200023 node current glob stream 0m0.568s 200023 --- pattern: './*/**/../*/**/../*/**/../*/**/../*/**/../*/**/../*/**/../*/**/*.txt' --- ~~ sync ~~ node fast-glob sync 0m0.485s 0 node globby sync 0m0.507s 0 node current globSync mjs 0m0.759s 200023 node current glob syncStream 0m0.740s 200023 ~~ async ~~ node fast-glob async 0m0.281s 0 node globby async 0m0.297s 0 node current glob async mjs 0m0.544s 200023 node current glob stream 0m0.464s 200023 --- pattern: './*/**/../*/**/../*/**/../*/**/../*/**/*.txt' --- ~~ sync ~~ node fast-glob sync 0m0.486s 0 node globby sync 0m0.513s 0 node current globSync mjs 0m0.734s 200023 node current glob syncStream 0m0.696s 200023 ~~ async ~~ node fast-glob async 0m0.286s 0 node globby async 0m0.296s 0 node current glob async mjs 0m0.506s 200023 node current glob stream 0m0.483s 200023 --- pattern: './0/**/../1/**/../2/**/../3/**/../4/**/../5/**/../6/**/../7/**/*.txt' --- ~~ sync ~~ node fast-glob sync 0m0.060s 0 node globby sync 0m0.074s 0 node current globSync mjs 0m0.067s 0 node current glob syncStream 0m0.066s 0 ~~ async ~~ node fast-glob async 0m0.060s 0 node globby async 0m0.075s 0 node current glob async mjs 0m0.066s 0 node current glob stream 0m0.067s 0 --- pattern: './**/?/**/?/**/?/**/?/**/*.txt' --- ~~ sync ~~ node fast-glob sync 0m0.568s 100000 node globby sync 0m0.651s 100000 node current globSync mjs 0m0.619s 100000 node current glob syncStream 0m0.617s 100000 ~~ async ~~ node fast-glob async 0m0.332s 100000 node globby async 0m0.409s 100000 node current glob async mjs 0m0.372s 100000 node current glob stream 0m0.351s 100000 --- pattern: '**/*/**/*/**/*/**/*/**' --- ~~ sync ~~ node fast-glob sync 0m0.603s 200113 node globby sync 0m0.798s 200113 node current globSync mjs 0m0.730s 222137 node current glob syncStream 0m0.693s 222137 ~~ async ~~ node fast-glob async 0m0.356s 200113 node globby async 0m0.525s 200113 node current glob async mjs 0m0.508s 222137 node current glob stream 0m0.455s 222137 --- pattern: './**/*/**/*/**/*/**/*/**/*.txt' --- ~~ sync ~~ node fast-glob sync 0m0.622s 200000 node globby sync 0m0.792s 200000 node current globSync mjs 0m0.722s 200000 node current glob syncStream 0m0.695s 200000 ~~ async ~~ node fast-glob async 0m0.369s 200000 node globby async 0m0.527s 200000 node current glob async mjs 0m0.502s 200000 node current glob stream 0m0.481s 200000 --- pattern: '**/*.txt' --- ~~ sync ~~ node fast-glob sync 0m0.588s 200023 node globby sync 0m0.771s 200023 node current globSync mjs 0m0.684s 200023 node current glob syncStream 0m0.658s 200023 ~~ async ~~ node fast-glob async 0m0.352s 200023 node globby async 0m0.516s 200023 node current glob async mjs 0m0.432s 200023 node current glob stream 0m0.384s 200023 --- pattern: './**/**/**/**/**/**/**/**/*.txt' --- ~~ sync ~~ node fast-glob sync 0m0.589s 200023 node globby sync 0m0.766s 200023 node current globSync mjs 0m0.682s 200023 node current glob syncStream 0m0.652s 200023 ~~ async ~~ node fast-glob async 0m0.352s 200023 node globby async 0m0.523s 200023 node current glob async mjs 0m0.436s 200023 node current glob stream 0m0.380s 200023 --- pattern: '**/*/*.txt' --- ~~ sync ~~ node fast-glob sync 0m0.592s 200023 node globby sync 0m0.776s 200023 node current globSync mjs 0m0.691s 200023 node current glob syncStream 0m0.659s 200023 ~~ async ~~ node fast-glob async 0m0.357s 200023 node globby async 0m0.513s 200023 node current glob async mjs 0m0.471s 200023 node current glob stream 0m0.424s 200023 --- pattern: '**/*/**/*.txt' --- ~~ sync ~~ node fast-glob sync 0m0.585s 200023 node globby sync 0m0.766s 200023 node current globSync mjs 0m0.694s 200023 node current glob syncStream 0m0.664s 200023 ~~ async ~~ node fast-glob async 0m0.350s 200023 node globby async 0m0.514s 200023 node current glob async mjs 0m0.472s 200023 node current glob stream 0m0.424s 200023 --- pattern: '**/[0-9]/**/*.txt' --- ~~ sync ~~ node fast-glob sync 0m0.544s 100000 node globby sync 0m0.636s 100000 node current globSync mjs 0m0.626s 100000 node current glob syncStream 0m0.621s 100000 ~~ async ~~ node fast-glob async 0m0.322s 100000 node globby async 0m0.404s 100000 node current glob async mjs 0m0.360s 100000 node current glob stream 0m0.352s 100000"
+            - generic [ref=e993]:
+              - paragraph [ref=e994]: FAQs
+              - generic [ref=e995]:
+                - button "What is glob?" [ref=e997] [cursor=pointer]:
+                  - paragraph [ref=e998]: What is glob?
+                  - img [ref=e1000]
+                - button "Is glob popular?" [ref=e1003] [cursor=pointer]:
+                  - paragraph [ref=e1004]: Is glob popular?
+                  - img [ref=e1006]
+                - button "Is glob well maintained?" [ref=e1009] [cursor=pointer]:
+                  - paragraph [ref=e1010]: Is glob well maintained?
+                  - img [ref=e1012]
+            - generic [ref=e1014]: Package last updated on 19 Feb 2026
+            - separator [ref=e1015]
+            - generic [ref=e1016]:
+              - paragraph [ref=e1017]: Did you know?
+              - generic [ref=e1018]:
+                - img "Socket" [ref=e1019]
+                - paragraph [ref=e1020]: Socket for GitHub automatically highlights issues in each pull request and monitors the health of all your open source dependencies. Discover the contents of your packages and block harmful activity before you install or update your dependencies.
+              - link "Install" [ref=e1021] [cursor=pointer]:
+                - /url: /github-app
+                - img [ref=e1022]
+                - text: Install
+      - generic [ref=e1025]:
+        - heading "Related posts" [level=2] [ref=e1027]
+        - generic [ref=e1028]:
+          - article [ref=e1029]:
+            - generic [ref=e1030]:
+              - img "Socket Named Top Sales Organization by RepVue" [ref=e1032]
+              - generic [ref=e1033]:
+                - paragraph [ref=e1035]: Company News
+                - heading "Socket Named Top Sales Organization by RepVue" [level=3] [ref=e1036]:
+                  - link "Socket Named Top Sales Organization by RepVue" [ref=e1037] [cursor=pointer]:
+                    - /url: /blog/socket-named-top-sales-organization-by-repvue
+                - paragraph [ref=e1039]: Socket won two 2026 Reppy Awards from RepVue, ranking in the top 5% of all sales orgs. AE Alexandra Lister shares what it's like to grow a sales career here.
+                - generic [ref=e1041]:
+                  - text: By
+                  - generic [ref=e1042]: Sarah Gooding
+                  - generic [ref=e1043]: "- Apr 17, 2026"
+          - article [ref=e1044]:
+            - generic [ref=e1045]:
+              - img "NIST Officially Stops Enriching Most CVEs as Vulnerability Volume Skyrockets" [ref=e1047]
+              - generic [ref=e1048]:
+                - paragraph [ref=e1050]: Security News
+                - heading "NIST Officially Stops Enriching Most CVEs as Vulnerability Volume Skyrockets" [level=3] [ref=e1051]:
+                  - link "NIST Officially Stops Enriching Most CVEs as Vulnerability Volume Skyrockets" [ref=e1052] [cursor=pointer]:
+                    - /url: /blog/nist-officially-stops-enriching-most-cves
+                - paragraph [ref=e1054]: NIST will stop enriching most CVEs under a new risk-based model, narrowing the NVD's scope as vulnerability submissions continue to surge.
+                - generic [ref=e1056]:
+                  - text: By
+                  - generic [ref=e1057]: Sarah Gooding
+                  - generic [ref=e1058]: "- Apr 17, 2026"
+          - article [ref=e1059]:
+            - generic [ref=e1060]:
+              - img "Socket Selected for OpenAI's Cybersecurity Grant Program" [ref=e1062]
+              - generic [ref=e1063]:
+                - generic [ref=e1064]:
+                  - paragraph [ref=e1065]: Company News
+                  - generic [ref=e1066]: /
+                  - paragraph [ref=e1067]: Security News
+                - heading "Socket Selected for OpenAI's Cybersecurity Grant Program" [level=3] [ref=e1068]:
+                  - link "Socket Selected for OpenAI's Cybersecurity Grant Program" [ref=e1069] [cursor=pointer]:
+                    - /url: /blog/openai-cybersecurity-grant-program
+                - paragraph [ref=e1071]: Socket is an initial recipient of OpenAI's Cybersecurity Grant Program, which commits $10M in API credits to defenders securing open source software.
+                - generic [ref=e1073]:
+                  - text: By
+                  - generic [ref=e1074]: Sarah Gooding
+                  - generic [ref=e1075]: "- Apr 16, 2026"
+      - contentinfo [ref=e1077]:
+        - generic [ref=e1078]:
+          - generic [ref=e1079]:
+            - generic [ref=e1080]:
+              - link "Socket" [ref=e1081] [cursor=pointer]:
+                - /url: /
+                - img "Socket" [ref=e1082]
+              - link "Socket SOC 2 Logo" [ref=e1083] [cursor=pointer]:
+                - /url: /security
+                - img "Socket SOC 2 Logo" [ref=e1084]
+            - generic [ref=e1085]:
+              - paragraph [ref=e1086]: Product
+              - list [ref=e1087]:
+                - listitem [ref=e1088]:
+                  - link "Package Alerts" [ref=e1089] [cursor=pointer]:
+                    - /url: /alerts
+                    - generic [ref=e1091]: Package Alerts
+                - listitem [ref=e1092]:
+                  - link "Integrations" [ref=e1093] [cursor=pointer]:
+                    - /url: /integrations
+                    - generic [ref=e1095]: Integrations
+                - listitem [ref=e1096]:
+                  - link "Docs" [ref=e1097] [cursor=pointer]:
+                    - /url: https://docs.socket.dev
+                    - generic [ref=e1099]: Docs
+                - listitem [ref=e1100]:
+                  - link "Pricing" [ref=e1101] [cursor=pointer]:
+                    - /url: /pricing
+                    - generic [ref=e1103]: Pricing
+                - listitem [ref=e1104]:
+                  - link "FAQ" [ref=e1105] [cursor=pointer]:
+                    - /url: /faq
+                    - generic [ref=e1107]: FAQ
+                - listitem [ref=e1108]:
+                  - link "Roadmap" [ref=e1109] [cursor=pointer]:
+                    - /url: https://feedback.socket.dev
+                    - generic [ref=e1111]: Roadmap
+                - listitem [ref=e1112]:
+                  - link "Changelog" [ref=e1113] [cursor=pointer]:
+                    - /url: /changelog
+                    - generic [ref=e1115]: Changelog
+            - generic [ref=e1116]:
+              - paragraph [ref=e1117]: About
+              - list [ref=e1118]:
+                - listitem [ref=e1119]:
+                  - link "About" [ref=e1120] [cursor=pointer]:
+                    - /url: /about
+                    - generic [ref=e1122]: About
+                - listitem [ref=e1123]:
+                  - link "Love" [ref=e1124] [cursor=pointer]:
+                    - /url: /love
+                    - generic [ref=e1126]: Love
+                - listitem [ref=e1127]:
+                  - link "Blog" [ref=e1128] [cursor=pointer]:
+                    - /url: /blog
+                    - generic [ref=e1130]: Blog
+                - listitem [ref=e1131]:
+                  - link "Glossary" [ref=e1132] [cursor=pointer]:
+                    - /url: /glossary
+                    - generic [ref=e1134]: Glossary
+                - listitem [ref=e1135]:
+                  - link "Careers Hiring" [ref=e1136] [cursor=pointer]:
+                    - /url: /careers
+                    - generic [ref=e1137]:
+                      - generic [ref=e1138]: Careers
+                      - generic [ref=e1141]: Hiring
+                - listitem [ref=e1142]:
+                  - link "Send Feedback" [ref=e1143] [cursor=pointer]:
+                    - /url: https://feedback.socket.dev
+                    - generic [ref=e1145]: Send Feedback
+                - listitem [ref=e1146]:
+                  - link "Contact Us" [ref=e1147] [cursor=pointer]:
+                    - /url: /contact
+                    - generic [ref=e1149]: Contact Us
+                - listitem [ref=e1150]:
+                  - link "System Status" [ref=e1151] [cursor=pointer]:
+                    - /url: https://status.socket.dev
+                    - generic [ref=e1153]: System Status
+            - generic [ref=e1154]:
+              - paragraph [ref=e1155]: Packages
+              - generic [ref=e1156]:
+                - link "Explore npm" [ref=e1157] [cursor=pointer]:
+                  - /url: /npm/category
+                  - generic [ref=e1159]: Explore npm
+                - link "Explore crates.io" [ref=e1160] [cursor=pointer]:
+                  - /url: /cargo/category
+                  - generic [ref=e1162]: Explore crates.io
+                - link "Explore Chrome Web Store" [ref=e1163] [cursor=pointer]:
+                  - /url: /chrome
+                  - generic [ref=e1165]: Explore Chrome Web Store
+                - link "Explore Packagist" [ref=e1166] [cursor=pointer]:
+                  - /url: /composer/category
+                  - generic [ref=e1168]: Explore Packagist
+                - link "Explore Go Modules" [ref=e1169] [cursor=pointer]:
+                  - /url: /go/category
+                  - generic [ref=e1171]: Explore Go Modules
+                - link "Explore Hugging Face Hub" [ref=e1172] [cursor=pointer]:
+                  - /url: /huggingface
+                  - generic [ref=e1174]: Explore Hugging Face Hub
+                - link "Explore Maven Central" [ref=e1175] [cursor=pointer]:
+                  - /url: /maven/category
+                  - generic [ref=e1177]: Explore Maven Central
+                - link "Explore NuGet" [ref=e1178] [cursor=pointer]:
+                  - /url: /nuget/category
+                  - generic [ref=e1180]: Explore NuGet
+                - link "Explore Open VSX" [ref=e1181] [cursor=pointer]:
+                  - /url: /openvsx
+                  - generic [ref=e1183]: Explore Open VSX
+                - link "Explore PyPI" [ref=e1184] [cursor=pointer]:
+                  - /url: /pypi/category
+                  - generic [ref=e1186]: Explore PyPI
+                - link "Explore RubyGems.org" [ref=e1187] [cursor=pointer]:
+                  - /url: /rubygems/category
+                  - generic [ref=e1189]: Explore RubyGems.org
+            - generic [ref=e1190]:
+              - paragraph [ref=e1191]: Stay in touch
+              - paragraph [ref=e1192]: Get open source security insights delivered straight into your inbox.
+              - generic [ref=e1194]:
+                - group [ref=e1195]:
+                  - generic [ref=e1196]: Enter your email
+                  - textbox "Enter your email" [ref=e1197]
+                - button "Subscribe" [ref=e1198] [cursor=pointer]
+          - separator [ref=e1199]
+          - generic [ref=e1200]:
+            - list [ref=e1201]:
+              - listitem [ref=e1202]:
+                - link "Twitter" [ref=e1203] [cursor=pointer]:
+                  - /url: https://x.com/SocketSecurity
+                  - img [ref=e1204]
+              - listitem [ref=e1206]:
+                - link "GitHub" [ref=e1207] [cursor=pointer]:
+                  - /url: https://github.com/SocketDev
+                  - img [ref=e1208]
+              - listitem [ref=e1210]:
+                - link "LinkedIn" [ref=e1211] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/company/socketinc/
+                  - img [ref=e1212]
+              - listitem [ref=e1214]:
+                - link "Discord" [ref=e1215] [cursor=pointer]:
+                  - /url: https://discord.gg/JkhgPpXDSd
+                  - img [ref=e1216]
+              - listitem [ref=e1218]:
+                - link "Terms" [ref=e1219] [cursor=pointer]:
+                  - /url: /terms
+              - listitem [ref=e1220]:
+                - link "Privacy" [ref=e1221] [cursor=pointer]:
+                  - /url: /privacy
+              - listitem [ref=e1222]:
+                - link "Security" [ref=e1223] [cursor=pointer]:
+                  - /url: /security
+              - listitem
+              - listitem [ref=e1224]:
+                - button "English" [ref=e1225] [cursor=pointer]:
+                  - img [ref=e1226]
+                  - text: English
+            - generic [ref=e1229]:
+              - paragraph [ref=e1230]: Made with ⚡️ by Socket Inc
+              - paragraph [ref=e1231]: U.S. Patent No. 12,346,443 & 12,314,394. Other pending.
+  - alert [ref=e1232]
+  - region "bottom-end Notifications alt+T"
+  - alert

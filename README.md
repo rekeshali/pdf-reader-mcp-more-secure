@@ -116,7 +116,7 @@ Optional. File location: **`~/.claude/plugin-settings/pdf-reader.json`** (the te
     "deny":  ["~/.ssh/**", "~/.aws/**"]
   },
   "url": {
-    "allow": ["*.internal.example.com", "docs.internal.example.com"],
+    "allow": ["*.internal.example.com", "docs.corp.example.com"],
     "deny":  ["evil.example.com"]
   }
 }

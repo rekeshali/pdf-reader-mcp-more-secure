@@ -1,0 +1,677 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - 'link "New Research: Supply Chain Attack on Axios Pulls Malicious Dependency from npm. Details →" [ref=e4] [cursor=pointer]':
+      - /url: https://socket.dev/blog/axios-npm-package-compromised
+      - generic [ref=e5]:
+        - text: "New Research:"
+        - generic [ref=e6]: Supply Chain Attack on Axios Pulls Malicious Dependency from npm.
+        - generic [ref=e8]: Details →
+    - generic [ref=e9]:
+      - banner [ref=e10]:
+        - generic [ref=e12]:
+          - generic [ref=e13]:
+            - link "Socket" [ref=e14] [cursor=pointer]:
+              - /url: /
+              - img "Socket" [ref=e15]
+            - navigation "Main" [ref=e16]:
+              - list [ref=e18]:
+                - navigation "Navigation" [ref=e19]:
+                  - listitem [ref=e20]:
+                    - button "Product" [ref=e22] [cursor=pointer]:
+                      - text: Product
+                      - img [ref=e23]
+                  - listitem [ref=e25]:
+                    - button "Learn" [ref=e27] [cursor=pointer]:
+                      - text: Learn
+                      - img [ref=e28]
+                  - listitem [ref=e30]:
+                    - button "Company" [ref=e32] [cursor=pointer]:
+                      - text: Company
+                      - img [ref=e33]
+                  - listitem [ref=e35]:
+                    - link "Pricing" [ref=e37] [cursor=pointer]:
+                      - /url: /pricing
+                  - listitem [ref=e38]:
+                    - link "Love" [ref=e40] [cursor=pointer]:
+                      - /url: /love
+                  - listitem [ref=e41]:
+                    - link "Docs" [ref=e43] [cursor=pointer]:
+                      - /url: https://docs.socket.dev
+          - generic [ref=e44]:
+            - button "Search packages" [ref=e46] [cursor=pointer]:
+              - img [ref=e47]
+              - generic [ref=e52]: Search
+              - img [ref=e55]
+            - link "Book a Demo" [ref=e57] [cursor=pointer]:
+              - /url: /demo
+            - link "Sign in" [ref=e58] [cursor=pointer]:
+              - /url: /auth/login
+      - generic [ref=e59]:
+        - generic [ref=e60]:
+          - generic [ref=e61]:
+            - generic [ref=e62]:
+              - paragraph [ref=e63]: "@sylphx/mcp-server-sdk"
+              - generic [ref=e65]:
+                - combobox "2.1.1" [ref=e66]:
+                  - option "2.1.1 (latest)" [selected]
+                  - option "2.1.0"
+                  - option "2.0.1"
+                  - option "2.0.0"
+                  - option "1.3.0"
+                  - option "1.2.0"
+                  - option "1.1.2"
+                  - option "1.1.1"
+                  - option "1.1.0"
+                  - option "1.0.0"
+                  - option "0.2.1"
+                  - option "0.2.0"
+                - generic:
+                  - img
+            - generic [ref=e68]:
+              - link "Package Overview" [ref=e69] [cursor=pointer]:
+                - /url: /npm/package/@sylphx/mcp-server-sdk/overview/2.1.1
+                - generic [ref=e70]:
+                  - img [ref=e72]
+                  - generic [ref=e74]: Package Overview
+              - link "Dependencies 5" [ref=e673] [cursor=pointer]:
+                - /url: /npm/package/@sylphx/mcp-server-sdk/dependencies/2.1.1
+                - generic [ref=e76]:
+                  - img [ref=e78]
+                  - generic [ref=e84]: Dependencies
+                  - generic [ref=e676]: "5"
+              - link "Maintainers 1" [ref=e85] [cursor=pointer]:
+                - /url: /npm/package/@sylphx/mcp-server-sdk/maintainers/2.1.1
+                - generic [ref=e86]:
+                  - img [ref=e88]
+                  - generic [ref=e90]: Maintainers
+                  - generic [ref=e93]: "1"
+              - link "Versions 12" [ref=e94] [cursor=pointer]:
+                - /url: /npm/package/@sylphx/mcp-server-sdk/versions/2.1.1
+                - generic [ref=e95]:
+                  - img [ref=e97]
+                  - generic [ref=e99]: Versions
+                  - generic [ref=e102]: "12"
+              - link "Alerts" [ref=e103] [cursor=pointer]:
+                - /url: /npm/package/@sylphx/mcp-server-sdk/alerts/2.1.1
+                - generic [ref=e104]:
+                  - img [ref=e106]
+                  - generic [ref=e108]: Alerts
+              - link "File Explorer" [ref=e109] [cursor=pointer]:
+                - /url: /npm/package/@sylphx/mcp-server-sdk/files/2.1.1
+                - generic [ref=e110]:
+                  - img [ref=e112]
+                  - generic [ref=e114]: File Explorer
+            - generic [ref=e115]:
+              - paragraph [ref=e116]: Advanced tools
+              - link "License" [ref=e118] [cursor=pointer]:
+                - /url: /npm/package/@sylphx/mcp-server-sdk/license/2.1.1
+                - generic [ref=e119]:
+                  - img [ref=e121]
+                  - generic [ref=e123]: License
+          - generic [ref=e125]:
+            - generic [ref=e126]:
+              - img "Socket logo" [ref=e127]
+              - paragraph [ref=e128]: Install Socket
+            - paragraph [ref=e129]: Detect and block malicious and high-risk dependencies
+            - link "Install" [ref=e130] [cursor=pointer]:
+              - /url: /github-app
+              - img [ref=e131]
+              - text: Install
+        - generic [ref=e134]:
+          - navigation "breadcrumb" [ref=e135]:
+            - list [ref=e136]:
+              - listitem [ref=e137]:
+                - link "npm" [ref=e138] [cursor=pointer]:
+                  - /url: /npm
+              - listitem [ref=e139]:
+                - img [ref=e140]
+              - listitem [ref=e142]:
+                - paragraph [ref=e143]: "@sylphx/mcp-server-sdk"
+          - generic [ref=e145]:
+            - generic [ref=e146]:
+              - generic [ref=e147]:
+                - generic [ref=e148]:
+                  - img "mcp-server-sdk" [ref=e150]
+                  - heading "@sylphx/mcp-server-sdk" [level=1] [ref=e151]
+                - paragraph [ref=e152]: Pure functional MCP server SDK for Node.js and Bun - type-safe, high performance
+                - generic [ref=e153]:
+                  - generic [ref=e156]: latest
+                  - link "Source" [ref=e158] [cursor=pointer]:
+                    - /url: https://github.com/SylphxAI/mcp-server-sdk
+                    - generic [ref=e159]:
+                      - img [ref=e161]
+                      - generic [ref=e163]: Source
+                  - link "npm npm" [ref=e165] [cursor=pointer]:
+                    - /url: https://npmjs.com/package/@sylphx/mcp-server-sdk
+                    - generic [ref=e166]:
+                      - img "npm" [ref=e168]
+                      - generic [ref=e171]: npm
+                  - generic [ref=e173]:
+                    - button "Copy purl" [ref=e174] [cursor=pointer]
+                    - link "Learn more about Socket Package URL (purl)" [ref=e175] [cursor=pointer]:
+                      - /url: https://docs.socket.dev/reference/socket-package-urls-purl
+                      - img [ref=e176]
+                  - button "Socket score" [ref=e180]:
+                    - img "Socket score" [ref=e181] [cursor=pointer]
+              - group [ref=e182]:
+                - generic [ref=e183]:
+                  - generic "77" [ref=e184]:
+                    - progressbar "77%" [ref=e185]
+                    - generic [ref=e189]: "77"
+                  - paragraph [ref=e190]: Supply Chain Security
+                - generic [ref=e191]:
+                  - generic "100" [ref=e192]:
+                    - progressbar "100%" [ref=e193]
+                    - generic [ref=e197]: "100"
+                  - paragraph [ref=e198]: Vulnerability
+                - generic [ref=e199]:
+                  - generic "100" [ref=e200]:
+                    - progressbar "100%" [ref=e201]
+                    - generic [ref=e205]: "100"
+                  - paragraph [ref=e206]: Quality
+                - generic [ref=e207]:
+                  - generic "94" [ref=e208]:
+                    - progressbar "94%" [ref=e209]
+                    - generic [ref=e213]: "94"
+                  - paragraph [ref=e214]: Maintenance
+                - generic [ref=e215]:
+                  - generic "100" [ref=e216]:
+                    - progressbar "100%" [ref=e217]
+                    - generic [ref=e221]: "100"
+                  - paragraph [ref=e222]: License
+            - separator [ref=e223]
+            - generic [ref=e677]:
+              - generic [ref=e679]:
+                - generic [ref=e680]:
+                  - img [ref=e681]
+                  - generic [ref=e683]:
+                    - generic [ref=e685]:
+                      - paragraph [ref=e686]: Network access
+                      - generic [ref=e687]: Supply chain risk
+                    - generic [ref=e688]:
+                      - paragraph [ref=e689]: This module accesses the network.
+                      - paragraph [ref=e690]: Found 1 instance in 1 package
+                - generic [ref=e691]:
+                  - img [ref=e692]
+                  - generic [ref=e694]:
+                    - generic [ref=e696]:
+                      - paragraph [ref=e697]: Unpopular package
+                      - generic [ref=e698]: Quality
+                    - generic [ref=e699]:
+                      - paragraph [ref=e700]: This package is not very popular.
+                      - paragraph [ref=e701]: Found 1 instance in 1 package
+              - separator [ref=e702]
+            - generic [ref=e224]:
+              - generic [ref=e225]:
+                - term [ref=e226]: Version
+                - definition [ref=e227]:
+                  - generic [ref=e229]: 2.1.1
+              - generic [ref=e230]:
+                - term [ref=e231]: Version published
+                - definition [ref=e232]:
+                  - time [ref=e233]: 4 months ago
+              - generic [ref=e234]:
+                - term [ref=e235]: Maintainers
+                - definition [ref=e236]:
+                  - link "1" [ref=e237] [cursor=pointer]:
+                    - /url: /npm/package/@sylphx/mcp-server-sdk/maintainers/2.1.1
+              - generic [ref=e238]:
+                - term [ref=e239]: Created
+                - definition [ref=e240]:
+                  - time [ref=e241]: 5 months ago
+              - generic [ref=e242]:
+                - term [ref=e243]: Issues + PRs
+                - definition [ref=e244]:
+                  - link "0" [ref=e245] [cursor=pointer]:
+                    - /url: https://github.com/SylphxAI/mcp-server-sdk/issues
+            - generic [ref=e247]:
+              - generic [ref=e249]:
+                - tablist [ref=e250]:
+                  - list [ref=e251]:
+                    - listitem [ref=e252]:
+                      - tab "README" [selected] [ref=e253] [cursor=pointer]:
+                        - generic [ref=e254]:
+                          - img [ref=e255]
+                          - paragraph [ref=e257]: README
+                - tabpanel "README" [ref=e259]:
+                  - link "Source" [ref=e260] [cursor=pointer]:
+                    - /url: /npm/package/@sylphx/mcp-server-sdk/files/2.1.1/README.md
+              - tabpanel "README" [ref=e263]:
+                - heading "@sylphx/mcp-server-sdk" [level=2] [ref=e264]
+                - paragraph [ref=e265]: Pure functional MCP (Model Context Protocol) server SDK for Bun.
+                - paragraph [ref=e266]:
+                  - link "npm" [ref=e267] [cursor=pointer]:
+                    - /url: https://www.npmjs.com/package/@sylphx/mcp-server-sdk
+                    - img "npm" [ref=e268]
+                  - link "MCP Conformance" [ref=e269] [cursor=pointer]:
+                    - /url: https://github.com/modelcontextprotocol/conformance
+                    - img "MCP Conformance" [ref=e270]
+                - heading "Features" [level=2] [ref=e271]
+                - list [ref=e272]:
+                  - listitem [ref=e273]:
+                    - strong [ref=e274]: Pure Functional
+                    - text: ": Immutable data, composable handlers"
+                  - listitem [ref=e275]:
+                    - strong [ref=e276]: Type-Safe
+                    - text: ": First-class TypeScript with Vex schema integration"
+                  - listitem [ref=e277]:
+                    - strong [ref=e278]: Builder Pattern
+                    - text: ": Fluent API for defining tools, resources, and prompts"
+                  - listitem [ref=e279]:
+                    - strong [ref=e280]: Fast
+                    - text: ": Built for Bun with minimal dependencies"
+                  - listitem [ref=e281]:
+                    - strong [ref=e282]: Streamable HTTP
+                    - text: ": MCP 2025-03-26 spec with SSE notifications"
+                  - listitem [ref=e283]:
+                    - strong [ref=e284]: Complete
+                    - text: ": Tools, resources, prompts, notifications, sampling, elicitation"
+                - heading "Installation" [level=2] [ref=e285]
+                - code [ref=e287]: bun add @sylphx/mcp-server-sdk
+                - heading "Quick Start" [level=2] [ref=e288]
+                - code [ref=e290]:
+                  - text: "import { createServer, tool, text, stdio } from \"@sylphx/mcp-server-sdk\" import { object, str } from \"@sylphx/vex\" // Define tools using builder pattern const greet = tool() .description(\"Greet someone\") .input(object({ name: str() })) .handler("
+                  - generic [ref=e291]: "({ input }) =>"
+                  - text: text(
+                  - generic [ref=e292]: "`Hello, ${input.name}!`"
+                  - text: ")) const ping = tool() .handler(() => text(\"pong\")) // Create and start server const server = createServer({ name: \"my-server\", version: \"1.0.0\", tools: { greet, ping }, transport: stdio() }) await server.start()"
+                - heading "Tools" [level=2] [ref=e293]
+                - paragraph [ref=e294]: Tools are callable functions exposed to the AI.
+                - code [ref=e296]:
+                  - text: "import { tool, text, image, audio, json, toolError } from \"@sylphx/mcp-server-sdk\" import { description, enum_, num, object, str } from \"@sylphx/vex\" // Simple tool (no input) const ping = tool() .description(\"Health check\") .handler(() => text(\"pong\")) // Tool with typed input const calculator = tool() .description(\"Perform arithmetic\") .input(object({ a: num(description(\"First number\")), b: num(description(\"Second number\")), op: enum_([\"+\", \"-\", \"*\", \"/\"] as const), })) .handler("
+                  - generic [ref=e297]: "({ input }) =>"
+                  - text: "{ const { a, b, op } = input const result = op === \"+\" ? a + b : op === \"-\" ? a - b : op === \"*\" ? a * b : a / b return text("
+                  - generic [ref=e298]: "`${a} ${op} ${b} = ${result}`"
+                  - text: ") }) // Multiple content items const systemInfo = tool() .description(\"Get system information\") .handler(() => [ text(\"CPU: 8 cores\"), text(\"Memory: 16GB\") ]) // Mixed content types const screenshot = tool() .description(\"Take screenshot with description\") .handler(() => [ text(\"Here's the screenshot:\"), image(base64Data, \"image/png\") ]) // Return JSON data const getUser = tool() .description(\"Get user data\") .input(object({ id: str() })) .handler("
+                  - generic [ref=e299]: "({ input }) =>"
+                  - text: "json({ id: input.id, name: \"Alice\" })) // Return error const riskyOperation = tool() .description(\"May fail\") .handler(() => toolError(\"Something went wrong\"))"
+                - heading "Resources" [level=2] [ref=e300]
+                - paragraph [ref=e301]: Resources provide data to the AI.
+                - code [ref=e303]:
+                  - text: "import { resource, resourceTemplate, resourceText, resourceBlob } from \"@sylphx/mcp-server-sdk\" // Static resource with fixed URI const readme = resource() .uri(\"file:///readme.md\") .description(\"Project readme\") .mimeType(\"text/markdown\") .handler("
+                  - generic [ref=e304]: "({ uri }) =>"
+                  - text: "resourceText(uri, \"# My Project\\n\\nWelcome!\")) // Resource template for dynamic URIs const fileReader = resourceTemplate() .uriTemplate(\"file:///{path}\") .description(\"Read any file\") .handler(async ({ uri, params }) => { const content = await Bun.file("
+                  - generic [ref=e305]: "`/${params.path}`"
+                  - text: ").text() return resourceText(uri, content) }) // Binary resource const logo = resource() .uri(\"image:///logo.png\") .mimeType(\"image/png\") .handler(async ({ uri }) => { const data = await Bun.file(\"./logo.png\").bytes() const base64 = Buffer.from(data).toString(\"base64\") return resourceBlob(uri, base64, \"image/png\") })"
+                - heading "Prompts" [level=2] [ref=e306]
+                - paragraph [ref=e307]: Prompts are reusable conversation templates.
+                - code [ref=e309]:
+                  - text: "import { prompt, user, assistant, messages, promptResult } from \"@sylphx/mcp-server-sdk\" import { description, object, optional, str, withDefault } from \"@sylphx/vex\" // Simple prompt (no arguments) const greeting = prompt() .description(\"A friendly greeting\") .handler(() => messages( user(\"Hello!\"), assistant(\"Hi there! How can I help you today?\") )) // Prompt with typed arguments const codeReview = prompt() .description(\"Review code for issues\") .args(object({ code: str(description(\"Code to review\")), language: optional(str(description(\"Programming language\"))), })) .handler("
+                  - generic [ref=e310]: "({ args }) =>"
+                  - text: messages( user(
+                  - generic [ref=e311]:
+                    - text: "`Please review this"
+                    - generic [ref=e312]: "${args.language ?? \"code\"}"
+                    - text: ":\\n\\`\\`\\`\\n${args.code}\\n\\`\\`\\``"
+                  - text: "), assistant(\"I'll analyze this code for potential issues, best practices, and improvements.\") )) // Prompt with description in result const translate = prompt() .description(\"Translate text between languages\") .args(object({ text: str(), from: withDefault(str(), \"auto\"), to: str(), })) .handler("
+                  - generic [ref=e313]: "({ args }) =>"
+                  - text: promptResult(
+                  - generic [ref=e314]:
+                    - text: "`Translation from"
+                    - generic [ref=e315]: "${args.from}"
+                    - text: "to ${args.to}`"
+                  - text: ", messages(user("
+                  - generic [ref=e316]:
+                    - text: "`Translate \"${args.text}\" from"
+                    - generic [ref=e317]: "${args.from}"
+                    - text: "to ${args.to}`"
+                  - text: )) ))
+                - heading "Server Configuration" [level=2] [ref=e318]
+                - code [ref=e320]: "import { createServer, stdio, http } from \"@sylphx/mcp-server-sdk\" const server = createServer({ // Server identity name: \"my-server\", version: \"1.0.0\", instructions: \"This server provides...\", // Handlers (names from object keys) tools: { greet, ping, calculator }, resources: { readme, config }, resourceTemplates: { file: fileReader }, prompts: { codeReview, translate }, // Transport transport: stdio() // or http({ port: 3000 }) }) await server.start()"
+                - heading "Transports" [level=2] [ref=e321]
+                - heading "Stdio Transport" [level=3] [ref=e322]
+                - paragraph [ref=e323]: For CLI tools and subprocess communication.
+                - code [ref=e325]: "import { stdio } from \"@sylphx/mcp-server-sdk\" const server = createServer({ tools: { ping }, transport: stdio() }) await server.start()"
+                - heading "HTTP Transport" [level=3] [ref=e326]
+                - paragraph [ref=e327]: Implements MCP Streamable HTTP (2025-03-26 spec) with SSE support for real-time notifications.
+                - code [ref=e329]: "import { http } from \"@sylphx/mcp-server-sdk\" const server = createServer({ tools: { ping }, transport: http({ port: 3000, cors: \"*\" // Enable CORS for web clients }) }) await server.start() // Server running at http://localhost:3000/mcp"
+                - paragraph [ref=e330]:
+                  - strong [ref=e331]: "Endpoints:"
+                - list [ref=e332]:
+                  - listitem [ref=e333]:
+                    - code [ref=e334]: POST /mcp
+                    - text: "- JSON-RPC messages (returns JSON or SSE based on Accept header)"
+                  - listitem [ref=e335]:
+                    - code [ref=e336]: GET /mcp/health
+                    - text: "- Health check"
+                - paragraph [ref=e337]:
+                  - strong [ref=e338]: "SSE Streaming:"
+                - paragraph [ref=e339]:
+                  - text: When client sends
+                  - code [ref=e340]: "Accept: text/event-stream"
+                  - text: ", the server responds with SSE format, enabling real-time notifications during request processing:"
+                - code [ref=e342]: "event: message data: {\"jsonrpc\":\"2.0\",\"method\":\"notifications/progress\",\"params\":{...}} event: message data: {\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{...}}"
+                - heading "Notifications" [level=2] [ref=e343]
+                - paragraph [ref=e344]: Send server-to-client notifications for progress and logging using the simplified context API.
+                - code [ref=e346]:
+                  - text: "import { array, object, str } from \"@sylphx/vex\" const processFiles = tool() .description(\"Process multiple files\") .input(object({ files: array(str()) })) .handler(async ({ input, ctx }) => { const total = input.files.length for (let i = 0; i < total; i++) { // Report progress (automatically uses progressToken from request) ctx.progress(i + 1, { total, message:"
+                  - generic [ref=e347]: "`Processing ${input.files[i]}`"
+                  - text: "}) await processFile(input.files[i]) } // Log completion ctx.log(\"info\", { message: \"Processing complete\" }) return text("
+                  - generic [ref=e348]: "`Processed ${total} files`"
+                  - text: ") })"
+                - heading "Context Methods" [level=3] [ref=e349]
+                - code [ref=e351]: "// Progress notification (uses progressToken from request automatically) ctx.progress(current: number, options?: { total?: number; message?: string }) // Log notification ctx.log(level: \"debug\" | \"info\" | \"notice\" | \"warning\" | \"error\" | \"critical\" | \"alert\" | \"emergency\", data: unknown, logger?: string)"
+                - heading "Low-level Notification Factories" [level=3] [ref=e352]
+                - paragraph [ref=e353]: "For advanced use cases, you can use the raw notification factories:"
+                - code [ref=e355]: "import { progress, log, resourcesListChanged, toolsListChanged, promptsListChanged, resourceUpdated, cancelled } from \"@sylphx/mcp-server-sdk\" // Progress notification (requires manual token) progress(token: string | number, current: number, options?: { total?: number; message?: string }) // Log notification log(level: LogLevel, data: unknown, logger?: string) // List change notifications (for dynamic capability updates) resourcesListChanged() toolsListChanged() promptsListChanged() // Resource updated notification resourceUpdated(uri: string) // Cancellation notification cancelled(requestId: string | number, reason?: string)"
+                - heading "Sampling" [level=2] [ref=e356]
+                - paragraph [ref=e357]: Request LLM completions from the client.
+                - code [ref=e359]:
+                  - text: "import { createSamplingClient } from \"@sylphx/mcp-server-sdk\" import { object, str } from \"@sylphx/vex\" const summarize = tool() .description(\"Summarize text using AI\") .input(object({ text: str() })) .handler(async ({ input, ctx }) => { const sampling = createSamplingClient(ctx.requestSampling) const result = await sampling.createMessage({ messages: [ { role: \"user\", content: { type: \"text\", text:"
+                  - generic [ref=e360]: "`Summarize: ${input.text}`"
+                  - text: "} } ], maxTokens: 500, // Optional parameters systemPrompt: \"You are a helpful summarizer\", temperature: 0.7, stopSequences: [\"END\"], modelPreferences: { hints: [{ name: \"claude-3\" }], costPriority: 0.5, speedPriority: 0.5, intelligencePriority: 0.8, }, }) // result.content is the response content // result.model is the model used // result.stopReason is why generation stopped return text(result.content.text) })"
+                - heading "Elicitation" [level=2] [ref=e361]
+                - paragraph [ref=e362]: Request user input from the client.
+                - code [ref=e364]:
+                  - text: "import { createElicitationClient } from \"@sylphx/mcp-server-sdk\" import { object, str } from \"@sylphx/vex\" const confirmAction = tool() .description(\"Confirm before proceeding\") .input(object({ action: str() })) .handler(async ({ input, ctx }) => { const elicit = createElicitationClient(ctx.requestElicitation) const result = await elicit.elicit("
+                  - generic [ref=e365]: "`Are you sure you want to ${input.action}?`"
+                  - text: ", { type: \"object\", properties: { confirm: { type: \"boolean\", description: \"Confirm action\", }, reason: { type: \"string\", description: \"Optional reason\", }, }, required: [\"confirm\"], } ) // result.action: \"accept\" | \"decline\" | \"cancel\" // result.content: { confirm: boolean, reason?: string } (when action is \"accept\") if (result.action === \"accept\" && result.content?.confirm) { return text("
+                  - generic [ref=e366]: "`Proceeding with ${input.action}`"
+                  - text: ") } return text(\"Action cancelled\") })"
+                - heading "Elicitation Schema Properties" [level=3] [ref=e367]
+                - code [ref=e369]: "interface ElicitationProperty { type: \"string\" | \"number\" | \"integer\" | \"boolean\" description?: string default?: string | number | boolean enum?: (string | number)[] // Constrain to specific values enumNames?: string[] // Display names for enum values // String-specific format?: \"email\" | \"uri\" | \"date\" | \"date-time\" minLength?: number maxLength?: number // Number-specific minimum?: number maximum?: number }"
+                - heading "Pagination" [level=2] [ref=e370]
+                - paragraph [ref=e371]: Paginate large result sets.
+                - code [ref=e373]: "import { paginate } from \"@sylphx/mcp-server-sdk\" import { object, optional, str } from \"@sylphx/vex\" const listItems = tool() .description(\"List items with pagination\") .input(object({ cursor: optional(str()) })) .handler(async ({ input }) => { const allItems = await fetchAllItems() const result = paginate(allItems, input.cursor, { defaultPageSize: 10, maxPageSize: 100, }) // result.items: current page items // result.nextCursor: cursor for next page (undefined if last page) return json({ items: result.items, nextCursor: result.nextCursor, }) })"
+                - heading "API Reference" [level=2] [ref=e374]
+                - heading "Server" [level=3] [ref=e375]
+                - code [ref=e377]: "createServer(config: ServerConfig): Server interface ServerConfig { name?: string // Default: \"mcp-server\" version?: string // Default: \"1.0.0\" instructions?: string // Instructions for the LLM tools?: Record<string, ToolDefinition> resources?: Record<string, ResourceDefinition> resourceTemplates?: Record<string, ResourceTemplateDefinition> prompts?: Record<string, PromptDefinition> transport: TransportFactory }"
+                - heading "Tool Builder" [level=3] [ref=e378]
+                - code [ref=e380]: "tool() .description(string) // Optional description .input(VexSchema) // Optional input schema .handler(fn: HandlerFn) -> ToolDefinition // Handler signature ({ input, ctx }) => ToolResult | Promise<ToolResult> // Handler can return: // - Single content: text(\"hello\") // - Array: [text(\"hi\"), image(data, \"image/png\")] // - Full result: { content: [...], isError: true }"
+                - heading "Resource Builder" [level=3] [ref=e381]
+                - code [ref=e383]: "resource() .uri(string) // Required URI .description(string) // Optional description .mimeType(string) // Optional MIME type .handler(fn) -> ResourceDefinition resourceTemplate() .uriTemplate(string) // Required URI template (RFC 6570) .description(string) // Optional description .mimeType(string) // Optional MIME type .handler(fn) -> ResourceTemplateDefinition // Handler receives { uri, ctx } or { uri, params, ctx }"
+                - heading "Prompt Builder" [level=3] [ref=e384]
+                - code [ref=e386]: "prompt() .description(string) // Optional description .args(VexSchema) // Optional arguments schema .handler(fn) -> PromptDefinition // Handler receives { args, ctx } or { ctx }"
+                - heading "Content Helpers" [level=3] [ref=e387]
+                - code [ref=e389]: "// Tool content text(content: string, annotations?): TextContent image(data: string, mimeType: string, annotations?): ImageContent audio(data: string, mimeType: string, annotations?): AudioContent embedded(resource: EmbeddedResource, annotations?): ResourceContent json(data: unknown): TextContent toolError(message: string): ToolsCallResult // Resources resourceText(uri: string, text: string, mimeType?: string): ResourcesReadResult resourceBlob(uri: string, blob: string, mimeType: string): ResourcesReadResult resourceContents(...items: EmbeddedResource[]): ResourcesReadResult // Prompts user(content: string): PromptMessage assistant(content: string): PromptMessage messages(...msgs: PromptMessage[]): PromptsGetResult promptResult(description: string, result: PromptsGetResult): PromptsGetResult"
+                - heading "Transports" [level=3] [ref=e390]
+                - code [ref=e392]: "stdio(options?: StdioOptions): TransportFactory http(options?: HttpOptions): TransportFactory interface HttpOptions { port?: number // Default: 3000 hostname?: string // Default: \"localhost\" }"
+                - heading "Notifications" [level=3] [ref=e393]
+                - code [ref=e395]: "progress(token, current, options?): ProgressNotification log(level, data, logger?): LogNotification resourcesListChanged(): Notification toolsListChanged(): Notification promptsListChanged(): Notification resourceUpdated(uri): Notification cancelled(requestId, reason?): Notification"
+                - heading "Sampling" [level=3] [ref=e396]
+                - code [ref=e398]: "createSamplingClient(sender: SamplingRequestSender): SamplingClient interface SamplingClient { createMessage(params: SamplingCreateParams): Promise<SamplingCreateResult> }"
+                - heading "Elicitation" [level=3] [ref=e399]
+                - code [ref=e401]: "createElicitationClient(sender: ElicitationRequestSender): ElicitationClient interface ElicitationClient { elicit(message: string, schema: ElicitationSchema): Promise<ElicitationCreateResult> }"
+                - heading "Pagination" [level=3] [ref=e402]
+                - code [ref=e404]: "paginate<T>(items: T[], cursor?: string, options?: PaginationOptions): PageResult<T> interface PaginationOptions { defaultPageSize?: number // Default: 50 maxPageSize?: number // Default: 100 } interface PageResult<T> { items: T[] nextCursor?: string }"
+                - heading "Powered by Sylphx" [level=2] [ref=e405]
+                - list [ref=e406]:
+                  - listitem [ref=e407]:
+                    - link "@sylphx/vex" [ref=e408] [cursor=pointer]:
+                      - /url: https://github.com/SylphxAI/vex
+                    - text: "- Ultra-fast schema validation"
+                  - listitem [ref=e409]:
+                    - link "@sylphx/gust" [ref=e410] [cursor=pointer]:
+                      - /url: https://github.com/SylphxAI/gust
+                    - text: "- Lightweight HTTP framework for Bun"
+                  - listitem [ref=e411]:
+                    - link "@sylphx/biome-config" [ref=e412] [cursor=pointer]:
+                      - /url: https://github.com/SylphxAI/biome-config
+                    - text: "- Shared Biome configuration"
+                  - listitem [ref=e413]:
+                    - link "@sylphx/tsconfig" [ref=e414] [cursor=pointer]:
+                      - /url: https://github.com/SylphxAI/tsconfig
+                    - text: "- Shared TypeScript configuration"
+                  - listitem [ref=e415]:
+                    - link "@sylphx/doctor" [ref=e416] [cursor=pointer]:
+                      - /url: https://github.com/SylphxAI/doctor
+                    - text: "- Project health checker"
+                  - listitem [ref=e417]:
+                    - link "@sylphx/bump" [ref=e418] [cursor=pointer]:
+                      - /url: https://github.com/SylphxAI/bump
+                    - text: "- Version management"
+                - heading "License" [level=2] [ref=e419]
+                - paragraph [ref=e420]: MIT
+            - generic [ref=e421]:
+              - heading "Keywords" [level=2] [ref=e422]
+              - generic [ref=e423]:
+                - link "mcp" [ref=e425] [cursor=pointer]:
+                  - /url: /search?e=npm&q=mcp
+                  - generic [ref=e426]: mcp
+                - link "model-context-protocol" [ref=e428] [cursor=pointer]:
+                  - /url: /search?e=npm&q=model-context-protocol
+                  - generic [ref=e429]: model-context-protocol
+                - link "ai" [ref=e431] [cursor=pointer]:
+                  - /url: /search?e=npm&q=ai
+                  - generic [ref=e432]: ai
+                - link "llm" [ref=e434] [cursor=pointer]:
+                  - /url: /search?e=npm&q=llm
+                  - generic [ref=e435]: llm
+                - link "bun" [ref=e437] [cursor=pointer]:
+                  - /url: /search?e=npm&q=bun
+                  - generic [ref=e438]: bun
+                - link "nodejs" [ref=e440] [cursor=pointer]:
+                  - /url: /search?e=npm&q=nodejs
+                  - generic [ref=e441]: nodejs
+            - generic [ref=e442]:
+              - paragraph [ref=e443]: FAQs
+              - generic [ref=e444]:
+                - button "What is @sylphx/mcp-server-sdk?" [ref=e446] [cursor=pointer]:
+                  - paragraph [ref=e447]: What is @sylphx/mcp-server-sdk?
+                  - img [ref=e449]
+                - button "Is @sylphx/mcp-server-sdk well maintained?" [ref=e452] [cursor=pointer]:
+                  - paragraph [ref=e453]: Is @sylphx/mcp-server-sdk well maintained?
+                  - img [ref=e455]
+            - generic [ref=e457]: Package last updated on 05 Dec 2025
+            - separator [ref=e458]
+            - generic [ref=e459]:
+              - paragraph [ref=e460]: Did you know?
+              - generic [ref=e461]:
+                - img "Socket" [ref=e462]
+                - paragraph [ref=e463]: Socket for GitHub automatically highlights issues in each pull request and monitors the health of all your open source dependencies. Discover the contents of your packages and block harmful activity before you install or update your dependencies.
+              - link "Install" [ref=e464] [cursor=pointer]:
+                - /url: /github-app
+                - img [ref=e465]
+                - text: Install
+      - generic [ref=e468]:
+        - heading "Related posts" [level=2] [ref=e470]
+        - generic [ref=e471]:
+          - article [ref=e472]:
+            - generic [ref=e473]:
+              - generic [ref=e474]:
+                - img "Socket Named Top Sales Organization by RepVue"
+              - generic [ref=e475]:
+                - paragraph [ref=e477]: Company News
+                - heading "Socket Named Top Sales Organization by RepVue" [level=3] [ref=e478]:
+                  - link "Socket Named Top Sales Organization by RepVue" [ref=e479] [cursor=pointer]:
+                    - /url: /blog/socket-named-top-sales-organization-by-repvue
+                - paragraph [ref=e481]: Socket won two 2026 Reppy Awards from RepVue, ranking in the top 5% of all sales orgs. AE Alexandra Lister shares what it's like to grow a sales career here.
+                - generic [ref=e483]:
+                  - text: By
+                  - generic [ref=e484]: Sarah Gooding
+                  - generic [ref=e485]: "- Apr 17, 2026"
+          - article [ref=e486]:
+            - generic [ref=e487]:
+              - generic [ref=e488]:
+                - img "NIST Officially Stops Enriching Most CVEs as Vulnerability Volume Skyrockets"
+              - generic [ref=e489]:
+                - paragraph [ref=e491]: Security News
+                - heading "NIST Officially Stops Enriching Most CVEs as Vulnerability Volume Skyrockets" [level=3] [ref=e492]:
+                  - link "NIST Officially Stops Enriching Most CVEs as Vulnerability Volume Skyrockets" [ref=e493] [cursor=pointer]:
+                    - /url: /blog/nist-officially-stops-enriching-most-cves
+                - paragraph [ref=e495]: NIST will stop enriching most CVEs under a new risk-based model, narrowing the NVD's scope as vulnerability submissions continue to surge.
+                - generic [ref=e497]:
+                  - text: By
+                  - generic [ref=e498]: Sarah Gooding
+                  - generic [ref=e499]: "- Apr 17, 2026"
+          - article [ref=e500]:
+            - generic [ref=e501]:
+              - generic [ref=e502]:
+                - img "Socket Selected for OpenAI's Cybersecurity Grant Program"
+              - generic [ref=e503]:
+                - generic [ref=e504]:
+                  - paragraph [ref=e505]: Company News
+                  - generic [ref=e506]: /
+                  - paragraph [ref=e507]: Security News
+                - heading "Socket Selected for OpenAI's Cybersecurity Grant Program" [level=3] [ref=e508]:
+                  - link "Socket Selected for OpenAI's Cybersecurity Grant Program" [ref=e509] [cursor=pointer]:
+                    - /url: /blog/openai-cybersecurity-grant-program
+                - paragraph [ref=e511]: Socket is an initial recipient of OpenAI's Cybersecurity Grant Program, which commits $10M in API credits to defenders securing open source software.
+                - generic [ref=e513]:
+                  - text: By
+                  - generic [ref=e514]: Sarah Gooding
+                  - generic [ref=e515]: "- Apr 16, 2026"
+      - contentinfo [ref=e517]:
+        - generic [ref=e518]:
+          - generic [ref=e519]:
+            - generic [ref=e520]:
+              - link "Socket" [ref=e521] [cursor=pointer]:
+                - /url: /
+                - img "Socket" [ref=e522]
+              - link "Socket SOC 2 Logo" [ref=e523] [cursor=pointer]:
+                - /url: /security
+                - img "Socket SOC 2 Logo" [ref=e524]
+            - generic [ref=e525]:
+              - paragraph [ref=e526]: Product
+              - list [ref=e527]:
+                - listitem [ref=e528]:
+                  - link "Package Alerts" [ref=e529] [cursor=pointer]:
+                    - /url: /alerts
+                    - generic [ref=e531]: Package Alerts
+                - listitem [ref=e532]:
+                  - link "Integrations" [ref=e533] [cursor=pointer]:
+                    - /url: /integrations
+                    - generic [ref=e535]: Integrations
+                - listitem [ref=e536]:
+                  - link "Docs" [ref=e537] [cursor=pointer]:
+                    - /url: https://docs.socket.dev
+                    - generic [ref=e539]: Docs
+                - listitem [ref=e540]:
+                  - link "Pricing" [ref=e541] [cursor=pointer]:
+                    - /url: /pricing
+                    - generic [ref=e543]: Pricing
+                - listitem [ref=e544]:
+                  - link "FAQ" [ref=e545] [cursor=pointer]:
+                    - /url: /faq
+                    - generic [ref=e547]: FAQ
+                - listitem [ref=e548]:
+                  - link "Roadmap" [ref=e549] [cursor=pointer]:
+                    - /url: https://feedback.socket.dev
+                    - generic [ref=e551]: Roadmap
+                - listitem [ref=e552]:
+                  - link "Changelog" [ref=e553] [cursor=pointer]:
+                    - /url: /changelog
+                    - generic [ref=e555]: Changelog
+            - generic [ref=e556]:
+              - paragraph [ref=e557]: About
+              - list [ref=e558]:
+                - listitem [ref=e559]:
+                  - link "About" [ref=e560] [cursor=pointer]:
+                    - /url: /about
+                    - generic [ref=e562]: About
+                - listitem [ref=e563]:
+                  - link "Love" [ref=e564] [cursor=pointer]:
+                    - /url: /love
+                    - generic [ref=e566]: Love
+                - listitem [ref=e567]:
+                  - link "Blog" [ref=e568] [cursor=pointer]:
+                    - /url: /blog
+                    - generic [ref=e570]: Blog
+                - listitem [ref=e571]:
+                  - link "Glossary" [ref=e572] [cursor=pointer]:
+                    - /url: /glossary
+                    - generic [ref=e574]: Glossary
+                - listitem [ref=e575]:
+                  - link "Careers Hiring" [ref=e576] [cursor=pointer]:
+                    - /url: /careers
+                    - generic [ref=e577]:
+                      - generic [ref=e578]: Careers
+                      - generic [ref=e581]: Hiring
+                - listitem [ref=e582]:
+                  - link "Send Feedback" [ref=e583] [cursor=pointer]:
+                    - /url: https://feedback.socket.dev
+                    - generic [ref=e585]: Send Feedback
+                - listitem [ref=e586]:
+                  - link "Contact Us" [ref=e587] [cursor=pointer]:
+                    - /url: /contact
+                    - generic [ref=e589]: Contact Us
+                - listitem [ref=e590]:
+                  - link "System Status" [ref=e591] [cursor=pointer]:
+                    - /url: https://status.socket.dev
+                    - generic [ref=e593]: System Status
+            - generic [ref=e594]:
+              - paragraph [ref=e595]: Packages
+              - generic [ref=e596]:
+                - link "Explore npm" [ref=e597] [cursor=pointer]:
+                  - /url: /npm/category
+                  - generic [ref=e599]: Explore npm
+                - link "Explore crates.io" [ref=e600] [cursor=pointer]:
+                  - /url: /cargo/category
+                  - generic [ref=e602]: Explore crates.io
+                - link "Explore Chrome Web Store" [ref=e603] [cursor=pointer]:
+                  - /url: /chrome
+                  - generic [ref=e605]: Explore Chrome Web Store
+                - link "Explore Packagist" [ref=e606] [cursor=pointer]:
+                  - /url: /composer/category
+                  - generic [ref=e608]: Explore Packagist
+                - link "Explore Go Modules" [ref=e609] [cursor=pointer]:
+                  - /url: /go/category
+                  - generic [ref=e611]: Explore Go Modules
+                - link "Explore Hugging Face Hub" [ref=e612] [cursor=pointer]:
+                  - /url: /huggingface
+                  - generic [ref=e614]: Explore Hugging Face Hub
+                - link "Explore Maven Central" [ref=e615] [cursor=pointer]:
+                  - /url: /maven/category
+                  - generic [ref=e617]: Explore Maven Central
+                - link "Explore NuGet" [ref=e618] [cursor=pointer]:
+                  - /url: /nuget/category
+                  - generic [ref=e620]: Explore NuGet
+                - link "Explore Open VSX" [ref=e621] [cursor=pointer]:
+                  - /url: /openvsx
+                  - generic [ref=e623]: Explore Open VSX
+                - link "Explore PyPI" [ref=e624] [cursor=pointer]:
+                  - /url: /pypi/category
+                  - generic [ref=e626]: Explore PyPI
+                - link "Explore RubyGems.org" [ref=e627] [cursor=pointer]:
+                  - /url: /rubygems/category
+                  - generic [ref=e629]: Explore RubyGems.org
+            - generic [ref=e630]:
+              - paragraph [ref=e631]: Stay in touch
+              - paragraph [ref=e632]: Get open source security insights delivered straight into your inbox.
+              - generic [ref=e634]:
+                - group [ref=e635]:
+                  - generic [ref=e636]: Enter your email
+                  - textbox "Enter your email" [ref=e637]
+                - button "Subscribe" [ref=e638] [cursor=pointer]
+          - separator [ref=e639]
+          - generic [ref=e640]:
+            - list [ref=e641]:
+              - listitem [ref=e642]:
+                - link "Twitter" [ref=e643] [cursor=pointer]:
+                  - /url: https://x.com/SocketSecurity
+                  - img [ref=e644]
+              - listitem [ref=e646]:
+                - link "GitHub" [ref=e647] [cursor=pointer]:
+                  - /url: https://github.com/SocketDev
+                  - img [ref=e648]
+              - listitem [ref=e650]:
+                - link "LinkedIn" [ref=e651] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/company/socketinc/
+                  - img [ref=e652]
+              - listitem [ref=e654]:
+                - link "Discord" [ref=e655] [cursor=pointer]:
+                  - /url: https://discord.gg/JkhgPpXDSd
+                  - img [ref=e656]
+              - listitem [ref=e658]:
+                - link "Terms" [ref=e659] [cursor=pointer]:
+                  - /url: /terms
+              - listitem [ref=e660]:
+                - link "Privacy" [ref=e661] [cursor=pointer]:
+                  - /url: /privacy
+              - listitem [ref=e662]:
+                - link "Security" [ref=e663] [cursor=pointer]:
+                  - /url: /security
+              - listitem [ref=e703]:
+                - button "Get the Mac App" [ref=e704] [cursor=pointer]:
+                  - img [ref=e705]
+                  - text: Get the Mac App
+              - listitem [ref=e664]:
+                - button "English" [ref=e665] [cursor=pointer]:
+                  - img [ref=e666]
+                  - text: English
+            - generic [ref=e669]:
+              - paragraph [ref=e670]: Made with ⚡️ by Socket Inc
+              - paragraph [ref=e671]: U.S. Patent No. 12,346,443 & 12,314,394. Other pending.
+  - alert [ref=e672]
+  - region "bottom-end Notifications alt+T"
+  - alert
