@@ -30,6 +30,11 @@ vi.mock('node:fs/promises', () => ({
   readFile: mockReadFile,
 }));
 
+// Stub DNS so real validateUrl runs without hitting the network.
+vi.mock('node:dns/promises', () => ({
+  lookup: vi.fn(async () => [{ address: '93.184.216.34', family: 4 }]),
+}));
+
 // Dynamically import the handler *once* after mocks are defined
 // Define a more specific type for the handler's return value content
 interface HandlerResultContent {

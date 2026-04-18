@@ -7,6 +7,7 @@ import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { ErrorCode, PdfError } from '../utils/errors.js';
 import { createLogger } from '../utils/logger.js';
 import { resolvePath } from '../utils/pathUtils.js';
+import { validateUrl } from '../utils/urlValidator.js';
 
 const logger = createLogger('Loader');
 
@@ -46,18 +47,7 @@ export const loadPdfDocument = async (
 
       pdfDataSource = new Uint8Array(buffer);
     } else if (source.url) {
-      let parsedUrl: URL;
-      try {
-        parsedUrl = new URL(source.url);
-      } catch {
-        throw new PdfError(ErrorCode.InvalidParams, `Source ${sourceDescription}: invalid URL.`);
-      }
-      if (parsedUrl.protocol !== 'https:') {
-        throw new PdfError(
-          ErrorCode.InvalidParams,
-          `Source ${sourceDescription}: only https:// URLs are allowed (got '${parsedUrl.protocol}').`
-        );
-      }
+      await validateUrl(source.url, sourceDescription);
       pdfDataSource = { url: source.url };
     } else {
       throw new PdfError(

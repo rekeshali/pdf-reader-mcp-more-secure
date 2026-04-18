@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
-import { describe, expect, it, vi } from 'vitest';
+import { afterAll, afterEach, describe, expect, it, vi } from 'vitest';
 import { loadPdfDocument } from '../../src/pdf/loader.js';
 import { ErrorCode, PdfError } from '../../src/utils/errors.js';
 import * as pathUtils from '../../src/utils/pathUtils.js';
@@ -15,9 +15,22 @@ vi.mock('pdfjs-dist/legacy/build/pdf.mjs', () => ({
   getDocument: vi.fn(),
 }));
 
-vi.mock('../../src/utils/pathUtils.js', () => ({
-  resolvePath: vi.fn(),
+// Stub DNS so real validateUrl runs without hitting the network.
+// Returns a public IP so the SSRF floor doesn't fire.
+vi.mock('node:dns/promises', () => ({
+  lookup: vi.fn(async () => [{ address: '93.184.216.34', family: 4 }]),
 }));
+
+// Spy on the real pathUtils (don't module-mock — that pollutes across files
+// under bun test). Restored at file end so the spy doesn't leak to other suites.
+const resolvePathSpy = vi.spyOn(pathUtils, 'resolvePath').mockImplementation((p) => p);
+afterEach(() => {
+  resolvePathSpy.mockReset();
+  resolvePathSpy.mockImplementation((p) => p);
+});
+afterAll(() => {
+  resolvePathSpy.mockRestore();
+});
 
 describe('loader', () => {
   describe('loadPdfDocument', () => {
@@ -25,7 +38,7 @@ describe('loader', () => {
       const mockBuffer = Buffer.from('fake pdf content');
       const mockDocument = { numPages: 5 };
 
-      pathUtils.resolvePath.mockReturnValue('/safe/path/test.pdf');
+      resolvePathSpy.mockReturnValue('/safe/path/test.pdf');
       fs.readFile.mockResolvedValue(mockBuffer);
       pdfjsLib.getDocument.mockReturnValue({
         promise: Promise.resolve(mockDocument as unknown as pdfjsLib.PDFDocumentProxy),
@@ -34,7 +47,7 @@ describe('loader', () => {
       const result = await loadPdfDocument({ path: 'test.pdf' }, 'test.pdf');
 
       expect(result).toBe(mockDocument);
-      expect(pathUtils.resolvePath).toHaveBeenCalledWith('test.pdf');
+      expect(resolvePathSpy).toHaveBeenCalledWith('test.pdf');
       expect(fs.readFile).toHaveBeenCalledWith('/safe/path/test.pdf');
     });
 
@@ -88,7 +101,7 @@ describe('loader', () => {
     it('should handle file not found error (ENOENT)', async () => {
       const enoentError = Object.assign(new Error('File not found'), { code: 'ENOENT' });
 
-      pathUtils.resolvePath.mockReturnValue('/safe/path/missing.pdf');
+      resolvePathSpy.mockReturnValue('/safe/path/missing.pdf');
       fs.readFile.mockRejectedValue(enoentError);
 
       await expect(loadPdfDocument({ path: 'missing.pdf' }, 'missing.pdf')).rejects.toThrow(PdfError);
@@ -98,7 +111,7 @@ describe('loader', () => {
     });
 
     it('should handle generic file read errors', async () => {
-      pathUtils.resolvePath.mockReturnValue('/safe/path/error.pdf');
+      resolvePathSpy.mockReturnValue('/safe/path/error.pdf');
       fs.readFile.mockRejectedValue(new Error('Permission denied'));
 
       await expect(loadPdfDocument({ path: 'error.pdf' }, 'error.pdf')).rejects.toThrow(PdfError);
@@ -108,7 +121,7 @@ describe('loader', () => {
     });
 
     it('should handle non-Error exceptions during file read', async () => {
-      pathUtils.resolvePath.mockReturnValue('/safe/path/test.pdf');
+      resolvePathSpy.mockReturnValue('/safe/path/test.pdf');
       fs.readFile.mockRejectedValue('String error');
 
       await expect(loadPdfDocument({ path: 'test.pdf' }, 'test.pdf')).rejects.toThrow(
@@ -120,7 +133,7 @@ describe('loader', () => {
       const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
       const mockBuffer = Buffer.from('fake pdf');
 
-      pathUtils.resolvePath.mockReturnValue('/safe/path/bad.pdf');
+      resolvePathSpy.mockReturnValue('/safe/path/bad.pdf');
       fs.readFile.mockResolvedValue(mockBuffer);
       pdfjsLib.getDocument.mockReturnValue({
         promise: Promise.reject(new Error('Invalid PDF')),
@@ -153,7 +166,7 @@ describe('loader', () => {
 
     it('should propagate PdfError from resolvePath', async () => {
       const pdfError = new PdfError(ErrorCode.InvalidRequest, 'Path validation failed');
-      pathUtils.resolvePath.mockImplementation(() => {
+      resolvePathSpy.mockImplementation(() => {
         throw pdfError;
       });
 
@@ -175,7 +188,7 @@ describe('loader', () => {
     });
 
     it('should handle non-Error exception during file read with cause undefined', async () => {
-      pathUtils.resolvePath.mockReturnValue('/safe/path/test.pdf');
+      resolvePathSpy.mockReturnValue('/safe/path/test.pdf');
       const nonErrorObject = { code: 'SOME_ERROR' };
       fs.readFile.mockRejectedValue(nonErrorObject);
 

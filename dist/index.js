@@ -315,7 +315,7 @@ var extractPageContent = async (pdfDocument, pageNum, includeImages, sourceDescr
 };
 
 // src/pdf/loader.ts
-import fs from "node:fs/promises";
+import fs2 from "node:fs/promises";
 import { createRequire } from "node:module";
 import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 
@@ -330,18 +330,218 @@ class PdfError extends Error {
 }
 
 // src/utils/pathUtils.ts
+import os2 from "node:os";
+import path2 from "node:path";
+import { minimatch } from "minimatch";
+
+// src/utils/config.ts
+import * as fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
+var logger3 = createLogger("Config");
+var DEFAULT_CONFIG = {
+  path: { allow: [], deny: [] },
+  url: { allow: [], deny: [] }
+};
+var CONFIG_PATH = path.join(os.homedir(), ".claude", "plugin-settings", "pdf-reader.json");
+var isStringArray = (v) => Array.isArray(v) && v.every((x) => typeof x === "string");
+var parseRuleSet = (raw) => {
+  if (!raw || typeof raw !== "object")
+    return { allow: [], deny: [] };
+  const obj = raw;
+  const allow = isStringArray(obj["allow"]) ? obj["allow"] : [];
+  const deny = isStringArray(obj["deny"]) ? obj["deny"] : [];
+  return { allow, deny };
+};
+var cached = null;
+var loadConfig = () => {
+  if (cached)
+    return cached;
+  let raw;
+  try {
+    raw = fs.readFileSync(CONFIG_PATH, "utf8");
+  } catch (err) {
+    const code = err?.code;
+    if (code === "ENOENT") {
+      logger3.debug("No config file; using permissive defaults", { path: CONFIG_PATH });
+    } else {
+      logger3.warn("Could not read config file; using defaults", {
+        path: CONFIG_PATH,
+        error: err instanceof Error ? err.message : String(err)
+      });
+    }
+    cached = DEFAULT_CONFIG;
+    return cached;
+  }
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch (err) {
+    logger3.warn("Config file is not valid JSON; using defaults", {
+      path: CONFIG_PATH,
+      error: err instanceof Error ? err.message : String(err)
+    });
+    cached = DEFAULT_CONFIG;
+    return cached;
+  }
+  if (!parsed || typeof parsed !== "object") {
+    logger3.warn("Config root is not an object; using defaults", { path: CONFIG_PATH });
+    cached = DEFAULT_CONFIG;
+    return cached;
+  }
+  const obj = parsed;
+  cached = {
+    path: parseRuleSet(obj["path"]),
+    url: parseRuleSet(obj["url"])
+  };
+  return cached;
+};
+
+// src/utils/pathUtils.ts
 var PROJECT_ROOT = process.cwd();
+var expandTilde = (p) => {
+  if (p === "~")
+    return os2.homedir();
+  if (p.startsWith("~/"))
+    return path2.join(os2.homedir(), p.slice(2));
+  return p;
+};
+var matchesAnyPattern = (resolvedPath, patterns) => {
+  for (const raw of patterns) {
+    const pattern = expandTilde(raw);
+    if (minimatch(resolvedPath, pattern, { dot: true }))
+      return raw;
+  }
+  return null;
+};
 var resolvePath = (userPath) => {
   if (typeof userPath !== "string") {
     throw new PdfError(-32602 /* InvalidParams */, "Path must be a string.");
   }
-  const normalizedUserPath = path.normalize(userPath);
-  return path.isAbsolute(normalizedUserPath) ? normalizedUserPath : path.resolve(PROJECT_ROOT, normalizedUserPath);
+  const normalizedUserPath = path2.normalize(userPath);
+  const resolved = path2.isAbsolute(normalizedUserPath) ? normalizedUserPath : path2.resolve(PROJECT_ROOT, normalizedUserPath);
+  const config = loadConfig();
+  const denyHit = matchesAnyPattern(resolved, config.path.deny);
+  if (denyHit) {
+    throw new PdfError(-32602 /* InvalidParams */, `Path '${resolved}' is in the configured deny list ('${denyHit}').`);
+  }
+  if (config.path.allow.length > 0) {
+    if (!matchesAnyPattern(resolved, config.path.allow)) {
+      throw new PdfError(-32602 /* InvalidParams */, `Path '${resolved}' is not in the configured allow list.`);
+    }
+  }
+  return resolved;
+};
+
+// src/utils/urlValidator.ts
+import * as dns from "node:dns/promises";
+import * as net from "node:net";
+var parseCidr = (cidr) => {
+  const [addr, prefixStr] = cidr.split("/");
+  if (!addr || !prefixStr)
+    throw new Error(`Bad CIDR: ${cidr}`);
+  const prefix = parseInt(prefixStr, 10);
+  const family = addr.includes(":") ? 6 : 4;
+  const bits = family === 4 ? 32 : 128;
+  const base = ipToBigInt(addr, family);
+  const mask = prefix === 0 ? 0n : (1n << BigInt(prefix)) - 1n << BigInt(bits - prefix);
+  return { base: base & mask, mask, bits, family };
+};
+var ipToBigInt = (ip, family) => {
+  if (family === 4) {
+    const parts2 = ip.split(".").map((p) => BigInt(parseInt(p, 10)));
+    if (parts2.length !== 4)
+      throw new Error(`Bad IPv4: ${ip}`);
+    return parts2[0] << 24n | parts2[1] << 16n | parts2[2] << 8n | parts2[3];
+  }
+  const [head, tail] = ip.split("::");
+  const headParts = head ? head.split(":") : [];
+  const tailParts = tail ? tail.split(":") : [];
+  const missing = 8 - headParts.length - tailParts.length;
+  const parts = [...headParts, ...Array(Math.max(0, missing)).fill("0"), ...tailParts];
+  if (parts.length !== 8)
+    throw new Error(`Bad IPv6: ${ip}`);
+  let out = 0n;
+  for (const p of parts)
+    out = out << 16n | BigInt(parseInt(p || "0", 16));
+  return out;
+};
+var SSRF_FLOOR = [
+  parseCidr("127.0.0.0/8"),
+  parseCidr("169.254.0.0/16"),
+  parseCidr("10.0.0.0/8"),
+  parseCidr("172.16.0.0/12"),
+  parseCidr("192.168.0.0/16"),
+  parseCidr("::1/128"),
+  parseCidr("fc00::/7"),
+  parseCidr("fe80::/10")
+];
+var matchesAnyCidr = (ip, ranges) => {
+  const family = ip.includes(":") ? 6 : 4;
+  let n;
+  try {
+    n = ipToBigInt(ip, family);
+  } catch {
+    return null;
+  }
+  for (const r of ranges) {
+    if (r.family !== family)
+      continue;
+    if ((n & r.mask) === r.base)
+      return r;
+  }
+  return null;
+};
+var hostMatches = (host, pattern) => {
+  const escaped = pattern.replace(/[.+?^${}()|[\]\\]/g, "\\$&");
+  const regex = new RegExp(`^${escaped.replace(/\*/g, ".*").replace(/\?/g, ".")}$`, "i");
+  return regex.test(host);
+};
+var validateUrl = async (urlString, sourceDescription) => {
+  let parsed;
+  try {
+    parsed = new URL(urlString);
+  } catch {
+    throw new PdfError(-32602 /* InvalidParams */, `Source ${sourceDescription}: invalid URL.`);
+  }
+  if (parsed.protocol !== "https:") {
+    throw new PdfError(-32602 /* InvalidParams */, `Source ${sourceDescription}: only https:// URLs are allowed (got '${parsed.protocol}').`);
+  }
+  const config = loadConfig();
+  const host = parsed.hostname;
+  for (const pattern of config.url.deny) {
+    if (hostMatches(host, pattern)) {
+      throw new PdfError(-32602 /* InvalidParams */, `Source ${sourceDescription}: host '${host}' is in the configured deny list ('${pattern}').`);
+    }
+  }
+  if (config.url.allow.length > 0) {
+    const allowed = config.url.allow.some((p) => hostMatches(host, p));
+    if (!allowed) {
+      throw new PdfError(-32602 /* InvalidParams */, `Source ${sourceDescription}: host '${host}' is not in the configured allow list.`);
+    }
+  }
+  let ips;
+  if (net.isIP(host)) {
+    ips = [host];
+  } else {
+    try {
+      const records = await dns.lookup(host, { all: true });
+      ips = records.map((r) => r.address);
+    } catch (err) {
+      throw new PdfError(-32600 /* InvalidRequest */, `Source ${sourceDescription}: DNS lookup for '${host}' failed: ${err instanceof Error ? err.message : String(err)}`);
+    }
+  }
+  for (const ip of ips) {
+    const match = matchesAnyCidr(ip, SSRF_FLOOR);
+    if (match) {
+      throw new PdfError(-32602 /* InvalidParams */, `Source ${sourceDescription}: host '${host}' resolves to ${ip}, which is in a blocked range (SSRF floor).`);
+    }
+  }
+  return parsed;
 };
 
 // src/pdf/loader.ts
-var logger3 = createLogger("Loader");
+var logger4 = createLogger("Loader");
 var require2 = createRequire(import.meta.url);
 var CMAP_URL = require2.resolve("pdfjs-dist/package.json").replace("package.json", "cmaps/");
 var MAX_PDF_SIZE = 100 * 1024 * 1024;
@@ -350,21 +550,13 @@ var loadPdfDocument = async (source, sourceDescription) => {
   try {
     if (source.path) {
       const safePath = resolvePath(source.path);
-      const buffer = await fs.readFile(safePath);
+      const buffer = await fs2.readFile(safePath);
       if (buffer.length > MAX_PDF_SIZE) {
         throw new PdfError(-32600 /* InvalidRequest */, `PDF file exceeds maximum size of ${MAX_PDF_SIZE} bytes (${(MAX_PDF_SIZE / 1024 / 1024).toFixed(0)}MB). File size: ${buffer.length} bytes.`);
       }
       pdfDataSource = new Uint8Array(buffer);
     } else if (source.url) {
-      let parsedUrl;
-      try {
-        parsedUrl = new URL(source.url);
-      } catch {
-        throw new PdfError(-32602 /* InvalidParams */, `Source ${sourceDescription}: invalid URL.`);
-      }
-      if (parsedUrl.protocol !== "https:") {
-        throw new PdfError(-32602 /* InvalidParams */, `Source ${sourceDescription}: only https:// URLs are allowed (got '${parsedUrl.protocol}').`);
-      }
+      await validateUrl(source.url, sourceDescription);
       pdfDataSource = { url: source.url };
     } else {
       throw new PdfError(-32602 /* InvalidParams */, `Source ${sourceDescription} missing 'path' or 'url'.`);
@@ -392,13 +584,13 @@ var loadPdfDocument = async (source, sourceDescription) => {
     return await loadingTask.promise;
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    logger3.error("PDF.js loading error", { sourceDescription, error: message });
+    logger4.error("PDF.js loading error", { sourceDescription, error: message });
     throw new PdfError(-32600 /* InvalidRequest */, `Failed to load PDF document from ${sourceDescription}. Reason: ${message || "Unknown loading error"}`, { cause: err instanceof Error ? err : undefined });
   }
 };
 
 // src/pdf/parser.ts
-var logger4 = createLogger("Parser");
+var logger5 = createLogger("Parser");
 var MAX_RANGE_SIZE = 1e4;
 var parseRangePart = (part, pages) => {
   const trimmedPart = part.trim();
@@ -416,7 +608,7 @@ var parseRangePart = (part, pages) => {
       pages.add(i);
     }
     if (end === Infinity && practicalEnd === start + MAX_RANGE_SIZE) {
-      logger4.warn("Open-ended range truncated", { start, practicalEnd });
+      logger5.warn("Open-ended range truncated", { start, practicalEnd });
     }
   } else {
     const page = parseInt(trimmedPart, 10);
@@ -472,7 +664,7 @@ var determinePagesToProcess = (targetPages, totalPages, includeFullText) => {
 };
 
 // src/pdf/tableExtractor.ts
-var logger5 = createLogger("TableExtractor");
+var logger6 = createLogger("TableExtractor");
 var Y_TOLERANCE = 5;
 var COLUMN_GAP_THRESHOLD = 15;
 var MIN_ROWS = 2;
@@ -690,7 +882,7 @@ var extractTablesFromPage = async (page, pageNum) => {
     }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    logger5.warn("Error extracting tables from page", { pageNum, error: message });
+    logger6.warn("Error extracting tables from page", { pageNum, error: message });
   }
   return tables;
 };
@@ -703,7 +895,7 @@ var extractTables = async (pdfDocument, pagesToProcess) => {
       allTables.push(...pageTables);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      logger5.warn("Error getting page for table extraction", { pageNum, error: message });
+      logger6.warn("Error getting page for table extraction", { pageNum, error: message });
     }
   }
   return allTables;
@@ -775,7 +967,7 @@ var readPdfArgsSchema = object({
 });
 
 // src/handlers/readPdf.ts
-var logger6 = createLogger("ReadPdf");
+var logger7 = createLogger("ReadPdf");
 var processSingleSource = async (source, options) => {
   const sourceDescription = source.path ?? source.url ?? "unknown source";
   let individualResult = { source: sourceDescription, success: false };
@@ -848,7 +1040,7 @@ var processSingleSource = async (source, options) => {
         await pdfDocument.destroy();
       } catch (destroyError) {
         const message = destroyError instanceof Error ? destroyError.message : String(destroyError);
-        logger6.warn("Error destroying PDF document", { sourceDescription, error: message });
+        logger7.warn("Error destroying PDF document", { sourceDescription, error: message });
       }
     }
   }

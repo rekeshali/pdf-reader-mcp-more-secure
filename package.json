@@ -72,6 +72,7 @@
     "@sylphx/mcp-server-sdk": "2.1.1",
     "@sylphx/vex": "0.1.11",
     "glob": "13.0.1",
+    "minimatch": "10.1.2",
     "pdfjs-dist": "5.4.530",
     "pngjs": "7.0.0"
   },
