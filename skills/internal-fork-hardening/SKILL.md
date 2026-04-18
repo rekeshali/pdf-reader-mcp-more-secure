@@ -102,14 +102,24 @@ Semantics that have proven correct:
 
 ### 5. Prune what you don't need
 
-Upstream packages bundled for public distribution typically carry deps you don't use. For each:
+**Pruning principle: prune code, not prose.** Code can execute and is therefore part of the security surface; prose, configs, and data files cannot execute and are not security risks. Removing prose to "clean up" is cosmetic — it costs you context (upstream history, design docs, attribution) without buying security. Removing code that doesn't run in your deployment shrinks the audit footprint *and* the dependency graph.
 
-- **Docs site infra** (vitepress, typedoc, vercel.json) — delete if you have a README.
-- **Release tooling** (semantic-release, standard-version, custom bump tools) — delete if you publish via a different pipeline.
-- **Upstream CI** — delete if it targets infrastructure you don't control (self-hosted runners, etc.). Replace with your own.
-- **Other-tool configs** (`.opencode/`, `.windsurf/`, etc.) — delete unless you actually use them.
+| Category | Examples | Default action |
+|---|---|---|
+| **Runtime code** (the product) | `src/**/*.{ts,py,js}` | **Keep, audit** — this is what you're shipping |
+| **Test code** (runs in your CI) | `test/`, `tests/` | **Keep** — but rewrite tests for any code you change |
+| **Publishing/release code** (we don't republish) | `scripts/release.py`, semantic-release configs, custom bump tools | **Prune** — actively unused, pure attack surface if compromised |
+| **Upstream CI workflows** (target their infra) | `.github/workflows/*.yml` written for upstream's runners | **Prune** — replace with your own CI per the workflows pattern |
+| **Other-tool configs** (e.g., a different AI CLI, abandoned tooling) | `.opencode/`, `.windsurf/`, etc. | **Prune** — unless you actually use them |
+| **Dev-only code, manually invoked** | benchmark scripts, profiling tools | **Borderline.** Lean keep if they exercise the runtime in useful ways and never auto-invoke. Note in SECURITY-AUDIT.md that they're dev-only. |
+| **Docs site infrastructure** (code that builds docs) | vitepress, typedoc, mkdocs configs *and their deps* | **Prune the deps and build configs** — keep the docs themselves (the prose) |
+| **Prose** | `README.md`, `CHANGELOG.md`, `ROADMAP.md`, `CONTRIBUTING.md`, `docs/*.md` | **Keep all of it.** No security risk; preserves attribution and context. |
+| **Declarative config without execution** | `codecov.yml`, `server.json` (MCP catalog metadata), `.gitignore`, `.editorconfig` | **Keep.** Doesn't execute; reading it doesn't run anything. |
+| **Test fixtures and data** | `benchmark_data/*.json`, `tests/fixtures/`, golden outputs | **Keep.** Data isn't code. |
 
-Each removal closes a transitive-CVE attack surface AND shrinks the audit footprint. On pdf-reader: `bun.lock` went from ~1,750 lines → 323. Twelve `bun audit` findings → zero.
+**Special case: upstream `README.md`.** Don't overwrite it. Move it to `README.OG.md` and write your fork-specific `README.md` alongside. New visitors see your fork's framing first; the original is preserved for attribution and reference.
+
+What this looked like in practice on pdf-reader: removing the **vitepress + typedoc dep chains** dropped `bun.lock` from ~1,750 lines → 323 and `bun audit` findings from 12 → 0. That's the kind of reduction pruning is for. *(Note: the original pdf-reader fork over-pruned by also removing CHANGELOG, CONTRIBUTING, ROADMAP — pure prose. That was a mistake by the prior version of this skill; this revision codifies the correction.)*
 
 ### 6. Plugin-style install (Claude Code specifically)
 
@@ -191,14 +201,32 @@ README.OG.md                        (upstream README preserved)
 SECURITY-AUDIT.md                   (the receipts)
 ```
 
-Files to remove from typical upstream packages:
+**Code** to remove from typical upstream packages (pure attack surface, doesn't run in your deployment):
 
 ```
-docs/  public/  vercel.json  CHANGELOG.md  CONTRIBUTING.md
-.github/workflows/  .github/dependabot.yml
-.opencode/  opencode.jsonc  .windsurf/
-release-config files (standard-version, semantic-release configs)
-prepublishOnly hooks for tools you don't have
+.github/workflows/                          (replace with your own CI workflows)
+.github/dependabot.yml                      (replace with your own deps automation, if any)
+release scripts                             (release.py, semantic-release configs, custom bump tools)
+docs-build code + their deps                (vitepress, typedoc, mkdocs configs — keep the docs themselves)
+.opencode/  opencode.jsonc  .windsurf/      (other-AI-CLI configs you don't use)
+prepublishOnly / publish lifecycle hooks    (we don't republish)
+```
+
+**Files to keep** (not code, no execution surface — preserve attribution and context):
+
+```
+README.md                                   (rename to README.OG.md; write your own README.md)
+CHANGELOG.md  ROADMAP.md  CONTRIBUTING.md   (upstream prose; reference material)
+docs/*.md                                   (the prose, not the build infra)
+LICENSE                                     (mandatory for license compliance)
+codecov.yml  server.json  .gitignore        (declarative configs, no execution)
+benchmark_data/  tests/fixtures/            (test data, not code)
+```
+
+**Borderline — note in SECURITY-AUDIT.md, lean keep:**
+
+```
+scripts/benchmark_*.py  scripts/profile_*.py    (dev-only manual invocation; useful for verifying perf)
 ```
 
 ## Reference
