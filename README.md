@@ -67,8 +67,9 @@ Hardening stacks as **hardcoded floor** (always on, not configurable) + **user l
 ## What we audited and found clean
 
 - No general-purpose outbound network client code in this repo's source or built artifact. No `fetch`, `http`, `axios`, WebSocket, `dgram`. The only network operations are: (1) the user-requested HTTPS fetch for a `url:` source, performed by pdfjs-dist; and (2) a `dns.lookup` we run during URL validation to resolve the host before applying the SSRF floor.
-- No dynamic code execution primitives in this repo's source or built artifact — no `eval`, `new Function`, `vm`, `child_process`, `exec`, `spawn`. Dependency internals were not independently re-audited from source.
-- No telemetry or analytics in this repo's source or built artifact. Dependency internals were not independently re-audited from source.
+- No dynamic code execution primitives in this repo's source or built artifact — no `eval`, `new Function`, `vm`, `child_process`, `exec`, `spawn`.
+- No telemetry or analytics in this repo's source or built artifact.
+- Runtime dependencies (`@sylphx/*`, `pdfjs-dist`, `pngjs`, `glob`, `minimatch`) were grep-audited from their unpacked source for the same primitives. Two findings were verified as **dormant in our usage**: pdfjs-dist's `reporttelemetry` event dispatch (only fires inside the AnnotationEditor UI layer, which we never load) and `@sylphx/gust-server`'s HTTP/WebSocket server (only invoked by the `http()` transport, which we removed). Full per-dep findings in [`SECURITY-AUDIT.md`](./SECURITY-AUDIT.md).
 - No `postinstall` / `preinstall` scripts in `package.json`.
 - This fork does not opt into PDF.js scripting (`enableScripting: true` is never set). PDF.js's default is to not execute embedded JavaScript.
 
