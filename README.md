@@ -66,11 +66,11 @@ Hardening stacks as **hardcoded floor** (always on, not configurable) + **user l
 
 ## What we audited and found clean
 
-- No outbound network calls in `src/` or `dist/` outside user-requested URL fetches. No `fetch`, `http`, `axios`, WebSocket, `dgram`.
-- No dynamic code execution — no `eval`, `new Function`, `vm`, `child_process`, `exec`, `spawn`.
-- No telemetry or analytics.
+- No general-purpose outbound network client code in this repo's source or built artifact. No `fetch`, `http`, `axios`, WebSocket, `dgram`. The only network operations are: (1) the user-requested HTTPS fetch for a `url:` source, performed by pdfjs-dist; and (2) a `dns.lookup` we run during URL validation to resolve the host before applying the SSRF floor.
+- No dynamic code execution primitives in this repo's source or built artifact — no `eval`, `new Function`, `vm`, `child_process`, `exec`, `spawn`. Dependency internals were not independently re-audited from source.
+- No telemetry or analytics in this repo's source or built artifact. Dependency internals were not independently re-audited from source.
 - No `postinstall` / `preinstall` scripts in `package.json`.
-- `pdfjs-dist` is invoked without `enableScripting: true`, so JavaScript embedded in PDFs does not execute.
+- This fork does not opt into PDF.js scripting (`enableScripting: true` is never set). PDF.js's default is to not execute embedded JavaScript.
 
 Runtime dependency tree: `@sylphx/mcp-server-sdk`, `@sylphx/vex`, `pdfjs-dist`, `pngjs`, `glob`, `minimatch`. Root of trust is Sylphx (publisher of the `@sylphx/*` packages) plus Mozilla (pdfjs-dist), isaacs (glob/minimatch), and the pngjs maintainers.
 
@@ -188,7 +188,7 @@ bun run build
 
 Two workflows live at `.github/workflows/`:
 
-- **`pdf-reader-ci.yml`** — runs on push to `main` and on PRs. Installs with `--frozen-lockfile --ignore-scripts`, then runs `bun audit` (GitHub Advisory DB), the test suite, and the build. Fails the merge if any of those fail.
+- **`pdf-reader-ci.yml`** — runs on push to `main` and on PRs. Installs with `--frozen-lockfile --ignore-scripts`, then runs `bun audit` (GitHub Advisory DB), the test suite, and the build. The workflow fails on any of those failing; merge-blocking on PRs requires GitHub branch protection or rulesets to be configured to enforce it (set up at the repo level, not in the workflow file).
 - **`pdf-reader-audit.yml`** — runs daily at 13:00 UTC plus on-demand. Catches newly-disclosed CVEs that land against already-pinned versions (push-based CI can't detect these — the code didn't change, but the advisory did). Default GitHub behavior emails repo owners only on failure.
 
 Both files expose a single `TOOL_PATH` env at the top so they can drop into a monorepo with a one-line edit. Grep for `CHANGE-AFTER-MOVE` when relocating.
