@@ -1,0 +1,5 @@
+{
+  "name": "pdf-reader",
+  "version": "2.3.0",
+  "description": "Hardened PDF reader MCP server (internal fork)."
+}

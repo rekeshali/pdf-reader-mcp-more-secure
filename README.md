@@ -92,7 +92,52 @@ Real-world performance from production testing:
 
 ---
 
-## 📦 Installation
+## 🔒 Internal Install (this fork)
+
+This fork is distributed via an internal repo only. Do not install from the public npm package; always clone the internal repo and run the scripts below.
+
+**Prerequisites:** `node >=22`, `claude` CLI logged in.
+
+```bash
+git clone <internal-repo-url> pdf-reader-mcp
+cd pdf-reader-mcp
+./install.sh
+```
+
+`install.sh` installs this as a Claude Code **plugin** under user scope (`claude plugin install . --scope user`), making it available from any working directory. Clone the repo anywhere — the plugin is copied into Claude's plugin cache at install time, so after install you can move or even delete the clone directory if you want. To update, `git pull` in your clone and re-run `./install.sh`.
+
+**Verify:**
+
+```bash
+claude plugin list       # should show: pdf-reader
+# Then in a Claude session:
+/mcp                     # confirms the pdf-reader MCP server is connected
+```
+
+**Disable / re-enable / uninstall:**
+
+```bash
+./disable.sh    # stop Claude from loading it (plugin stays installed)
+./enable.sh     # turn it back on
+./uninstall.sh  # fully remove the plugin
+```
+
+All four scripts are idempotent.
+
+**Rebuilding from source** (only if `dist/index.js` is missing or you're modifying code):
+
+```bash
+npm ci --ignore-scripts --omit=optional
+npm run build
+```
+
+`--ignore-scripts` blocks any install-time code in transitive deps; `--omit=optional` skips the native `@napi-rs/canvas` dep (not needed for text/metadata extraction).
+
+**Opening this repo in a Claude session (dev-only note):** the tracked `.mcp.json` uses the `${CLAUDE_PLUGIN_ROOT}` variable, which only resolves when loaded as a plugin. If you open the repo directory directly in Claude Code, the project-level `pdf-reader` registration will fail to spawn — this is cosmetic and expected. Install the plugin (`./install.sh`) and use it from there. Upstream's dev-time MCP config has been moved to `.mcp.dev.json` for reference.
+
+---
+
+## 📦 Installation (upstream — do not use for internal deployment)
 
 ### Claude Code
 
